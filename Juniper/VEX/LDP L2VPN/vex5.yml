@@ -1,0 +1,15 @@
+set interfaces ge-0/0/0 vlan-tagging
+set interfaces ge-0/0/0 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/0 unit 512 encapsulation vlan-ccc
+set interfaces ge-0/0/0 unit 512 vlan-id 512
+set interfaces ge-0/0/2 unit 0 family inet address 4.4.4.2/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.8888.8888.00
+set interfaces lo0 unit 0 family mpls
+set protocols isis interface ge-0/0/2.0
+set protocols isis interface lo0.0
+set protocols l2circuit neighbor 5.5.5.5 interface ge-0/0/0.512 virtual-circuit-id 3
+set protocols ldp interface all
+set protocols mpls interface all
