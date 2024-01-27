@@ -1,0 +1,55 @@
+set interfaces ge-0/0/0 vlan-tagging
+set interfaces ge-0/0/0 encapsulation vlan-vpls
+set interfaces ge-0/0/0 unit 512 encapsulation vlan-vpls
+set interfaces ge-0/0/0 unit 512 vlan-id 512
+set interfaces ge-0/0/0 unit 512 family vpls
+set interfaces ge-0/0/1 vlan-tagging
+set interfaces ge-0/0/1 encapsulation vlan-vpls
+set interfaces ge-0/0/1 unit 512 encapsulation vlan-vpls
+set interfaces ge-0/0/1 unit 512 vlan-id 512
+set interfaces ge-0/0/2 unit 0 family inet address 4.4.4.2/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family mpls
+set interfaces ge-0/0/3 vlan-tagging
+set interfaces ge-0/0/3 encapsulation vlan-vpls
+set interfaces ge-0/0/3 unit 512 encapsulation vlan-vpls
+set interfaces ge-0/0/3 unit 512 vlan-id 512
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.8888.8888.00
+set interfaces lo0 unit 0 family mpls
+set routing-instances cust1 instance-type vpls
+set routing-instances cust1 protocols vpls site cust1-2 interface ge-0/0/0.512
+set routing-instances cust1 protocols vpls site cust1-2 interface ge-0/0/1.512
+set routing-instances cust1 protocols vpls site cust1-2 interface ge-0/0/3.512
+set routing-instances cust1 protocols vpls site cust1-2 site-identifier 2
+set routing-instances cust1 protocols vpls site cust1-2 multi-homing
+set routing-instances cust1 protocols vpls site cust1-2 site-preference 255
+set routing-instances cust1 protocols vpls site dummy site-identifier 998
+set routing-instances cust1 protocols vpls site dummy best-site
+set routing-instances cust1 protocols vpls site-range 1000
+set routing-instances cust1 interface ge-0/0/0.512
+set routing-instances cust1 interface ge-0/0/1.512
+set routing-instances cust1 interface ge-0/0/3.512
+set routing-instances cust1 route-distinguisher 8.8.8.8:1
+set routing-instances cust1 vrf-target target:65530:1
+set routing-instances cust1-stp instance-type layer2-control
+set routing-instances cust1-stp protocols mstp configuration-name cust1
+set routing-instances cust1-stp protocols mstp revision-level 1
+set routing-instances cust1-stp protocols mstp interface ge-0/0/1
+set routing-instances cust1-stp protocols mstp interface ge-0/0/3
+set routing-instances cust1-stp protocols mstp msti 1 vlan 512
+set routing-instances cust1-stp interface ge-0/0/1.512
+set routing-instances cust1-stp interface ge-0/0/3.512
+set routing-options router-id 8.8.8.8
+set routing-options autonomous-system 65530
+set protocols bgp path-selection l2vpn-use-bgp-rules
+set protocols bgp group int type internal
+set protocols bgp group int local-address 8.8.8.8
+set protocols bgp group int family inet unicast
+set protocols bgp group int family l2vpn signaling
+set protocols bgp group int neighbor 5.5.5.5
+set protocols bgp group int neighbor 9.9.9.9
+set protocols isis interface ge-0/0/2.0
+set protocols isis interface lo0.0
+set protocols ldp interface all
+set protocols mpls interface all
