@@ -1,0 +1,38 @@
+set interfaces ge-0/0/0 flexible-vlan-tagging
+set interfaces ge-0/0/0 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/0 unit 512 encapsulation vlan-bridge
+set interfaces ge-0/0/0 unit 512 vlan-id 512
+set interfaces ge-0/0/0 unit 512 family bridge
+set interfaces ge-0/0/1 unit 0 family inet address 2.2.2.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/2 unit 0 family inet address 1.1.1.1/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family mpls
+set interfaces irb unit 512 family inet address 10.1.1.254/24
+set interfaces irb unit 512 mac 00:ee:22:ee:33:dd
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+set interfaces lo0 unit 0 family iso address 49.0000.5555.5555.5555.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 5.5.5.5
+set routing-options autonomous-system 65530
+set protocols mpls interface all
+set protocols bgp group int type internal
+set protocols bgp group int local-address 5.5.5.5
+set protocols bgp group int family inet unicast
+set protocols bgp group int family inet-vpn unicast
+set protocols bgp group int family evpn signaling
+set protocols bgp group int neighbor 6.6.6.6
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface ge-0/0/2.0
+set protocols isis interface lo0.0
+set protocols ldp interface all
+set routing-instances cust1 instance-type evpn
+set routing-instances cust1 vlan-id 512
+set routing-instances cust1 interface ge-0/0/0.512
+set routing-instances cust1 routing-interface irb.512
+set routing-instances cust1 route-distinguisher 5.5.5.5:1
+set routing-instances cust1 vrf-target target:65530:1
+set routing-instances cust1 protocols evpn interface ge-0/0/0.512
+set routing-instances cust1 protocols evpn default-gateway do-not-advertise

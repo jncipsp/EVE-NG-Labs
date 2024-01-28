@@ -1,0 +1,24 @@
+set interfaces ge-0/0/0 unit 0 family inet address 1.1.1.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 2.2.2.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 6.6.6.6/32
+set interfaces lo0 unit 0 family iso address 49.0000.6666.6666.6666.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 6.6.6.6
+set routing-options autonomous-system 65530
+set protocols mpls interface all
+set protocols bgp group int type internal
+set protocols bgp group int local-address 6.6.6.6
+set protocols bgp group int family inet unicast
+set protocols bgp group int family inet-vpn unicast
+set protocols bgp group int family evpn signaling
+set protocols bgp group int cluster 6.6.6.6
+set protocols bgp group int neighbor 5.5.5.5
+set protocols bgp group int neighbor 33.33.33.33
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface lo0.0
+set protocols ldp interface all
