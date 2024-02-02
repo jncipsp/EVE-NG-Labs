@@ -1,4 +1,4 @@
-et interfaces et-0/0/0 flexible-vlan-tagging
+set interfaces et-0/0/0 flexible-vlan-tagging
 set interfaces et-0/0/0 encapsulation flexible-ethernet-services
 set interfaces et-0/0/0 unit 512 encapsulation vlan-bridge
 set interfaces et-0/0/0 unit 512 vlan-id 512

@@ -1,4 +1,4 @@
-et interfaces et-0/0/0 unit 0 family inet address 3.3.3.2/30
+set interfaces et-0/0/0 unit 0 family inet address 3.3.3.2/30
 set interfaces et-0/0/0 unit 0 family iso
 set interfaces et-0/0/0 unit 0 family mpls
 set interfaces et-0/0/1 unit 0 family inet address 4.4.4.1/30
