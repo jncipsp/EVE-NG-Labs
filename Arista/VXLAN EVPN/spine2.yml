@@ -1,0 +1,23 @@
+interface Ethernet1
+no switchport
+ip address 11.11.11.1/30
+ip ospf area 0.0.0.0
+ 
+interface Ethernet2
+no switchport
+ip address 12.12.12.1/30
+ip ospf area 0.0.0.0
+  
+interface Ethernet3
+no switchport
+ip address 13.13.13.1/30
+ip ospf area 0.0.0.0
+
+interface Loopback0
+ip address 6.6.6.6/32
+ip ospf area 0.0.0.0
+
+ip routing
+
+router ospf 1
+router-id 6.6.6.6

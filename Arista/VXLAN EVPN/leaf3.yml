@@ -1,0 +1,41 @@
+vlan 2468
+    
+interface Ethernet1
+no switchport
+ip address 3.3.3.2/30
+ip ospf area 0.0.0.0
+    
+interface Ethernet2
+no switchport
+ip address 13.13.13.2/30
+ip ospf area 0.0.0.0
+
+interface Ethernet4
+switchport access vlan 2468
+    
+interface Loopback0
+ip address 9.9.9.9/32
+ip ospf area 0.0.0.0
+  
+interface Vxlan1
+vxlan source-interface Loopback0
+vxlan udp-port 4789
+vxlan vlan 2468 vni 2468
+   
+ip routing
+    
+router bgp 65400
+neighbor 8.8.8.8 remote-as 65400
+neighbor 8.8.8.8 update-source Loopback0
+neighbor 8.8.8.8 send-community extended
+    
+vlan 2468
+rd 8.8.8.8:2
+route-target both 65400:2
+redistribute learned
+   
+address-family evpn
+neighbor 8.8.8.8 activate
+    
+router ospf 1
+router-id 9.9.9.9
