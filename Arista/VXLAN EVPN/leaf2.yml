@@ -27,14 +27,14 @@ vxlan vlan 1234 vni 1234
 vxlan vlan 2468 vni 2468
  
 ip routing
-   
+
 router bgp 65400
-neighbor 7.7.7.7 remote-as 65400
-neighbor 7.7.7.7 update-source Loopback0
-neighbor 7.7.7.7 send-community extended
-neighbor 9.9.9.9 remote-as 65400
-neighbor 9.9.9.9 update-source Loopback0
-neighbor 9.9.9.9 send-community extended
+neighbor 5.5.5.5 remote-as 65400
+neighbor 5.5.5.5 update-source Loopback0
+neighbor 5.5.5.5 send-community extended
+neighbor 6.6.6.6 remote-as 65400
+neighbor 6.6.6.6 update-source Loopback0
+neighbor 6.6.6.6 send-community extended
   
 vlan 1234
 rd 8.8.8.8:1
@@ -45,10 +45,14 @@ vlan 2468
 rd 8.8.8.8:2
 route-target both 65400:2
 redistribute learned
-  
+
 address-family evpn
-neighbor 7.7.7.7 activate
-neighbor 9.9.9.9 activate
+neighbor 5.5.5.5 activate
+neighbor 6.6.6.6 activate
+
+address-family ipv4
+no neighbor 5.5.5.5 activate
+no neighbor 6.6.6.6 activate
 
 router ospf 1
 router-id 8.8.8.8
