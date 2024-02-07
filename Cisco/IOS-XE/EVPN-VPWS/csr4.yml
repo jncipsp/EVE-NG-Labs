@@ -1,0 +1,38 @@
+conf t
+hostname csr4
+mpls label protocol ldp
+  
+interface Loopback0
+ip address 8.8.8.8 255.255.255.255
+ip router isis 1
+
+interface GigabitEthernet1
+ip address 3.3.3.2 255.255.255.252
+ip router isis 1
+mpls ip
+ 
+interface GigabitEthernet2
+ip address 4.4.4.1 255.255.255.252
+ip router isis 1
+mpls ip
+  
+router isis 1
+net 49.0000.8888.8888.8888.00
+  
+router bgp 65200
+bgp log-neighbor-changes
+neighbor 7.7.7.7 remote-as 65200
+neighbor 7.7.7.7 update-source Loopback0
+neighbor 9.9.9.9 remote-as 65200
+neighbor 9.9.9.9 update-source Loopback0
+
+address-family ipv4
+neighbor 7.7.7.7 activate
+neighbor 9.9.9.9 activate
+exit-address-family
+
+address-family l2vpn evpn
+neighbor 7.7.7.7 activate
+neighbor 9.9.9.9 activate
+neighbor 9.9.9.9 route-reflector-client
+exit-address-family

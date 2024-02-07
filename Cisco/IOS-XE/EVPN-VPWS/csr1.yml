@@ -1,0 +1,43 @@
+conf t
+hostname csr1
+mpls label protocol ldp
+l2vpn evpn logging vc-state
+l2vpn
+router-id 5.5.5.5
+
+interface Loopback0
+ip address 5.5.5.5 255.255.255.255
+ip router isis 1
+
+interface GigabitEthernet1
+ip address 1.1.1.1 255.255.255.252
+ip router isis 1
+mpls ip
+
+interface GigabitEthernet2
+no ip address
+service instance 1 ethernet
+encapsulation dot1q 1000
+rewrite ingress tag pop 1 symmetric
+  
+router isis 1
+net 49.0000.5555.5555.5555.00
+
+router bgp 65200
+bgp log-neighbor-changes
+neighbor 6.6.6.6 remote-as 65200
+neighbor 6.6.6.6 update-source Loopback0
+
+address-family ipv4
+neighbor 6.6.6.6 activate
+exit-address-family
+
+address-family l2vpn evpn
+neighbor 6.6.6.6 activate
+exit-address-family
+
+l2vpn evpn instance 1 point-to-point
+
+vpws context cust1
+service target 1 source 2
+member GigabitEthernet2 service-instance 1
