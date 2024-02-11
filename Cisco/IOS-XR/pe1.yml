@@ -1,0 +1,51 @@
+hostname pe1
+
+vrf cust1
+address-family ipv4 unicast
+import route-target 65400:1
+export route-target 65400:1
+
+interface Loopback0
+ipv4 address 5.5.5.5 255.255.255.255
+  
+interface GigabitEthernet0/0/0/0
+ipv4 address 1.1.1.1 255.255.255.252
+
+interface GigabitEthernet0/0/0/1
+vrf cust1
+ipv4 address 10.1.1.1 255.255.255.252
+
+route-policy ALL
+pass
+
+router isis 1
+is-type level-2-only
+net 49.0000.5555.5555.5555.00
+address-family ipv4 unicast
+interface Loopback0
+address-family ipv4 unicast
+interface GigabitEthernet0/0/0/0
+address-family ipv4 unicast
+
+router bgp 65400
+address-family vpnv4 unicast
+neighbor 9.9.9.9
+remote-as 65400
+update-source Loopback0
+address-family vpnv4 unicast
+
+vrf cust1
+rd 5.5.5.5:1
+address-family ipv4 unicast
+redistribute connected
+
+neighbor 10.1.1.2
+remote-as 65500
+update-source GigabitEthernet0/0/0/1
+address-family ipv4 unicast
+route-policy ALL in
+route-policy ALL out
+as-override
+
+mpls ldp
+interface GigabitEthernet0/0/0/0
