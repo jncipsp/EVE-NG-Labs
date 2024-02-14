@@ -4,12 +4,6 @@ set interfaces ge-0/0/2 unit 0 family ethernet-switching interface-mode access
 set interfaces ge-0/0/2 unit 0 family ethernet-switching vlan members data2
 set interfaces ge-0/0/3 unit 0 family ethernet-switching interface-mode access
 set interfaces ge-0/0/3 unit 0 family ethernet-switching vlan members data1
-set interfaces irb unit 512 virtual-gateway-accept-data
-set interfaces irb unit 512 family inet address 10.99.55.100/24 virtual-gateway-address 10.99.55.1
-set interfaces irb unit 512 virtual-gateway-v4-mac 00:aa:11:bb:22:cc
-set interfaces irb unit 513 virtual-gateway-accept-data
-set interfaces irb unit 513 family inet address 10.99.54.100/24 virtual-gateway-address 10.99.54.1
-set interfaces irb unit 513 virtual-gateway-v4-mac 00:aa:11:bb:22:cd
 set interfaces lo0 unit 0 family inet address 4.4.4.4/32
 set policy-options policy-statement lb term 1 then load-balance per-packet
 set policy-options policy-statement lb term 1 then accept
@@ -37,15 +31,15 @@ set protocols bgp group overlay neighbor 1.1.1.1
 set protocols bgp group overlay neighbor 2.2.2.2
 set protocols evpn encapsulation vxlan
 set protocols evpn multicast-mode ingress-replication
-set protocols evpn extended-vni-list al
+set protocols evpn extended-vni-list all
 set switch-options vtep-source-interface lo0.0
 set switch-options route-distinguisher 4.4.4.4:500
 set switch-options vrf-target target:65530:500
-set vlans data1 vlan-id 512
-set vlans data1 l3-interface irb.512
-set vlans data1 vxlan vni 20512
+set vlans data1 vlan-id 33
+set vlans data1 l3-interface irb.33
+set vlans data1 vxlan vni 20033
 set vlans data1 vxlan ingress-node-replication
-set vlans data2 vlan-id 513
-set vlans data2 l3-interface irb.513
-set vlans data2 vxlan vni 20513
+set vlans data2 vlan-id 133
+set vlans data2 l3-interface irb.133
+set vlans data2 vxlan vni 20133
 set vlans data2 vxlan ingress-node-replication
