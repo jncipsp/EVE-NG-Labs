@@ -1,4 +1,4 @@
-et interfaces et-0/0/0 unit 0 family inet address 3.3.3.1/30
+set interfaces et-0/0/0 unit 0 family inet address 3.3.3.1/30
 set interfaces et-0/0/0 unit 0 family iso
 set interfaces et-0/0/0 unit 0 family mpls
 set interfaces et-0/0/1 unit 0 family inet address 4.4.4.2/30
@@ -7,7 +7,6 @@ set interfaces et-0/0/1 unit 0 family mpls
 set interfaces lo0 unit 0 family inet address 7.7.7.7/32
 set interfaces lo0 unit 0 family iso address 49.0000.7777.7777.7777.00
 set interfaces lo0 unit 0 family mpls
-set interfaces re0:mgmt-0 unit 0 family inet6
 set policy-options policy-statement nhs term 1 from protocol bgp
 set policy-options policy-statement nhs term 1 then next-hop self
 set routing-options router-id 7.7.7.7
