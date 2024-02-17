@@ -1,0 +1,22 @@
+conf t
+hostname p3
+  
+interface lo
+ip address 8.8.8.8/32 secondary
+ip router isis 1
+
+interface eth1
+ip address 3.3.3.2/30
+label-switching
+ip router isis 1
+enable-ldp ipv4
+
+interface eth2
+ip address 4.4.4.1/30
+label-switching
+ip router isis 1
+enable-ldp ipv4
+
+router isis 1
+is-type level-2-only
+net 49.0000.8888.8888.8888.00
