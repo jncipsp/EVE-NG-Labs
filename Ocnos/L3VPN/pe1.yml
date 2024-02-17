@@ -42,3 +42,5 @@ neighbor 10.1.1.100 remote-as 65222
 neighbor 10.1.1.100 activate
 neighbor 10.1.1.100 as-override
 exit-address-family
+
+commit
