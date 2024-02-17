@@ -20,5 +20,3 @@ enable-ldp ipv4
 router isis 1
 is-type level-2-only
 net 49.0000.8888.8888.8888.00
-
-commit
