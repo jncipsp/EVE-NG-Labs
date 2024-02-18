@@ -26,9 +26,11 @@ router bgp 65400
 neighbor 6.6.6.6 remote-as 65400
 neighbor 6.6.6.6 update-source Loopback0
 neighbor 6.6.6.6 route-reflector-client
+neighbor 6.6.6.6 send-community extended
 neighbor 8.8.8.8 remote-as 65400
 neighbor 8.8.8.8 update-source Loopback0
 neighbor 8.8.8.8 route-reflector-client
+neighbor 8.8.8.8 send-community extended
 
 address-family ipv4
 neighbor 6.6.6.6 activate

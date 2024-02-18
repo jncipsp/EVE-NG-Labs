@@ -26,10 +26,9 @@ router-id interface Loopback0
 no shutdown
 
 router bgp 65400
-neighbor 5.5.5.5 update-source Loopback0
-neighbor 5.5.5.5 send-community extended
 neighbor 8.8.8.8 remote-as 65400
 neighbor 8.8.8.8 update-source Loopback0
+neighbor 8.8.8.8 send-community extended
 
 address-family ipv4
 neighbor 8.8.8.8 activate

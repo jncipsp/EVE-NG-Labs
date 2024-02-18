@@ -28,15 +28,13 @@ no shutdown
 router bgp 65400
 neighbor 6.6.6.6 remote-as 65400
 neighbor 6.6.6.6 update-source Loopback0
-neighbor 9.9.9.9 update-source Loopback0
-neighbor 9.9.9.9 send-community extended
+neighbor 6.6.6.6 send-community extended
 
 address-family ipv4
 neighbor 6.6.6.6 activate
 
 address-family vpn-ipv4
 neighbor 6.6.6.6 activate
-neighbor 9.9.9.9 activate
 neighbor default encapsulation mpls next-hop-self source-interface Loopback0
 
 vrf cust1
