@@ -1,0 +1,7 @@
+set interfaces ge-0/0/0 unit 0 family inet address 1.1.1.2/30
+set interfaces ge-0/0/1 unit 0 family inet address 2.2.2.1/30
+set interfaces lo0 unit 0 family inet address 9.9.9.9/32
+set protocols ospf area 0.0.0.0 virtual-link neighbor-id 11.11.11.11 transit-area 0.0.0.52
+set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
+set protocols ospf area 0.0.0.0 interface lo0.0 passive
+set protocols ospf area 0.0.0.52 interface ge-0/0/1.0
