@@ -1,0 +1,52 @@
+hostname veos5
+  
+vrf instance cust1
+
+interface Ethernet1
+no switchport
+vrf cust1
+ip address 10.10.10.1/30
+
+interface Ethernet2
+no switchport
+ip address 4.4.4.2/30
+isis enable 1
+
+interface Loopback0
+ip address 9.9.9.9/32
+isis enable 1
+
+ip routing
+ip routing vrf cust1
+  
+mpls ip
+
+mpls ldp
+router-id interface Loopback0
+no shutdown
+
+router bgp 65400
+neighbor 5.5.5.5 update-source Loopback0
+neighbor 5.5.5.5 send-community extended
+neighbor 8.8.8.8 remote-as 65400
+neighbor 8.8.8.8 update-source Loopback0
+
+address-family ipv4
+neighbor 8.8.8.8 activate
+
+address-family vpn-ipv4
+neighbor 8.8.8.8 activate
+neighbor 9.9.9.9 activate
+neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+
+vrf cust1
+rd 9.9.9.9:1
+route-target import vpn-ipv4 65400:1
+route-target export vpn-ipv4 65400:1
+neighbor 10.10.10.2 remote-as 65500
+redistribute connected
+
+router isis 1
+net 49.0000.9999.9999.9999.00
+!
+address-family ipv4 unicast

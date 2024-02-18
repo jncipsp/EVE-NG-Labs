@@ -1,0 +1,44 @@
+hostname veos2
+  
+interface Ethernet1
+no switchport
+ip address 1.1.1.2/30
+isis enable 1
+
+interface Ethernet2
+no switchport
+ip address 2.2.2.1/30
+isis enable 1
+
+interface Loopback0
+ip address 6.6.6.6/32
+isis enable 1
+  
+ip routing
+
+mpls ip
+
+mpls ldp
+router-id interface Loopback0
+no shutdown
+
+router bgp 65400
+neighbor 5.5.5.5 remote-as 65400
+neighbor 5.5.5.5 update-source Loopback0
+neighbor 5.5.5.5 route-reflector-client
+neighbor 7.7.7.7 remote-as 65400
+neighbor 7.7.7.7 update-source Loopback0
+
+address-family ipv4
+neighbor 5.5.5.5 activate
+neighbor 7.7.7.7 activate
+
+address-family vpn-ipv4
+neighbor 5.5.5.5 activate
+neighbor 7.7.7.7 activate
+neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+
+router isis 1
+net 49.0000.6666.6666.6666.00
+
+address-family ipv4 unicast

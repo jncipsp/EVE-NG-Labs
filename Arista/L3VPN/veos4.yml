@@ -1,0 +1,44 @@
+hostname veos4
+  
+interface Ethernet1
+no switchport
+ip address 3.3.3.2/30
+isis enable 1
+  
+interface Ethernet2
+no switchport
+ip address 4.4.4.1/30
+isis enable 1
+
+interface Loopback0
+ip address 8.8.8.8/32
+isis enable 1
+  
+ip routing
+
+mpls ip
+
+mpls ldp
+router-id interface Loopback0
+no shutdown
+
+router bgp 65400
+neighbor 7.7.7.7 remote-as 65400
+neighbor 7.7.7.7 update-source Loopback0
+neighbor 9.9.9.9 remote-as 65400
+neighbor 9.9.9.9 update-source Loopback0
+neighbor 9.9.9.9 route-reflector-client
+  
+address-family ipv4
+neighbor 7.7.7.7 activate
+neighbor 9.9.9.9 activate
+
+address-family vpn-ipv4
+neighbor 7.7.7.7 activate
+neighbor 9.9.9.9 activate
+neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+
+router isis 1
+net 49.0000.8888.8888.8888.00
+
+address-family ipv4 unicast
