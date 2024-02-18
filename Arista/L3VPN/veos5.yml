@@ -35,7 +35,6 @@ neighbor 8.8.8.8 activate
 
 address-family vpn-ipv4
 neighbor 8.8.8.8 activate
-neighbor 9.9.9.9 activate
 neighbor default encapsulation mpls next-hop-self source-interface Loopback0
 
 vrf cust1
