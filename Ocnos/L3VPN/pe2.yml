@@ -3,6 +3,9 @@ ip vrf cust1
 rd 9.9.9.9:1
 route-target both 65200:1
 
+router ldp
+inter-area-lsp eth1
+
 hostname pe2
 
 interface lo
