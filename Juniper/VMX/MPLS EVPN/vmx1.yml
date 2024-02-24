@@ -3,9 +3,6 @@ set interfaces ge-0/0/0 encapsulation flexible-ethernet-services
 set interfaces ge-0/0/0 unit 512 encapsulation vlan-bridge
 set interfaces ge-0/0/0 unit 512 vlan-id 512
 set interfaces ge-0/0/0 unit 512 family bridge
-set interfaces ge-0/0/1 unit 0 family inet address 2.2.2.1/30
-set interfaces ge-0/0/1 unit 0 family iso
-set interfaces ge-0/0/1 unit 0 family mpls
 set interfaces ge-0/0/2 unit 0 family inet address 1.1.1.1/30
 set interfaces ge-0/0/2 unit 0 family iso
 set interfaces ge-0/0/2 unit 0 family mpls
@@ -24,7 +21,6 @@ set protocols bgp group int family inet-vpn unicast
 set protocols bgp group int family evpn signaling
 set protocols bgp group int neighbor 6.6.6.6
 set protocols isis interface ge-0/0/0.0
-set protocols isis interface ge-0/0/1.0
 set protocols isis interface ge-0/0/2.0
 set protocols isis interface lo0.0
 set protocols ldp interface all
