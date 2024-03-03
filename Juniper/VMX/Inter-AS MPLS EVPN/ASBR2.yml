@@ -1,0 +1,36 @@
+set interfaces ge-0/0/0 unit 0 family inet address 3.3.3.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 4.4.4.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 7.7.7.7/32
+set interfaces lo0 unit 0 family iso address 49.0000.7777.7777.7777.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 7.7.7.7
+set routing-options autonomous-system 65400
+set protocols mpls traffic-engineering mpls-forwarding
+set protocols mpls interface all
+set protocols bgp group int type internal
+set protocols bgp group int local-address 7.7.7.7
+set protocols bgp group int family inet unicast
+set protocols bgp group int family inet-vpn unicast
+set protocols bgp group int family evpn signaling
+set protocols bgp group int neighbor 9.9.9.9
+set protocols bgp group int neighbor 8.8.8.8 local-address 7.7.7.7
+set protocols bgp group int neighbor 8.8.8.8 family inet labeled-unicast
+set protocols bgp group int neighbor 8.8.8.8 export nhs
+set protocols bgp group external type external
+set protocols bgp group external family inet labeled-unicast
+set protocols bgp group external export PE2_LOOPBACK
+set protocols bgp group external peer-as 65200
+set protocols bgp group external neighbor 3.3.3.1
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface lo0.0
+set protocols ldp interface all
+set policy-options policy-statement PE2_LOOPBACK term 1 from route-filter 8.8.8.8/32 exact
+set policy-options policy-statement PE2_LOOPBACK term 1 then accept
+set policy-options policy-statement PE2_LOOPBACK term 2 from route-filter 9.9.9.9/32 exact
+set policy-options policy-statement PE2_LOOPBACK then accept
+set policy-options policy-statement nhs term 1 from protocol bgp
+set policy-options policy-statement nhs term 1 then next-hop self

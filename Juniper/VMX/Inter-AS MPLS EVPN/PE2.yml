@@ -1,0 +1,41 @@
+set interfaces ge-0/0/0 unit 0 family inet address 5.5.5.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 flexible-vlan-tagging
+set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/1 unit 674 encapsulation vlan-bridge
+set interfaces ge-0/0/1 unit 674 vlan-id 674
+set interfaces ge-0/0/1 unit 674 family bridge
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.8888.8888.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 8.8.8.8
+set routing-options autonomous-system 65400
+set protocols mpls interface all
+set protocols bgp group int type internal
+set protocols bgp group int local-address 8.8.8.8
+set protocols bgp group int family inet unicast
+set protocols bgp group int family inet-vpn unicast
+set protocols bgp group int family evpn signaling
+set protocols bgp group int export nhs
+set protocols bgp group int neighbor 9.9.9.9
+set protocols bgp group int neighbor 7.7.7.7 local-address 8.8.8.8
+set protocols bgp group int neighbor 7.7.7.7 family inet labeled-unicast resolve-vpn
+set protocols bgp group external type external
+set protocols bgp group external multihop
+set protocols bgp group external local-address 8.8.8.8
+set protocols bgp group external family evpn signaling
+set protocols bgp group external peer-as 65200
+set protocols bgp group external neighbor 5.5.5.5
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface lo0.0
+set protocols ldp interface ge-0/0/0.0
+set policy-options policy-statement nhs term 1 from protocol bgp
+set policy-options policy-statement nhs term 1 then next-hop self
+set routing-instances cust1 instance-type evpn
+set routing-instances cust1 vlan-id 674
+set routing-instances cust1 interface ge-0/0/1.674
+set routing-instances cust1 routing-interface irb.674
+set routing-instances cust1 route-distinguisher 8.8.8.8:1
+set routing-instances cust1 vrf-target target:65200:1
+set routing-instances cust1 protocols evpn interface ge-0/0/1.674
