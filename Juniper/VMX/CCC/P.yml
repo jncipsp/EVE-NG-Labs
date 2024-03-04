@@ -1,0 +1,11 @@
+set interfaces ge-0/0/0 unit 0 family inet address 1.1.1.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 2.2.2.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family iso address 49.0000.6666.6666.6666.00
+set interfaces lo0 unit 0 family mpls
+set protocols rsvp interface all
+set protocols mpls interface all
+set protocols isis interface all

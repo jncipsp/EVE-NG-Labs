@@ -1,0 +1,18 @@
+set interfaces ge-0/0/0 unit 0 family inet address 2.2.2.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 vlan-tagging
+set interfaces ge-0/0/1 encapsulation vlan-ccc
+set interfaces ge-0/0/1 unit 999 encapsulation vlan-ccc
+set interfaces ge-0/0/1 unit 999 vlan-id 999
+set interfaces ge-0/0/1 unit 999 family ccc
+set interfaces lo0 unit 0 family inet address 7.7.7.7/32
+set interfaces lo0 unit 0 family iso address 49.0000.7777.7777.7777.00
+set interfaces lo0 unit 0 family mpls
+set protocols rsvp interface all
+set protocols mpls label-switched-path TO_PE1 to 5.5.5.5
+set protocols mpls interface all
+set protocols isis interface all
+set protocols connections remote-interface-switch CCC interface ge-0/0/1.999
+set protocols connections remote-interface-switch CCC transmit-lsp TO_PE1
+set protocols connections remote-interface-switch CCC receive-lsp TO_PE2
