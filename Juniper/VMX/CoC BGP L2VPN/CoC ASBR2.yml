@@ -1,0 +1,23 @@
+set interfaces ge-0/0/0 unit 0 family inet address 4.4.4.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 5.5.5.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 9.9.9.9/32
+set interfaces lo0 unit 0 family iso address 49.0000.9999.9999.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 9.9.9.9
+set routing-options autonomous-system 65400
+set protocols mpls interface all
+set protocols bgp group int type internal
+set protocols bgp group int local-address 9.9.9.9
+set protocols bgp group int family inet labeled-unicast
+set protocols bgp group int neighbor 8.8.8.8
+set protocols bgp group external type external
+set protocols bgp group external family inet labeled-unicast
+set protocols bgp group external peer-as 65600
+set protocols bgp group external neighbor 5.5.5.2
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface lo0.0
+set protocols ldp interface all

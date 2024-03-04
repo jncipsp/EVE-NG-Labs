@@ -1,0 +1,26 @@
+set interfaces ge-0/0/0 unit 0 family inet address 5.5.5.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 6.6.6.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 10.10.10.10/32
+set interfaces lo0 unit 0 family iso address 49.0000.1010.1010.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 10.10.10.10
+set routing-options autonomous-system 65600
+set protocols mpls interface all
+set protocols bgp group internal type internal
+set protocols bgp group internal local-address 10.10.10.10
+set protocols bgp group internal family inet labeled-unicast
+set protocols bgp group internal neighbor 11.11.11.11
+set protocols bgp group external type external
+set protocols bgp group external family inet labeled-unicast
+set protocols bgp group external export PE2_LOOPBACK
+set protocols bgp group external peer-as 65400
+set protocols bgp group external neighbor 5.5.5.1
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface lo0.0
+set protocols ldp interface all
+set policy-options policy-statement PE2_LOOPBACK from route-filter 11.11.11.11/32 exact
+set policy-options policy-statement PE2_LOOPBACK then accept

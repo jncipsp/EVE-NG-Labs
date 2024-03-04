@@ -1,0 +1,33 @@
+set interfaces ge-0/0/0 unit 0 family inet address 6.6.6.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 vlan-tagging
+set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/1 unit 3222 encapsulation vlan-ccc
+set interfaces ge-0/0/1 unit 3222 vlan-id 3222
+set interfaces lo0 unit 0 family inet address 11.11.11.11/32
+set interfaces lo0 unit 0 family iso address 49.0000.1111.1111.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 11.11.11.11
+set routing-options autonomous-system 65600
+set protocols mpls interface all
+set protocols bgp group internal type internal
+set protocols bgp group internal local-address 11.11.11.11
+set protocols bgp group internal family inet labeled-unicast resolve-vpn
+set protocols bgp group internal neighbor 10.10.10.10
+set protocols bgp group external type external
+set protocols bgp group external multihop
+set protocols bgp group external local-address 11.11.11.11
+set protocols bgp group external family l2vpn signaling
+set protocols bgp group external peer-as 65200
+set protocols bgp group external neighbor 5.5.5.5
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface lo0.0
+set protocols ldp interface all
+set routing-instances cust1 instance-type l2vpn
+set routing-instances cust1 interface ge-0/0/1.3222
+set routing-instances cust1 route-distinguisher 11.11.11.11:1
+set routing-instances cust1 vrf-target target:65200:1
+set routing-instances cust1 protocols l2vpn encapsulation-type ethernet-vlan
+set routing-instances cust1 protocols l2vpn site cust1 site-identifier 2
+set routing-instances cust1 protocols l2vpn site cust1 interface ge-0/0/1.3222
