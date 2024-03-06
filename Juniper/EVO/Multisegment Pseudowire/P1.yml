@@ -1,0 +1,17 @@
+set interfaces et-0/0/0 unit 0 family inet address 1.1.1.2/30
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/0 unit 0 family mpls
+set interfaces et-0/0/1 unit 0 family inet address 2.2.2.1/30
+set interfaces et-0/0/1 unit 0 family iso
+set interfaces et-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 6.6.6.6/32
+set interfaces lo0 unit 0 family iso address 49.0000.6666.6666.6666.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 6.6.6.6
+set protocols isis interface et-0/0/0.0
+set protocols isis interface et-0/0/1.0
+set protocols isis interface lo0.0
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols ldp interface all
+set protocols mpls interface all

@@ -1,0 +1,30 @@
+set interfaces et-0/0/0 vlan-tagging
+set interfaces et-0/0/0 encapsulation flexible-ethernet-services
+set interfaces et-0/0/0 unit 1111 encapsulation vlan-ccc
+set interfaces et-0/0/0 unit 1111 vlan-id 1111
+set interfaces et-0/0/2 unit 0 family inet address 1.1.1.1/30
+set interfaces et-0/0/2 unit 0 family iso
+set interfaces et-0/0/2 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+set interfaces lo0 unit 0 family iso address 49.0000.5555.5555.5555.00
+set interfaces lo0 unit 0 family mpls
+set routing-instances MS_PW instance-type l2vpn
+set routing-instances MS_PW l2vpn-id l2vpn-id:65200:200
+set routing-instances MS_PW protocols l2vpn site SITE_1 interface et-0/0/0.1111 target-attachment-identifier 65400:8.8.8.8:1
+set routing-instances MS_PW protocols l2vpn site SITE_1 source-attachment-identifier 65200:5.5.5.5:1
+set routing-instances MS_PW protocols l2vpn pseudowire-status-tlv
+set routing-instances MS_PW interface et-0/0/0.1111
+set routing-instances MS_PW route-distinguisher 5.5.5.5:1
+set routing-instances MS_PW vrf-target target:65200:200
+set routing-options router-id 5.5.5.5
+set routing-options autonomous-system 65200
+set protocols bgp group internal type internal
+set protocols bgp group internal local-address 5.5.5.5
+set protocols bgp group internal family l2vpn auto-discovery-mspw
+set protocols bgp group internal neighbor 33.33.33.33
+set protocols isis interface et-0/0/2.0
+set protocols isis interface lo0.0
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols ldp interface all
+set protocols mpls interface all
