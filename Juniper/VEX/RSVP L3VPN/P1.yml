@@ -1,0 +1,24 @@
+set interfaces ge-0/0/0 unit 0 family inet address 6.6.6.1/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 2.2.2.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 6.6.6.6/32
+set interfaces lo0 unit 0 family iso address 49.0000.6666.6666.6666.00
+set interfaces lo0 unit 0 family mpls
+set routing-options resolution rib bgp.l3vpn.0 resolution-ribs inet.0
+set routing-options router-id 6.6.6.6
+set routing-options autonomous-system 65400
+set protocols bgp group overlay type internal
+set protocols bgp group overlay local-address 6.6.6.6
+set protocols bgp group overlay family inet unicast
+set protocols bgp group overlay family inet-vpn unicast
+set protocols bgp group overlay cluster 6.6.6.6
+set protocols bgp group overlay neighbor 5.5.5.5
+set protocols bgp group overlay neighbor 9.9.9.9
+set protocols isis interface all
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols mpls interface all
+set protocols rsvp interface all
