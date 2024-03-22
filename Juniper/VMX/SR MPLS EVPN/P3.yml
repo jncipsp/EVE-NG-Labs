@@ -1,3 +1,4 @@
+set chassis network-services enhanced-ip
 set interfaces ge-0/0/0 unit 0 family inet address 3.3.3.2/30
 set interfaces ge-0/0/0 unit 0 family iso
 set interfaces ge-0/0/0 unit 0 family mpls
@@ -7,9 +8,9 @@ set interfaces ge-0/0/1 unit 0 family mpls
 set interfaces lo0 unit 0 family inet address 7.7.7.7/32
 set interfaces lo0 unit 0 family iso address 49.0000.7777.7777.7777.00
 set interfaces lo0 unit 0 family mpls
+set protocols mpls interface all
+set protocols isis source-packet-routing node-segment ipv4-index 503
+set protocols isis level 1 disable
 set protocols isis interface ge-0/0/0.0
 set protocols isis interface ge-0/0/1.0
 set protocols isis interface lo0.0
-set protocols isis source-packet-routing node-segment ipv4-index 503
-set protocols isis level 1 disable
-set protocols mpls interface all
