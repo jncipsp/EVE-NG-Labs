@@ -17,6 +17,8 @@ set protocols bgp group internal local-address 8.8.8.8
 set protocols bgp group internal family evpn signaling
 set protocols bgp group internal neighbor 5.5.5.5
 set protocols isis source-packet-routing node-segment ipv4-index 504
+set protocols isis source-packet-routing srgb start-label 800000
+set protocols isis source-packet-routing srgb index-range 9000
 set protocols isis level 1 disable
 set protocols isis interface ge-0/0/2.0
 set protocols isis interface lo0.0
