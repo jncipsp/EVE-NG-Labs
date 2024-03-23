@@ -1,0 +1,13 @@
+set interfaces et-0/0/0 unit 0 family inet address 1.1.1.2/30
+set interfaces et-0/0/0 unit 0 family mpls
+set interfaces et-0/0/1 unit 0 family inet address 2.2.2.1/30
+set interfaces et-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 6.6.6.6/32
+set interfaces lo0 unit 0 family mpls
+set protocols mpls interface all
+set protocols ospf source-packet-routing node-segment ipv4-index 601
+set protocols ospf source-packet-routing srgb start-label 70000
+set protocols ospf source-packet-routing srgb index-range 1000
+set protocols ospf area 0.0.0.0 interface et-0/0/0.0
+set protocols ospf area 0.0.0.0 interface et-0/0/1.0
+set protocols ospf area 0.0.0.0 interface lo0.0 passive
