@@ -1,0 +1,48 @@
+service routing protocols model multi-agent
+
+hostname pe1
+  
+vlan 3333
+
+interface Ethernet1
+switchport trunk allowed vlan 3333
+switchport mode trunk
+
+interface Ethernet2
+no switchport
+ip address 1.1.1.1/30
+isis enable 1
+
+interface Loopback0
+ip address 5.5.5.5/32
+node-segment ipv4 index 10
+isis enable 1
+  
+ip routing
+
+mpls ip
+
+router bgp 65400
+router-id 5.5.5.5
+neighbor 9.9.9.9 remote-as 65400
+neighbor 9.9.9.9 update-source Loopback0
+neighbor 9.9.9.9 rib-in pre-policy retain all
+neighbor 9.9.9.9 send-community extended
+
+vlan-aware-bundle customer1
+rd 5.5.5.5:1
+route-target both 65400:1
+redistribute learned
+vlan 3333
+
+address-family evpn
+neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+neighbor 9.9.9.9 activate
+
+router isis 1
+net 49.0000.5555.5555.5555.00
+is-type level-2
+segment-routing mpls
+no shutdown
+address-family ipv4 unicast
+

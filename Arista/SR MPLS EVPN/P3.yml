@@ -1,0 +1,28 @@
+hostname p3
+  
+interface Ethernet1
+no switchport
+ip address 3.3.3.2/30
+isis enable 1
+  
+interface Ethernet2
+no switchport
+ip address 4.4.4.1/30
+isis enable 1
+
+interface Loopback0
+ip address 8.8.8.8/32
+node-segment ipv4 index 40
+isis enable 1
+
+ip routing
+
+mpls ip
+
+router isis 1
+net 49.0000.8888.8888.8888.00
+is-type level-2
+segment-routing mpls
+no shutdown
+address-family ipv4 unicast
+
