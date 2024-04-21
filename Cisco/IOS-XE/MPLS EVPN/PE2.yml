@@ -1,0 +1,49 @@
+hostname pe2
+  
+mpls label protocol ldp
+
+l2vpn evpn
+replication-type ingress
+mpls label mode per-ce
+router-id Loopback0
+
+l2vpn evpn instance 1 vlan-based
+route-target export 65200:1
+route-target import 65200:1
+no auto-route-target
+
+bridge-domain 1
+member GigabitEthernet2 service-instance 1
+member evpn-instance 1
+  
+interface Loopback0
+ip address 9.9.9.9 255.255.255.255
+ip router isis 1
+
+interface GigabitEthernet1
+ip address 4.4.4.2 255.255.255.252
+ip router isis 1
+mpls ip
+
+interface GigabitEthernet2
+no ip address
+service instance 1 ethernet
+encapsulation dot1q 2222
+  
+router isis 1
+net 49.0000.9999.9999.9999.00
+
+router bgp 65200
+bgp router-id 9.9.9.9
+bgp log-neighbor-changes
+neighbor 5.5.5.5 remote-as 65200
+neighbor 5.5.5.5 update-source Loopback0
+
+address-family ipv4
+neighbor 5.5.5.5 activate
+exit-address-family
+
+address-family l2vpn evpn
+neighbor 5.5.5.5 activate
+neighbor 5.5.5.5 send-community both
+exit-address-family

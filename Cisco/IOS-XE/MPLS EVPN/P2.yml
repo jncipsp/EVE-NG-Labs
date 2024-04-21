@@ -1,0 +1,20 @@
+hostname p2
+
+mpls label protocol ldp
+  
+interface Loopback0
+ip address 7.7.7.7 255.255.255.255
+ip router isis 1
+
+interface GigabitEthernet1
+ip address 2.2.2.2 255.255.255.252
+ip router isis 1
+mpls ip
+
+interface GigabitEthernet2
+ip address 3.3.3.1 255.255.255.252
+ip router isis 1
+mpls ip
+
+router isis 1
+net 49.0000.7777.7777.7777.00
