@@ -22,8 +22,6 @@ set interfaces ae1 aggregated-ether-options lacp periodic fast
 set interfaces ae1 aggregated-ether-options lacp system-id 00:aa:99:bb:33:db
 set interfaces ae1 unit 512 encapsulation vlan-bridge
 set interfaces ae1 unit 512 vlan-id 512
-set interfaces irb unit 512 family inet address 10.1.1.254/24
-set interfaces irb unit 512 mac 00:ee:22:ee:33:dd
 set interfaces lo0 unit 0 family inet address 8.8.8.8/32
 set interfaces lo0 unit 0 family iso address 49.0000.8888.8888.8888.00
 set interfaces lo0 unit 0 family mpls
@@ -43,9 +41,7 @@ set routing-instances cust1 instance-type evpn
 set routing-instances cust1 vlan-id 512
 set routing-instances cust1 interface ae0.512
 set routing-instances cust1 interface ae1.512
-set routing-instances cust1 routing-interface irb.512
 set routing-instances cust1 route-distinguisher 8.8.8.8:1
 set routing-instances cust1 vrf-target target:65530:1
 set routing-instances cust1 protocols evpn interface ae0.512
 set routing-instances cust1 protocols evpn interface ae1.512
-set routing-instances cust1 protocols evpn default-gateway do-not-advertise
