@@ -1,3 +1,4 @@
+set chassis network-services enhanced-ip
 set interfaces ge-0/0/0 unit 0 family inet address 10.1.1.1/24
 set interfaces ge-0/0/1 unit 0 family inet
 set interfaces ge-0/0/2 unit 0 family inet address 1.1.1.1/30
@@ -6,22 +7,26 @@ set interfaces ge-0/0/2 unit 0 family mpls
 set interfaces lo0 unit 0 family inet address 5.5.5.5/32
 set interfaces lo0 unit 0 family iso address 49.0000.5555.5555.5555.00
 set interfaces lo0 unit 0 family mpls
-set routing-instances cust1 instance-type vrf
-set routing-instances cust1 protocols bgp group cust1 type external
-set routing-instances cust1 protocols bgp group cust1 as-override
-set routing-instances cust1 protocols bgp group cust1 neighbor 10.1.1.254 peer-as 65444
-set routing-instances cust1 interface ge-0/0/0.0
-set routing-instances cust1 route-distinguisher 5.5.5.5:1
-set routing-instances cust1 vrf-target target:65400:1
 set routing-options router-id 5.5.5.5
 set routing-options autonomous-system 65400
+set protocols mpls interface all
 set protocols bgp group internal type internal
 set protocols bgp group internal local-address 5.5.5.5
 set protocols bgp group internal family inet unicast
 set protocols bgp group internal family inet-vpn unicast
 set protocols bgp group internal neighbor 8.8.8.8
-set protocols isis interface ge-0/0/2.0
-set protocols isis interface lo0.0
+set protocols isis source-packet-routing srgb start-label 800000
+set protocols isis source-packet-routing srgb index-range 9000
 set protocols isis source-packet-routing node-segment ipv4-index 500
 set protocols isis level 1 disable
-set protocols mpls interface all
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/2.0
+set protocols isis interface lo0.0
+set routing-instances cust1 instance-type vrf
+set routing-instances cust1 interface ge-0/0/0.0
+set routing-instances cust1 route-distinguisher 5.5.5.5:1
+set routing-instances cust1 vrf-target target:65400:1
+set routing-instances cust1 vrf-table-label
+set routing-instances cust1 protocols bgp group cust1 type external
+set routing-instances cust1 protocols bgp group cust1 as-override
+set routing-instances cust1 protocols bgp group cust1 neighbor 10.1.1.254 peer-as 65444
