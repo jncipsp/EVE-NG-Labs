@@ -1,0 +1,30 @@
+service-template customer1
+match outer-vlan 1111
+
+mpls l2-circuit customer1 10 9.9.9.9
+
+hostname pe1
+  
+router ldp
+router-id 5.5.5.5
+targeted-peer ipv4 9.9.9.9
+exit-targeted-peer-mode
+transport-address ipv4 5.5.5.5
+
+interface lo
+ip address 5.5.5.5/32 secondary
+ip router isis 1
+
+interface eth1
+ip address 1.1.1.1/30
+label-switching
+ip router isis 1
+enable-ldp ipv4
+
+interface eth2
+switchport
+mpls-l2-circuit customer1 service-template customer1 primary
+
+router isis 1
+is-type level-2-only
+net 49.0000.1111.1111.1111.00
