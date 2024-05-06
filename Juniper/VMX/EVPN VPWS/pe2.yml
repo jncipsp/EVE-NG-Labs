@@ -1,0 +1,30 @@
+set chassis aggregated-devices ethernet device-count 1
+set interfaces ge-0/0/0 gigether-options 802.3ad ae0
+set interfaces ge-0/0/1 gigether-options 802.3ad ae0
+set interfaces ge-0/0/2 unit 0 family inet address 4.4.4.2/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family mpls
+set interfaces ae0 flexible-vlan-tagging
+set interfaces ae0 encapsulation flexible-ethernet-services
+set interfaces ae0 aggregated-ether-options lacp active
+set interfaces ae0 unit 444 encapsulation vlan-ccc
+set interfaces ae0 unit 444 vlan-id 444
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.8888.8888.00
+set interfaces lo0 unit 0 family mpls
+set routing-options autonomous-system 65400
+set protocols mpls interface all
+set protocols bgp group internal type internal
+set protocols bgp group internal local-address 8.8.8.8
+set protocols bgp group internal family evpn signaling
+set protocols bgp group internal neighbor 5.5.5.5
+set protocols isis level 1 disable
+set protocols isis interface ge-0/0/2.0
+set protocols isis interface lo0.0
+set protocols ldp interface all
+set routing-instances customer1 instance-type evpn-vpws
+set routing-instances customer1 interface ae0.444
+set routing-instances customer1 route-distinguisher 8.8.8.8:1
+set routing-instances customer1 vrf-target target:65400:1
+set routing-instances customer1 protocols evpn interface ae0.444 vpws-service-id local 44
+set routing-instances customer1 protocols evpn interface ae0.444 vpws-service-id remote 22
