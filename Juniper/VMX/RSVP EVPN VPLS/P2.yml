@@ -7,8 +7,10 @@ set interfaces ge-0/0/1 unit 0 family mpls
 set interfaces lo0 unit 0 family inet address 33.33.33.33/32
 set interfaces lo0 unit 0 family iso address 49.0000.3333.3333.0000.00
 set interfaces lo0 unit 0 family mpls
+set protocols rsvp interface all
+set protocols mpls interface all
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
 set protocols isis interface ge-0/0/0.0
 set protocols isis interface ge-0/0/1.0
 set protocols isis interface lo0.0
-set protocols ldp interface all
-set protocols mpls interface all
