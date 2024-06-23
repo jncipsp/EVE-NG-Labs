@@ -1,0 +1,98 @@
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.32.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.33.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.34.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.35.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.36.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.37.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.38.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.39.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.40.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.41.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.42.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.43.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.44.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.45.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.46.0/24 reject
+set groups DC2-routes routing-instances <DC2> routing-options static route 172.30.47.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.128.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.129.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.130.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.131.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.132.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.133.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.134.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.135.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.136.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.137.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.138.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.139.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.140.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.141.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.142.0/24 reject
+set groups DC3-routes routing-instances <DC3> routing-options static route 172.30.143.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.0.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.1.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.2.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.3.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.4.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.5.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.6.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.7.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.8.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.9.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.10.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.11.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.12.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.13.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.14.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 172.17.15.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 207.18.163.192/28 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 207.18.163.192/28 as-path path 56422
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 207.18.163.192/28 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 213.38.128.0/18 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 213.38.128.0/18 as-path path "56422 7923 26430 7291 9845 1017 38172"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 213.38.128.0/18 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 115.127.2.0/23 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 115.127.2.0/23 as-path path "56422 235 18979 36652 49855 11804 27615"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 115.127.2.0/23 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 140.146.80.0/20 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 140.146.80.0/20 as-path path "36024 7923 48281 25530 62345"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 140.146.80.0/20 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 127.60.0.0/14 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 127.60.0.0/14 as-path path "36024 235 42956 28749"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 127.60.0.0/14 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 182.159.96.0/20 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 182.159.96.0/20 as-path path "56422 37067 30903 16076"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 182.159.96.0/20 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 187.107.217.0/25 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 187.107.217.0/25 as-path path "36024 37067 49182"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 187.107.217.0/25 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 163.64.0.0/14 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 163.64.0.0/14 as-path path "56422 50292 7211 60197"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 163.64.0.0/14 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 1.166.89.0/24 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 1.166.89.0/24 as-path path "56422 47123 34908 57085 3090 19128 21300"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 1.166.89.0/24 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 56.155.80.0/21 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 56.155.80.0/21 as-path path "36024 47123 6612 15655 30637"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 56.155.80.0/21 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 18.0.0.0/7 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 18.0.0.0/7 as-path path "36024 235 15378 16583"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 18.0.0.0/7 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 126.128.0.0/9 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 126.128.0.0/9 as-path path 56422
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 126.128.0.0/9 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 76.0.0.0/8 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 76.0.0.0/8 as-path path "56422 235 49012 24118 50330 41594 26349 37726"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 76.0.0.0/8 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 98.212.100.0/22 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 98.212.100.0/22 as-path path 36024
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 98.212.100.0/22 as-path origin incomplete
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 24.0.0.0/5 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 24.0.0.0/5 as-path path "56422 235 25621 54050 29601"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 24.0.0.0/5 as-path origin igp
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 46.182.216.0/21 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 46.182.216.0/21 as-path path "56422 47123 34264 30006 56068 12628 57545 13379"
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 46.182.216.0/21 as-path origin incomplete
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 14.112.0.0/13 reject
+set groups P1-1-routes routing-instances <P1-1> routing-options static route 14.112.0.0/13 as-path path "36024 235 40715 37080 2972 49542 1158 45383"

@@ -1,0 +1,23 @@
+set system login user lab uid 2000
+set system login user lab class super-user
+set system login user lab authentication encrypted-password "$1$8ib./Y8c$SnCPbb2Hu0eZwEaEpytgl1"
+set system root-authentication encrypted-password "$6$/ylsvU14$iEHtVbzd1W1QozzWzy9lhWC9Ts96.y3TkiGD4WddrQUupY8wtmg87Kudus3X.dubOV729BAW6NQ5baY9Y9NDf0"
+set system host-name route-reflector
+set system services ftp
+set system services ssh
+set system services telnet
+set system syslog user * match "!(.*Scheduler Oinker*.|.*Frame 0*.|.*ms without yielding*.)"
+set system syslog file messages any any
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system ntp boot-server 10.10.1.100
+set system ntp server 10.10.1.100
+set chassis fpc 0 lite-mode
+set interfaces ge-0/0/1 vlan-tagging
+set interfaces ge-0/0/1 unit 206 vlan-id 206
+set interfaces ge-0/0/1 unit 206 family inet address 172.30.0.66/30
+set interfaces ge-0/0/1 unit 207 vlan-id 207
+set interfaces ge-0/0/1 unit 207 family inet address 172.30.0.70/30
+set interfaces fxp0 unit 0 description "OoB management connection"
+set interfaces fxp0 unit 0 family inet address 10.10.1.19/24
+set interfaces lo0 unit 0 family inet address 172.30.5.41/32

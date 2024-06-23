@@ -1,0 +1,186 @@
+set system login class limited permissions view
+set system login class limited permissions view-configuration
+set system login class privileged permissions all
+set system login class privileged deny-commands "(clear)|(configure)|(edit)|(start shell)"
+set system login user lab uid 2000
+set system login user lab class super-user
+set system login user lab authentication encrypted-password "$6$9jV4iPQ.$PD1wRocJ.d1ec.4G9.Bage7zRkvOrJeA9i/uOouk4L/1y3pJPQawJK70VIw4aOuDfEvTXd8UbPDLHAJpk2y5N0"
+set system login user noc uid 2003
+set system login user noc class privileged
+set system login user noc authentication encrypted-password "$6$Nh8cyZPS$P37TlZpodhZrtoXzdGi1Fhi6sKRbv53Xl.Rq.rXy9ljqi7jC6cVTbP4Y1t4Uy7/4UZd4tzOprsmRRabP2sXGn/"
+set system login user ops uid 2004
+set system login user ops class operator
+set system login user ops authentication encrypted-password "$6$JIkSHuFS$n9KGjFqgWBKLIXBUW1yIlPr8/tHnTI.5DEiwppqwPRieiU3Fl421k1WjfgaBFphO2QOO9k90O37MQ5vEaWdNf0"
+set system login user remote uid 2006
+set system login user remote class limited
+set system root-authentication encrypted-password "$6$huMlsTGL$dAhbrz7kJlImka/3VMHG3f1WlD/RTg806PqT1Ul9g3noiyZwqvXTwRU13URLccjz3P8IPUe2LNClN43oIOhJd1"
+set system host-name R5
+set system backup-router 10.10.1.254
+set system backup-router destination 10.10.10.0/24
+set system time-zone America/Los_Angeles
+set system authentication-order radius
+set system authentication-order password
+set system name-server 10.10.1.100
+set system radius-server 10.10.1.100 secret "$9$xCbd2aTQn9tOqm5F/tIRxNdsgJ"
+set system radius-server 10.10.1.100 timeout 2
+set system radius-server 10.10.1.100 retry 1
+set system scripts commit file interface-mask-check.slax
+set system scripts op file show-interfaces.slax
+set system services ftp
+set system services ssh
+set system services telnet
+set system syslog archive size 100k
+set system syslog archive files 3
+set system syslog user ops any warning
+set system syslog host 10.10.1.100 any notice
+set system syslog host 10.10.1.100 change-log any
+set system syslog host 10.10.1.100 interactive-commands any
+set system syslog file jncie-sp-messages any info
+set system syslog file user-commands interactive-commands any
+set system archival configuration transfer-on-commit
+set system archival configuration archive-sites "ftp://lab@10.10.1.100" password "$9$Cp7mA0IEhrKvLIR-VY2aJ"
+set system ntp boot-server 10.10.1.100
+set system ntp authentication-key 1 type md5
+set system ntp authentication-key 1 value "$9$5FCuvMXNVYSrK87V4o5QF/A0"
+set system ntp server 10.10.1.100 key 1
+set system ntp trusted-key 1
+set chassis aggregated-devices ethernet device-count 1
+set chassis fpc 0 lite-mode
+set chassis fpc 0 flexible-queuing-mode
+set interfaces ge-0/0/1 gigether-options 802.3ad ae0
+set interfaces ge-0/0/2 gigether-options 802.3ad ae0
+set interfaces ge-0/0/4 vlan-tagging
+set interfaces ge-0/0/4 unit 145 description "R4 connection"
+set interfaces ge-0/0/4 unit 145 vlan-id 145
+set interfaces ge-0/0/4 unit 145 family inet address 172.30.0.30/30
+set interfaces ge-0/0/4 unit 145 family inet6
+set interfaces ge-0/0/4 unit 158 description "R8 connection"
+set interfaces ge-0/0/4 unit 158 vlan-id 158
+set interfaces ge-0/0/4 unit 158 family inet address 172.30.0.37/30
+set interfaces ge-0/0/4 unit 204 description "DC2 connection"
+set interfaces ge-0/0/4 unit 204 vlan-id 204
+set interfaces ge-0/0/4 unit 204 family inet address 172.30.0.57/30
+set interfaces ae0 aggregated-ether-options lacp active
+set interfaces ae0 unit 0 description "R6 connection"
+set interfaces ae0 unit 0 family inet address 172.30.0.33/30
+set interfaces ae0 unit 0 family inet6
+set interfaces fxp0 unit 0 description "OoB Management"
+set interfaces fxp0 unit 0 family inet address 10.10.1.5/24
+set interfaces lo0 unit 0 family inet filter input protect-re
+set interfaces lo0 unit 0 family inet address 172.30.5.5/32
+set interfaces lo0 unit 0 family inet6 address fd17:f0f4:f691:5::5/128
+set snmp v3 usm local-engine user lab authentication-sha authentication-key "$9$4GZHmpu1ESe69tORSMW4aZjkP"
+set snmp v3 usm local-engine user lab privacy-3des privacy-key "$9$z6166pB8LNVs4lKWxdsJZz36Au1"
+set snmp v3 vacm security-to-group security-model usm security-name lab group primary-group
+set snmp v3 vacm access group primary-group default-context-prefix security-model usm security-level privacy read-view root-view
+set snmp v3 target-address S1 address 10.10.1.100
+set snmp v3 target-address S1 tag-list all-nms
+set snmp v3 target-address S1 target-parameters S1-parameters
+set snmp v3 target-parameters S1-parameters parameters message-processing-model v3
+set snmp v3 target-parameters S1-parameters parameters security-model usm
+set snmp v3 target-parameters S1-parameters parameters security-level privacy
+set snmp v3 target-parameters S1-parameters parameters security-name lab
+set snmp v3 notify traps type trap
+set snmp v3 notify traps tag all-nms
+set snmp v3 notify-filter all-traps oid snmpTraps
+set snmp v3 notify-filter all-traps oid jnxTraps
+set snmp v3 notify-filter all-traps oid linkUp exclude
+set snmp view root-view oid .1 include
+set event-options policy sylog_if_description events snmp_trap_link_up
+set event-options policy sylog_if_description events snmp_trap_link_down
+set event-options policy sylog_if_description then event-script syslog-int-desc-on-link-change.slax
+set event-options policy snmptrap_if_description events SYSTEM
+set event-options policy snmptrap_if_description attributes-match SYSTEM.message matches NEW_SNMP_TRAP_LINK
+set event-options policy snmptrap_if_description then raise-trap
+set event-options event-script file syslog-int-desc-on-link-change.slax
+set routing-options static route 10.10.10.0/24 next-hop 10.10.1.254
+set routing-options static route 10.10.10.0/24 no-readvertise
+set routing-options router-id 172.30.5.5
+set protocols ospf export rip-to-ospf
+set protocols ospf area 0.0.0.4 nssa
+set protocols ospf area 0.0.0.4 interface ge-0/0/4.145 authentication md5 1 key "$9$rV3KWxJZjq.5bsaU"
+set protocols ospf area 0.0.0.4 interface ae0.0 authentication md5 1 key "$9$pjwhOIcN-wg4ZKM7V"
+set protocols ospf area 0.0.0.4 interface lo0.0
+set protocols rip group rip export default-to-rip
+set protocols rip group rip neighbor ge-0/0/4.204
+set policy-options prefix-list bgp-peers apply-path "protocols bgp group <*> neighbor <*>"
+set policy-options policy-statement default-to-rip term 1 from protocol ospf
+set policy-options policy-statement default-to-rip term 1 from route-filter 0.0.0.0/0 exact
+set policy-options policy-statement default-to-rip term 1 then metric 5
+set policy-options policy-statement default-to-rip term 1 then accept
+set policy-options policy-statement rip-filter term 1 from protocol rip
+set policy-options policy-statement rip-filter term 1 from route-filter 0.0.0.0/0 exact
+set policy-options policy-statement rip-filter term 1 then reject
+set policy-options policy-statement rip-to-ospf term 1 from protocol rip
+set policy-options policy-statement rip-to-ospf term 1 then accept
+set firewall family inet filter protect-re term ah from protocol ah
+set firewall family inet filter protect-re term ah then accept
+set firewall family inet filter protect-re term bfd from protocol udp
+set firewall family inet filter protect-re term bfd from port 3784
+set firewall family inet filter protect-re term bfd then accept
+set firewall family inet filter protect-re term vrrp from protocol vrrp
+set firewall family inet filter protect-re term vrrp then accept
+set firewall family inet filter protect-re term rip from protocol udp
+set firewall family inet filter protect-re term rip from port rip
+set firewall family inet filter protect-re term rip then accept
+set firewall family inet filter protect-re term ospf from protocol ospf
+set firewall family inet filter protect-re term ospf then accept
+set firewall family inet filter protect-re term ldp from protocol udp
+set firewall family inet filter protect-re term ldp from protocol tcp
+set firewall family inet filter protect-re term ldp from port ldp
+set firewall family inet filter protect-re term ldp then accept
+set firewall family inet filter protect-re term rsvp from protocol rsvp
+set firewall family inet filter protect-re term rsvp then accept
+set firewall family inet filter protect-re term pim from protocol pim
+set firewall family inet filter protect-re term pim then accept
+set firewall family inet filter protect-re term igmp from protocol igmp
+set firewall family inet filter protect-re term igmp then accept
+set firewall family inet filter protect-re term msdp from protocol tcp
+set firewall family inet filter protect-re term msdp from port msdp
+set firewall family inet filter protect-re term msdp then accept
+set firewall family inet filter protect-re term bgp from source-prefix-list bgp-peers
+set firewall family inet filter protect-re term bgp from protocol tcp
+set firewall family inet filter protect-re term bgp from port bgp
+set firewall family inet filter protect-re term bgp then accept
+set firewall family inet filter protect-re term ntp from source-address 10.10.1.0/24
+set firewall family inet filter protect-re term ntp from protocol udp
+set firewall family inet filter protect-re term ntp from port ntp
+set firewall family inet filter protect-re term ntp then accept
+set firewall family inet filter protect-re term snmp from source-address 10.10.1.0/24
+set firewall family inet filter protect-re term snmp from protocol udp
+set firewall family inet filter protect-re term snmp from port snmp
+set firewall family inet filter protect-re term snmp then accept
+set firewall family inet filter protect-re term radius from source-address 10.10.1.0/24
+set firewall family inet filter protect-re term radius from protocol udp
+set firewall family inet filter protect-re term radius from port radius
+set firewall family inet filter protect-re term radius then accept
+set firewall family inet filter protect-re term dns from source-address 10.10.1.0/24
+set firewall family inet filter protect-re term dns from protocol udp
+set firewall family inet filter protect-re term dns from port domain
+set firewall family inet filter protect-re term dns then accept
+set firewall family inet filter protect-re term ssh from source-address 10.10.1.0/24
+set firewall family inet filter protect-re term ssh from protocol tcp
+set firewall family inet filter protect-re term ssh from port ssh
+set firewall family inet filter protect-re term ssh then accept
+set firewall family inet filter protect-re term telnet from source-address 10.10.1.0/24
+set firewall family inet filter protect-re term telnet from protocol tcp
+set firewall family inet filter protect-re term telnet from port telnet
+set firewall family inet filter protect-re term telnet then accept
+set firewall family inet filter protect-re term ftp from source-address 10.10.1.0/24
+set firewall family inet filter protect-re term ftp from protocol tcp
+set firewall family inet filter protect-re term ftp from port ftp
+set firewall family inet filter protect-re term ftp from port ftp-data
+set firewall family inet filter protect-re term ftp then accept
+set firewall family inet filter protect-re term icmp from protocol icmp
+set firewall family inet filter protect-re term icmp then policer re-policer
+set firewall family inet filter protect-re term icmp then accept
+set firewall family inet filter protect-re term traceroute from protocol udp
+set firewall family inet filter protect-re term traceroute from port 33434-33534
+set firewall family inet filter protect-re term traceroute then policer re-policer
+set firewall family inet filter protect-re term traceroute then accept
+set firewall family inet filter protect-re term last then count dropped-packets
+set firewall family inet filter protect-re term last then log
+set firewall family inet filter protect-re term last then discard
+set firewall policer re-policer if-exceeding bandwidth-limit 100k
+set firewall policer re-policer if-exceeding burst-size-limit 25k
+set firewall policer re-policer then discard

@@ -1,0 +1,227 @@
+set system login user instructor uid 2002
+set system login user instructor class super-user
+set system login user instructor authentication encrypted-password "$1$JtsjX/A5$M/fPxWqRvsxNKVT28M/D31"
+set system login user lab uid 2000
+set system login user lab class super-user
+set system login user lab authentication encrypted-password "$1$8ib./Y8c$SnCPbb2Hu0eZwEaEpytgl1"
+set system root-authentication encrypted-password "$6$huMlsTGL$dAhbrz7kJlImka/3VMHG3f1WlD/RTg806PqT1Ul9g3noiyZwqvXTwRU13URLccjz3P8IPUe2LNClN43oIOhJd1"
+set system host-name vr-device-1
+set system services ftp
+set system services ssh root-login allow
+set system services telnet
+set system syslog file messages any any
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system ntp boot-server 10.10.1.100
+set system ntp server 10.10.1.100
+set chassis fpc 0 lite-mode
+set interfaces ge-0/0/0 vlan-tagging
+set interfaces ge-0/0/0 unit 512 description R1-CE4-1-1
+set interfaces ge-0/0/0 unit 512 vlan-id 512
+set interfaces ge-0/0/0 unit 512 family inet address 192.168.0.105/30
+set interfaces ge-0/0/0 unit 513 description R1-CE4-1-2
+set interfaces ge-0/0/0 unit 513 vlan-id 513
+set interfaces ge-0/0/0 unit 513 family inet address 192.168.0.109/30
+set interfaces ge-0/0/0 unit 514 description R1-CE4-1-3
+set interfaces ge-0/0/0 unit 514 vlan-id 514
+set interfaces ge-0/0/0 unit 514 family inet
+set interfaces ge-0/0/0 unit 700 description R1-CE6-1-1
+set interfaces ge-0/0/0 unit 700 vlan-id 700
+set interfaces ge-0/0/0 unit 700 family inet address 192.168.4.1/24
+set interfaces ge-0/0/0 unit 701 description R1-CE6-1-2
+set interfaces ge-0/0/0 unit 701 vlan-id 701
+set interfaces ge-0/0/0 unit 701 family inet address 192.168.5.1/24
+set interfaces ge-0/0/1 vlan-tagging
+set interfaces ge-0/0/1 unit 600 description R2-CE5-4-1
+set interfaces ge-0/0/1 unit 600 vlan-id 600
+set interfaces ge-0/0/1 unit 600 family inet address 192.168.2.2/24
+set interfaces ge-0/0/1 unit 601 description R2-CE5-4-1
+set interfaces ge-0/0/1 unit 601 vlan-id 601
+set interfaces ge-0/0/1 unit 601 family inet address 192.168.3.1/24
+set interfaces ge-0/0/2 vlan-tagging
+set interfaces ge-0/0/2 unit 512 description R3-CE5-2-1
+set interfaces ge-0/0/2 unit 512 vlan-id 512
+set interfaces ge-0/0/2 unit 512 family inet address 192.168.0.118/30
+set interfaces ge-0/0/2 unit 513 description R3-CE5-2-2
+set interfaces ge-0/0/2 unit 513 vlan-id 513
+set interfaces ge-0/0/2 unit 513 family inet
+set interfaces ge-0/0/2 unit 514 description R3-CE5-2-3
+set interfaces ge-0/0/2 unit 514 vlan-id 514
+set interfaces ge-0/0/2 unit 514 family inet address 192.168.0.125/30
+set interfaces ge-0/0/2 unit 600 description R3-CE5-5-1
+set interfaces ge-0/0/2 unit 600 vlan-id 600
+set interfaces ge-0/0/2 unit 600 family inet address 192.168.2.3/24
+set interfaces ge-0/0/2 unit 601 description R3-CE5-5-2
+set interfaces ge-0/0/2 unit 601 vlan-id 601
+set interfaces ge-0/0/2 unit 601 family inet address 192.168.3.2/24
+set interfaces ge-0/0/3 vlan-tagging
+set interfaces ge-0/0/3 unit 600 description R4-CE5-5-1
+set interfaces ge-0/0/3 unit 600 vlan-id 600
+set interfaces ge-0/0/3 unit 600 family inet address 192.168.2.3/24
+set interfaces ge-0/0/3 unit 601 description R4-CE5-5-2
+set interfaces ge-0/0/3 unit 601 vlan-id 601
+set interfaces ge-0/0/3 unit 601 family inet address 192.168.3.2/24
+set interfaces ge-0/0/4 vlan-tagging
+set interfaces ge-0/0/4 unit 512 description R5-CE5-3-1
+set interfaces ge-0/0/4 unit 512 vlan-id 512
+set interfaces ge-0/0/4 unit 512 family inet
+set interfaces ge-0/0/4 unit 513 description R5-CE5-3-2
+set interfaces ge-0/0/4 unit 513 vlan-id 513
+set interfaces ge-0/0/4 unit 513 family inet address 192.168.0.122/30
+set interfaces ge-0/0/4 unit 514 description R5-CE5-3-3
+set interfaces ge-0/0/4 unit 514 vlan-id 514
+set interfaces ge-0/0/4 unit 514 family inet address 192.168.0.126/30
+set interfaces ge-0/0/4 unit 600 description R5-CE5-6-1
+set interfaces ge-0/0/4 unit 600 vlan-id 600
+set interfaces ge-0/0/4 unit 600 family inet address 192.168.2.4/24
+set interfaces ge-0/0/4 unit 601 description R5-CE5-6-2
+set interfaces ge-0/0/4 unit 601 vlan-id 601
+set interfaces ge-0/0/4 unit 601 family inet address 192.168.3.3/24
+set interfaces ge-0/0/5 vlan-tagging
+set interfaces ge-0/0/5 unit 512 description R6-CE4-3-1
+set interfaces ge-0/0/5 unit 512 vlan-id 512
+set interfaces ge-0/0/5 unit 512 family inet
+set interfaces ge-0/0/5 unit 513 description R6-CE4-3-2
+set interfaces ge-0/0/5 unit 513 vlan-id 513
+set interfaces ge-0/0/5 unit 513 family inet address 192.168.0.110/30
+set interfaces ge-0/0/5 unit 514 description R6-CE4-3-3
+set interfaces ge-0/0/5 unit 514 vlan-id 514
+set interfaces ge-0/0/5 unit 514 family inet address 192.168.0.114/30
+set interfaces ge-0/0/5 unit 700 description R6-CE6-3-1
+set interfaces ge-0/0/5 unit 700 vlan-id 700
+set interfaces ge-0/0/5 unit 700 family inet address 192.168.4.3/24
+set interfaces ge-0/0/5 unit 701 description R6-CE6-3-2
+set interfaces ge-0/0/5 unit 701 vlan-id 701
+set interfaces ge-0/0/5 unit 701 family inet address 192.168.5.3/24
+set interfaces ge-0/0/6 vlan-tagging
+set interfaces ge-0/0/6 unit 512 description R7-CE5-1-1
+set interfaces ge-0/0/6 unit 512 vlan-id 512
+set interfaces ge-0/0/6 unit 512 family inet address 192.168.0.117/30
+set interfaces ge-0/0/6 unit 513 description R7-CE5-1-2
+set interfaces ge-0/0/6 unit 513 vlan-id 513
+set interfaces ge-0/0/6 unit 513 family inet address 192.168.0.121/30
+set interfaces ge-0/0/6 unit 514 description R7-CE5-1-3
+set interfaces ge-0/0/6 unit 514 vlan-id 514
+set interfaces ge-0/0/6 unit 514 family inet
+set interfaces ge-0/0/6 unit 600 description R7-CE5-1-4
+set interfaces ge-0/0/6 unit 600 vlan-id 600
+set interfaces ge-0/0/6 unit 600 family inet address 192.168.2.1/24
+set interfaces ge-0/0/6 unit 700 description R7-CE6-2-1
+set interfaces ge-0/0/6 unit 700 vlan-id 700
+set interfaces ge-0/0/6 unit 700 family inet address 192.168.4.2/24
+set interfaces ge-0/0/6 unit 701 description R7-CE6-2-2
+set interfaces ge-0/0/6 unit 701 vlan-id 701
+set interfaces ge-0/0/6 unit 701 family inet address 192.168.5.2/24
+set interfaces ge-0/0/7 vlan-tagging
+set interfaces ge-0/0/7 unit 512 description R8-CE4-2-1
+set interfaces ge-0/0/7 unit 512 vlan-id 512
+set interfaces ge-0/0/7 unit 512 family inet address 192.168.0.106/30
+set interfaces ge-0/0/7 unit 513 description R8-CE4-2-2
+set interfaces ge-0/0/7 unit 513 vlan-id 513
+set interfaces ge-0/0/7 unit 513 family inet
+set interfaces ge-0/0/7 unit 514 description R8-CE4-2-3
+set interfaces ge-0/0/7 unit 514 vlan-id 514
+set interfaces ge-0/0/7 unit 514 family inet address 192.168.0.113/30
+set interfaces ge-0/0/7 unit 700 description R8-CE6-2-1
+set interfaces ge-0/0/7 unit 700 vlan-id 700
+set interfaces ge-0/0/7 unit 700 family inet address 192.168.4.2/24
+set interfaces ge-0/0/7 unit 701 description R8-CE6-2-2
+set interfaces ge-0/0/7 unit 701 vlan-id 701
+set interfaces ge-0/0/7 unit 701 family inet address 192.168.5.2/24
+set interfaces fxp0 unit 0 description "OoB management connection"
+set interfaces fxp0 unit 0 family inet address 10.10.1.9/24
+set interfaces lo0 unit 18 family inet address 172.31.111.1/32
+set interfaces lo0 unit 19 family inet address 172.31.111.2/32
+set interfaces lo0 unit 20 family inet address 172.31.111.3/32
+set interfaces lo0 unit 21 family inet address 172.31.127.1/32
+set interfaces lo0 unit 22 family inet address 172.31.127.2/32
+set interfaces lo0 unit 23 family inet address 172.31.127.3/32
+set interfaces lo0 unit 24 family inet address 172.31.127.4/32
+set interfaces lo0 unit 25 family inet address 172.31.127.5/32
+set interfaces lo0 unit 26 family inet address 172.31.127.6/32
+set interfaces lo0 unit 29 family inet address 172.31.143.1/32
+set interfaces lo0 unit 30 family inet address 172.31.143.2/32
+set interfaces lo0 unit 31 family inet address 172.31.143.3/32
+set routing-options static route 10.10.10.0/24 next-hop 10.10.1.254
+set routing-options static route 10.10.10.0/24 no-readvertise
+set policy-options policy-statement loopback-only term 1 from route-filter 172.17.47.3/32 exact
+set policy-options policy-statement loopback-only term 1 to rib inet.3
+set policy-options policy-statement loopback-only term 1 then accept
+set policy-options policy-statement loopback-only term 2 to rib inet.3
+set policy-options policy-statement loopback-only term 2 then reject
+set policy-options policy-statement loopback-only term 3 then accept
+set policy-options community C1-low-pref members 64512:90
+set policy-options community C1-rtbh members 64512:666
+set firewall family inet filter cos-be term 1 then accept
+set firewall family inet filter cos-be term 1 then dscp be
+set routing-instances CE4-1 instance-type virtual-router
+set routing-instances CE4-1 interface ge-0/0/0.512
+set routing-instances CE4-1 interface ge-0/0/0.513
+set routing-instances CE4-1 interface ge-0/0/0.514
+set routing-instances CE4-1 interface lo0.18
+set routing-instances CE4-1 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE4-2 instance-type virtual-router
+set routing-instances CE4-2 interface ge-0/0/7.512
+set routing-instances CE4-2 interface ge-0/0/7.513
+set routing-instances CE4-2 interface ge-0/0/7.514
+set routing-instances CE4-2 interface lo0.19
+set routing-instances CE4-2 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE4-3 instance-type virtual-router
+set routing-instances CE4-3 interface ge-0/0/5.512
+set routing-instances CE4-3 interface ge-0/0/5.513
+set routing-instances CE4-3 interface ge-0/0/5.514
+set routing-instances CE4-3 interface lo0.20
+set routing-instances CE4-3 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE5-1 instance-type virtual-router
+set routing-instances CE5-1 interface ge-0/0/6.512
+set routing-instances CE5-1 interface ge-0/0/6.513
+set routing-instances CE5-1 interface ge-0/0/6.514
+set routing-instances CE5-1 interface ge-0/0/6.600
+set routing-instances CE5-1 interface lo0.21
+set routing-instances CE5-1 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE5-2 instance-type virtual-router
+set routing-instances CE5-2 interface ge-0/0/2.512
+set routing-instances CE5-2 interface ge-0/0/2.513
+set routing-instances CE5-2 interface ge-0/0/2.514
+set routing-instances CE5-2 interface lo0.22
+set routing-instances CE5-2 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE5-3 instance-type virtual-router
+set routing-instances CE5-3 interface ge-0/0/4.512
+set routing-instances CE5-3 interface ge-0/0/4.513
+set routing-instances CE5-3 interface ge-0/0/4.514
+set routing-instances CE5-3 interface lo0.23
+set routing-instances CE5-3 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE5-4 instance-type virtual-router
+set routing-instances CE5-4 interface ge-0/0/1.600
+set routing-instances CE5-4 interface ge-0/0/1.601
+set routing-instances CE5-4 interface lo0.24
+set routing-instances CE5-4 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE5-5 instance-type virtual-router
+set routing-instances CE5-5 interface ge-0/0/2.600
+set routing-instances CE5-5 interface ge-0/0/2.601
+set routing-instances CE5-5 interface ge-0/0/3.600
+set routing-instances CE5-5 interface ge-0/0/3.601
+set routing-instances CE5-5 interface lo0.25
+set routing-instances CE5-5 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE5-6 instance-type virtual-router
+set routing-instances CE5-6 interface ge-0/0/4.600
+set routing-instances CE5-6 interface ge-0/0/4.601
+set routing-instances CE5-6 interface lo0.26
+set routing-instances CE5-6 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE6-1 instance-type virtual-router
+set routing-instances CE6-1 interface ge-0/0/0.700
+set routing-instances CE6-1 interface ge-0/0/0.701
+set routing-instances CE6-1 interface lo0.29
+set routing-instances CE6-1 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE6-2 instance-type virtual-router
+set routing-instances CE6-2 interface ge-0/0/6.700
+set routing-instances CE6-2 interface ge-0/0/6.701
+set routing-instances CE6-2 interface ge-0/0/7.700
+set routing-instances CE6-2 interface ge-0/0/7.701
+set routing-instances CE6-2 interface lo0.30
+set routing-instances CE6-2 protocols ospf area 0.0.0.0 interface all
+set routing-instances CE6-3 instance-type virtual-router
+set routing-instances CE6-3 interface ge-0/0/5.700
+set routing-instances CE6-3 interface ge-0/0/5.701
+set routing-instances CE6-3 interface lo0.31
+set routing-instances CE6-3 protocols ospf area 0.0.0.0 interface all
