@@ -94,7 +94,7 @@ set event-options event-script file syslog-int-desc-on-link-change.slax
 set routing-options static route 10.10.10.0/24 next-hop 10.10.1.254
 set routing-options static route 10.10.10.0/24 no-readvertise
 set routing-options router-id 172.30.5.2
-set protocols ospf area 0.0.0.33 interface ae0.0 authentication md5 1 key "$9$qPT3REyKvLApIc"
+set protocols ospf area 0.0.0.3 interface ae0.0 authentication md5 1 key "$9$qPT3REyKvLApIc"
 set protocols ospf area 0.0.0.0 interface ge-0/0/4.127 authentication md5 1 key "$9$GzjkPpu1hclFntO"
 set protocols ospf area 0.0.0.0 interface ge-0/0/4.123 authentication md5 1 key "$9$uScEBRS-ds4oGvWNb"
 set protocols ospf area 0.0.0.0 interface lo0.0
