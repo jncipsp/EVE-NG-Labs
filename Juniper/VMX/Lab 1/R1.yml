@@ -1,3 +1,8 @@
+set groups if-families interfaces ge-0/0/4 unit <*> family iso
+set groups if-families interfaces ge-0/0/4 unit <*> family mpls
+set groups if-families interfaces <ae0*> unit <*> family iso
+set groups if-families interfaces <ae0*> unit <*> family mpls
+set apply-groups if-families
 set system login class limited permissions view
 set system login class limited permissions view-configuration
 set system login class privileged permissions all
@@ -44,11 +49,25 @@ set system ntp authentication-key 1 type md5
 set system ntp authentication-key 1 value "$9$5FCuvMXNVYSrK87V4o5QF/A0"
 set system ntp server 10.10.1.100 key 1
 set system ntp trusted-key 1
-set chassis aggregated-devices ethernet device-count 1
+set chassis aggregated-devices ethernet device-count 2
+set chassis fpc 0 pic 0 tunnel-services
 set chassis fpc 0 lite-mode
 set chassis fpc 0 flexible-queuing-mode
 set interfaces ge-0/0/1 gigether-options 802.3ad ae0
 set interfaces ge-0/0/2 gigether-options 802.3ad ae0
+set interfaces ge-0/0/3 vlan-tagging
+set interfaces ge-0/0/3 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/3 unit 512 encapsulation vlan-ccc
+set interfaces ge-0/0/3 unit 512 vlan-id 512
+set interfaces ge-0/0/3 unit 513 encapsulation vlan-ccc
+set interfaces ge-0/0/3 unit 513 vlan-id 513
+set interfaces ge-0/0/3 unit 514 encapsulation vlan-ccc
+set interfaces ge-0/0/3 unit 514 vlan-id 514
+set interfaces ge-0/0/3 unit 700 encapsulation vlan-vpls
+set interfaces ge-0/0/3 unit 700 vlan-id 700
+set interfaces ge-0/0/3 unit 701 encapsulation vlan-vpls
+set interfaces ge-0/0/3 unit 701 vlan-id 701
+set interfaces ge-0/0/4 per-unit-scheduler
 set interfaces ge-0/0/4 vlan-tagging
 set interfaces ge-0/0/4 unit 114 description "R4 connection"
 set interfaces ge-0/0/4 unit 114 vlan-id 114
@@ -57,15 +76,47 @@ set interfaces ge-0/0/4 unit 118 description "R8 connection"
 set interfaces ge-0/0/4 unit 118 vlan-id 118
 set interfaces ge-0/0/4 unit 118 family inet address 172.30.0.9/30
 set interfaces ge-0/0/4 unit 118 family inet6
+set interfaces ge-0/0/4 unit 206 vlan-id 206
+set interfaces ge-0/0/4 unit 206 family inet address 172.30.0.65/30
+set interfaces ge-0/0/4 unit 206 family iso
+set interfaces ge-0/0/5 vlan-tagging
+set interfaces ge-0/0/5 unit 300 vlan-id 300
+set interfaces ge-0/0/5 unit 300 family inet address 192.168.1.1/24
+set interfaces ge-0/0/5 unit 311 description "CE2-1 connection 1"
+set interfaces ge-0/0/5 unit 311 vlan-id 311
+set interfaces ge-0/0/5 unit 311 family inet address 192.168.0.41/30
+set interfaces ge-0/0/5 unit 312 description "CE2-1 connection 2"
+set interfaces ge-0/0/5 unit 312 vlan-id 312
+set interfaces ge-0/0/5 unit 312 family inet address 192.168.0.45/30
+set interfaces ge-0/0/5 unit 313 description "CE2-1 connection 3"
+set interfaces ge-0/0/5 unit 313 vlan-id 313
+set interfaces ge-0/0/5 unit 313 family inet address 192.168.0.49/30
+set interfaces ge-0/0/6 gigether-options 802.3ad ae1
+set interfaces ae0 per-unit-scheduler
 set interfaces ae0 aggregated-ether-options lacp active
 set interfaces ae0 unit 0 description "R2 connection"
 set interfaces ae0 unit 0 family inet address 172.30.0.1/30
 set interfaces ae0 unit 0 family inet6
+set interfaces ae1 flexible-vlan-tagging
+set interfaces ae1 encapsulation flexible-ethernet-services
+set interfaces ae1 esi 00:00:00:00:00:00:00:00:00:12
+set interfaces ae1 esi all-active
+set interfaces ae1 aggregated-ether-options lacp active
+set interfaces ae1 aggregated-ether-options lacp system-id 00:00:00:00:00:12
+set interfaces ae1 unit 800 encapsulation vlan-bridge
+set interfaces ae1 unit 800 vlan-id 800
 set interfaces fxp0 unit 0 description "OoB Management"
 set interfaces fxp0 unit 0 family inet address 10.10.1.1/24
+set interfaces irb unit 1 family inet address 192.168.2.254/24
 set interfaces lo0 unit 0 family inet filter input protect-re
-set interfaces lo0 unit 0 family inet address 172.30.5.1/32
+set interfaces lo0 unit 0 family inet address 172.30.5.1/32 primary
+set interfaces lo0 unit 0 family inet address 127.0.0.1/32
+set interfaces lo0 unit 0 family inet address 172.30.5.254/32
+set interfaces lo0 unit 0 family iso address 49.0001.1720.3000.5001.00
 set interfaces lo0 unit 0 family inet6 address fd17:f0f4:f691:5::1/128
+set interfaces lo0 unit 1 family inet address 172.30.5.9/32
+set interfaces lo0 unit 2 family inet address 172.30.5.10/32 primary
+set interfaces lo0 unit 2 family inet address 172.30.5.253/32
 set snmp v3 usm local-engine user lab authentication-sha authentication-key "$9$4GZHmpu1ESe69tORSMW4aZjkP"
 set snmp v3 usm local-engine user lab privacy-3des privacy-key "$9$z6166pB8LNVs4lKWxdsJZz36Au1"
 set snmp v3 vacm security-to-group security-model usm security-name lab group primary-group
@@ -90,16 +141,263 @@ set event-options policy snmptrap_if_description events SYSTEM
 set event-options policy snmptrap_if_description attributes-match SYSTEM.message matches NEW_SNMP_TRAP_LINK
 set event-options policy snmptrap_if_description then raise-trap
 set event-options event-script file syslog-int-desc-on-link-change.slax
-set routing-options static route 10.10.10.0/24 next-hop 10.10.1.254
+set routing-options interface-routes rib-group inet rr-inet0-inet3
+set routing-options static route 10.10.10.0/24 next-hop 10.10.1.2
 set routing-options static route 10.10.10.0/24 no-readvertise
-set protocols ospf area 0.0.0.3 interface ae0.0 authentication md5 1 key "$9$75dwgmPQn6AGD.5"
-set protocols ospf area 0.0.0.2 interface ge-0/0/4.118 authentication md5 1 key "$9$TF6ArlMXxdBIyK"
-set protocols ospf area 0.0.0.2 interface lo0.0
+set routing-options aggregate defaults brief
+set routing-options aggregate route 172.30.0.0/16
+set routing-options aggregate route 0.0.0.0/0
+set routing-options rib-groups rr-inet0-inet3 import-rib inet.0
+set routing-options rib-groups rr-inet0-inet3 import-rib inet.3
+set routing-options rib-groups rr-inet0-inet3 import-rib inet.2
+set routing-options rib-groups rr-inet0-inet3 import-policy rr-loopback-to-inet3
+set routing-options rib-groups mcast-rib import-rib inet.2
+set routing-options router-id 172.30.5.1
+set routing-options route-distinguisher-id 172.30.5.1
+set routing-options autonomous-system 54591
+set routing-options autonomous-system loops 3
+set routing-options forwarding-table export load-balance
+set protocols rsvp interface ge-0/0/4.114 authentication-key "$9$6g.9CpBW87Vb2cyMX"
+set protocols rsvp interface ge-0/0/4.114 bandwidth 333m
+set protocols rsvp interface ge-0/0/4.114 link-protection
+set protocols rsvp interface ge-0/0/4.118 authentication-key "$9$DsH.50ORSyKn/u1"
+set protocols rsvp interface ge-0/0/4.118 bandwidth 333m
+set protocols rsvp interface ge-0/0/4.118 link-protection
+set protocols rsvp interface ae0.0 authentication-key "$9$-pbYof5F/9pDiPQ"
+set protocols rsvp interface ae0.0 link-protection
+set protocols mpls statistics file Auto-Bandwidth
+set protocols mpls statistics auto-bandwidth
+set protocols mpls traffic-engineering mpls-forwarding
+set protocols mpls admin-groups green 0
+set protocols mpls admin-groups red 1
+set protocols mpls ipv6-tunneling
+set protocols mpls no-decrement-ttl
+set protocols mpls label-switched-path R1-to-R8 to 172.30.5.8
+set protocols mpls label-switched-path R1-to-R8 ldp-tunneling
+set protocols mpls label-switched-path R1-to-R8 priority 6 6
+set protocols mpls label-switched-path R1-to-R8 admin-group include-any green
+set protocols mpls label-switched-path R1-to-R8 oam bfd-liveness-detection minimum-interval 3000
+set protocols mpls label-switched-path R1-to-R8 link-protection
+set protocols mpls label-switched-path R1-to-R8 auto-bandwidth adjust-interval 172800
+set protocols mpls label-switched-path R1-to-R8 auto-bandwidth minimum-bandwidth 30m
+set protocols mpls label-switched-path R1-to-R8 auto-bandwidth maximum-bandwidth 120m
+set protocols mpls label-switched-path R1-to-R8 primary primary-2
+set protocols mpls label-switched-path R1-to-R8 secondary secondary-2
+set protocols mpls label-switched-path R1-to-R6 to 172.30.5.6
+set protocols mpls label-switched-path R1-to-R6 bandwidth 60m
+set protocols mpls label-switched-path R1-to-R6 priority 7 7
+set protocols mpls label-switched-path R1-to-R6 oam bfd-liveness-detection minimum-interval 3000
+set protocols mpls label-switched-path R1-to-R6 adaptive
+set protocols mpls label-switched-path R1-to-R6 fast-reroute hop-limit 5
+set protocols mpls label-switched-path R1-to-R6 fast-reroute no-include-any
+set protocols mpls label-switched-path R1-to-R6 primary primary-1
+set protocols mpls label-switched-path R1-to-R6 secondary secondary-1 standby
+set protocols mpls label-switched-path mcast-p2mp-template template
+set protocols mpls label-switched-path mcast-p2mp-template bandwidth 30
+set protocols mpls label-switched-path mcast-p2mp-template hop-limit 5
+set protocols mpls label-switched-path mcast-p2mp-template priority 5 5
+set protocols mpls label-switched-path mcast-p2mp-template link-protection
+set protocols mpls label-switched-path mcast-p2mp-template p2mp
+set protocols mpls label-switched-path mcast-selective-template template
+set protocols mpls label-switched-path mcast-selective-template bandwidth 60m
+set protocols mpls label-switched-path mcast-selective-template hop-limit 5
+set protocols mpls label-switched-path mcast-selective-template priority 5 5
+set protocols mpls label-switched-path mcast-selective-template link-protection
+set protocols mpls label-switched-path mcast-selective-template p2mp
+set protocols mpls path primary-1
+set protocols mpls path primary-2
+set protocols mpls path secondary-1
+set protocols mpls path secondary-2
+set protocols mpls interface all
+set protocols mpls interface fxp0.0 disable
+set protocols mpls interface ge-0/0/4.114 admin-group green
+set protocols mpls interface ge-0/0/4.118 admin-group red
+set protocols mpls interface ae0.0 admin-group green
+set protocols mpls interface ae0.0 admin-group red
+set protocols bgp group IX log-updown
+set protocols bgp group IX import default-filter
+set protocols bgp group IX import IX-filter
+set protocols bgp group IX export IX-export
+set protocols bgp group IX peer-as 1620
+set protocols bgp group IX neighbor 192.168.1.3
+set protocols bgp group IX neighbor 192.168.1.4
+set protocols bgp group ibgp type internal
+set protocols bgp group ibgp local-address 172.30.5.1
+set protocols bgp group ibgp import rtbh
+set protocols bgp group ibgp family inet unicast
+set protocols bgp group ibgp family inet-vpn unicast
+set protocols bgp group ibgp family inet6 labeled-unicast explicit-null
+set protocols bgp group ibgp family evpn signaling
+set protocols bgp group ibgp family inet-mvpn signaling
+set protocols bgp group ibgp family route-target
+set protocols bgp group ibgp authentication-key "$9$WA/XNbiHmTQn4ajq"
+set protocols bgp group ibgp bfd-liveness-detection minimum-interval 3000
+set protocols bgp group ibgp neighbor 172.30.5.41
+set protocols bgp group CE2 type external
+set protocols bgp group CE2 export default-only
+set protocols bgp group CE2 peer-as 64600
+set protocols bgp group CE2 neighbor 192.168.0.50
+set protocols isis reference-bandwidth 10g
+set protocols isis rib-group inet rr-inet0-inet3
+set protocols isis topologies ipv6-unicast
+set protocols isis level 2 disable
+set protocols isis level 1 authentication-key "$9$lw6v87ZGi.mTwYJD"
+set protocols isis level 1 authentication-type md5
+set protocols isis level 1 wide-metrics-only
+set protocols isis interface ge-0/0/4.114 ldp-synchronization
+set protocols isis interface ge-0/0/4.114 point-to-point
+set protocols isis interface ge-0/0/4.114 family inet bfd-liveness-detection minimum-interval 2000
+set protocols isis interface ge-0/0/4.114 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface ge-0/0/5.300 level 1 passive
+set protocols isis interface ae0.0 ldp-synchronization
+set protocols isis interface ae0.0 point-to-point
+set protocols isis interface ae0.0 family inet bfd-liveness-detection minimum-interval 2000
+set protocols isis interface ae0.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface all point-to-point
+set protocols isis interface all family inet bfd-liveness-detection minimum-interval 2000
+set protocols isis interface all family inet bfd-liveness-detection multiplier 3
+set protocols ldp track-igp-metric
+set protocols ldp egress-policy ldp-routes
+set protocols ldp deaggregate
+set protocols ldp explicit-null
+set protocols ldp interface ge-0/0/4.114
+set protocols ldp interface ae0.0
+set protocols ldp interface lo0.0
+set protocols ldp session 172.30.5.2 authentication-key "$9$qPT3REyKvLApIc"
+set protocols ldp session 172.30.5.4 authentication-key "$9$xI/-b2.mT3nCZUqf"
+set protocols pim rib-group inet mcast-rib
+set protocols pim rp bootstrap family inet priority 200
+set protocols pim rp local family inet address 172.30.5.254
+set protocols pim rp local family inet anycast-pim rp-set address 172.30.5.2
+set protocols pim rp local family inet anycast-pim local-address 172.30.5.1
+set protocols pim interface ge-0/0/4.114
+set protocols pim interface ge-0/0/4.118
+set protocols pim interface ae0.0
+set protocols pim interface lo0.0
+set protocols l2circuit neighbor 172.30.5.8 interface ge-0/0/3.512 virtual-circuit-id 512
+set protocols l2circuit neighbor 172.30.5.6 interface ge-0/0/3.513 virtual-circuit-id 513
 set policy-options prefix-list bgp-peers apply-path "protocols bgp group <*> neighbor <*>"
+set policy-options policy-statement C2-direct-routes term 1 from protocol direct
+set policy-options policy-statement C2-direct-routes term 1 from route-filter 172.30.5.253/32 exact
+set policy-options policy-statement C2-direct-routes term 1 then metric 10
+set policy-options policy-statement C2-direct-routes term 1 then accept
+set policy-options policy-statement C2-direct-routes term 2 from protocol direct
+set policy-options policy-statement C2-direct-routes term 2 then accept
+set policy-options policy-statement C2-hub-export term 1 from protocol bgp
+set policy-options policy-statement C2-hub-export term 1 from protocol direct
+set policy-options policy-statement C2-hub-export term 1 then community set CE2-hub
+set policy-options policy-statement C2-hub-export term 1 then community add C2-S1-origin
+set policy-options policy-statement C2-hub-export term 1 then accept
+set policy-options policy-statement C2-hub-import term 1 then reject
+set policy-options policy-statement C2-spoke-export then reject
+set policy-options policy-statement C2-spoke-import term reject-origin from protocol bgp
+set policy-options policy-statement C2-spoke-import term reject-origin from community C2-S1-origin
+set policy-options policy-statement C2-spoke-import term reject-origin then reject
+set policy-options policy-statement C2-spoke-import term 1 from protocol bgp
+set policy-options policy-statement C2-spoke-import term 1 from community CE2-spoke
+set policy-options policy-statement C2-spoke-import term 1 then accept
+set policy-options policy-statement IX-export term 1 from protocol bgp
+set policy-options policy-statement IX-export term 1 from community P1
+set policy-options policy-statement IX-export term 1 then reject
+set policy-options policy-statement IX-export term 2 from protocol aggregate
+set policy-options policy-statement IX-export term 2 from route-filter 172.30.0.0/16 exact
+set policy-options policy-statement IX-export term 2 then accept
+set policy-options policy-statement IX-filter term 1 from route-filter 0.0.0.0/0 prefix-length-range /8-/24
+set policy-options policy-statement IX-filter term 1 then community set IX
+set policy-options policy-statement IX-filter term 1 then accept
+set policy-options policy-statement IX-filter term 2 then reject
+set policy-options policy-statement default-filter term 1 from route-filter 0.0.0.0/0 through 0.0.0.0/32
+set policy-options policy-statement default-filter term 1 then reject
+set policy-options policy-statement default-only term 1 from protocol aggregate
+set policy-options policy-statement default-only term 1 from route-filter 0.0.0.0/0 exact
+set policy-options policy-statement default-only term 1 then accept
+set policy-options policy-statement default-only term 2 then reject
+set policy-options policy-statement ldp-routes term 1 from route-filter 192.168.1.0/24 exact
+set policy-options policy-statement ldp-routes term 1 from route-filter 172.30.5.1/32 exact
+set policy-options policy-statement ldp-routes term 1 then accept
+set policy-options policy-statement load-balance term 1 then load-balance per-packet
+set policy-options policy-statement rr-loopback-to-inet3 term 1 from route-filter 172.30.5.41/32 exact
+set policy-options policy-statement rr-loopback-to-inet3 term 1 to rib inet.3
+set policy-options policy-statement rr-loopback-to-inet3 term 1 then accept
+set policy-options policy-statement rr-loopback-to-inet3 term 2 to rib inet.3
+set policy-options policy-statement rr-loopback-to-inet3 term 2 then reject
+set policy-options policy-statement rtbh term 1 from community rtbh
+set policy-options policy-statement rtbh term 1 then next-hop discard
+set policy-options community C1 members 54591:64512
+set policy-options community C2 members 54591:64513
+set policy-options community C2-S1-origin members origin:54591:1
+set policy-options community C3 members 54591:64514
+set policy-options community CE2-hub members target:54591:200
+set policy-options community CE2-spoke members target:54591:201
+set policy-options community IX members 54591:1620
+set policy-options community P1 members 54591:1679
+set policy-options community P2 members 54591:53732
+set policy-options community P3 members 54591:43208
+set policy-options community rtbh members 6451.:666
+set class-of-service code-point-aliases dscp vpn-low 001010
+set class-of-service code-point-aliases dscp vpn-high 001100
+set class-of-service code-point-aliases dscp vpn-priority 101110
+set class-of-service code-point-aliases dscp be 000000
+set class-of-service code-point-aliases dscp nc 110000
+set class-of-service code-point-aliases exp vpn-low 010
+set class-of-service code-point-aliases exp vpn-high 011
+set class-of-service code-point-aliases exp vpn-priority 101
+set class-of-service code-point-aliases exp be 000
+set class-of-service drop-profiles low-drop interpolate fill-level 25
+set class-of-service drop-profiles low-drop interpolate fill-level 50
+set class-of-service drop-profiles low-drop interpolate fill-level 75
+set class-of-service drop-profiles low-drop interpolate drop-probability 5
+set class-of-service drop-profiles low-drop interpolate drop-probability 15
+set class-of-service drop-profiles low-drop interpolate drop-probability 40
+set class-of-service drop-profiles high-drop interpolate fill-level 25
+set class-of-service drop-profiles high-drop interpolate fill-level 50
+set class-of-service drop-profiles high-drop interpolate fill-level 75
+set class-of-service drop-profiles high-drop interpolate drop-probability 10
+set class-of-service drop-profiles high-drop interpolate drop-probability 30
+set class-of-service drop-profiles high-drop interpolate drop-probability 65
+set class-of-service forwarding-classes queue 0 best-effort
+set class-of-service forwarding-classes queue 1 vpn
+set class-of-service forwarding-classes queue 2 vpn-priority
+set class-of-service forwarding-classes queue 3 nc
+set class-of-service interfaces ge-0/0/4 unit * scheduler-map core-interfaces
+set class-of-service interfaces ge-0/0/4 unit * rewrite-rules dscp dscp-rewriter
+set class-of-service interfaces ge-0/0/4 unit * rewrite-rules exp mpls-rewriter protocol mpls-inet-both
+set class-of-service interfaces ae0 unit * scheduler-map core-interfaces
+set class-of-service interfaces ae0 unit * rewrite-rules dscp dscp-rewriter
+set class-of-service interfaces ae0 unit * rewrite-rules exp mpls-rewriter protocol mpls-inet-both
+set class-of-service rewrite-rules dscp dscp-rewriter forwarding-class best-effort loss-priority low code-point be
+set class-of-service rewrite-rules dscp dscp-rewriter forwarding-class vpn loss-priority low code-point vpn-low
+set class-of-service rewrite-rules dscp dscp-rewriter forwarding-class vpn loss-priority high code-point vpn-high
+set class-of-service rewrite-rules dscp dscp-rewriter forwarding-class vpn-priority loss-priority low code-point vpn-priority
+set class-of-service rewrite-rules dscp dscp-rewriter forwarding-class nc loss-priority low code-point nc
+set class-of-service rewrite-rules exp mpls-rewriter forwarding-class best-effort loss-priority low code-point be
+set class-of-service rewrite-rules exp mpls-rewriter forwarding-class vpn loss-priority low code-point vpn-low
+set class-of-service rewrite-rules exp mpls-rewriter forwarding-class vpn loss-priority high code-point vpn-high
+set class-of-service rewrite-rules exp mpls-rewriter forwarding-class vpn-priority loss-priority low code-point vpn-priority
+set class-of-service scheduler-maps core-interfaces forwarding-class best-effort scheduler be-sc-q0
+set class-of-service scheduler-maps core-interfaces forwarding-class nc scheduler nc-sc-q3
+set class-of-service scheduler-maps core-interfaces forwarding-class vpn scheduler vpn-sc-q1
+set class-of-service scheduler-maps core-interfaces forwarding-class vpn-priority scheduler vpn-prio-sc-q2
+set class-of-service schedulers be-sc-q0 transmit-rate remainder
+set class-of-service schedulers be-sc-q0 buffer-size remainder
+set class-of-service schedulers be-sc-q0 priority low
+set class-of-service schedulers be-sc-q0 drop-profile-map loss-priority any protocol any drop-profile high-drop
+set class-of-service schedulers vpn-sc-q1 transmit-rate percent 20
+set class-of-service schedulers vpn-sc-q1 buffer-size percent 20
+set class-of-service schedulers vpn-sc-q1 priority medium-low
+set class-of-service schedulers vpn-sc-q1 drop-profile-map loss-priority low protocol any drop-profile low-drop
+set class-of-service schedulers vpn-sc-q1 drop-profile-map loss-priority high protocol any drop-profile high-drop
+set class-of-service schedulers vpn-prio-sc-q2 transmit-rate percent 10
+set class-of-service schedulers vpn-prio-sc-q2 buffer-size temporal 5k
+set class-of-service schedulers vpn-prio-sc-q2 priority medium-high
+set class-of-service schedulers nc-sc-q3 transmit-rate percent 5
+set class-of-service schedulers nc-sc-q3 buffer-size percent 5
+set class-of-service schedulers nc-sc-q3 priority high
 set firewall family inet filter protect-re term ah from protocol ah
 set firewall family inet filter protect-re term ah then accept
 set firewall family inet filter protect-re term bfd from protocol udp
 set firewall family inet filter protect-re term bfd from port 3784
+set firewall family inet filter protect-re term bfd from port 4784
 set firewall family inet filter protect-re term bfd then accept
 set firewall family inet filter protect-re term vrrp from protocol vrrp
 set firewall family inet filter protect-re term vrrp then accept
@@ -161,9 +459,64 @@ set firewall family inet filter protect-re term traceroute from protocol udp
 set firewall family inet filter protect-re term traceroute from port 33434-33534
 set firewall family inet filter protect-re term traceroute then policer re-policer
 set firewall family inet filter protect-re term traceroute then accept
+set firewall family inet filter protect-re term lsp-ping from protocol udp
+set firewall family inet filter protect-re term lsp-ping from port 3503
+set firewall family inet filter protect-re term lsp-ping then policer re-policer
+set firewall family inet filter protect-re term lsp-ping then accept
 set firewall family inet filter protect-re term last then count dropped-packets
 set firewall family inet filter protect-re term last then log
 set firewall family inet filter protect-re term last then discard
 set firewall policer re-policer if-exceeding bandwidth-limit 100k
 set firewall policer re-policer if-exceeding burst-size-limit 25k
 set firewall policer re-policer then discard
+set routing-instances C2-hub instance-type vrf
+set routing-instances C2-hub interface ge-0/0/5.311
+set routing-instances C2-hub interface lo0.1
+set routing-instances C2-hub vrf-import C2-hub-import
+set routing-instances C2-hub vrf-export C2-hub-export
+set routing-instances C2-hub vrf-table-label
+set routing-instances C2-hub protocols bgp group ce peer-as 64600
+set routing-instances C2-hub protocols bgp group ce neighbor 192.168.0.42
+set routing-instances C2-spoke instance-type vrf
+set routing-instances C2-spoke interface ge-0/0/5.312
+set routing-instances C2-spoke interface lo0.2
+set routing-instances C2-spoke provider-tunnel rsvp-te label-switched-path-template mcast-p2mp-template
+set routing-instances C2-spoke provider-tunnel selective tunnel-limit 5
+set routing-instances C2-spoke provider-tunnel selective group 239.0.0.1/32 source 172.31.64.0/21 rsvp-te label-switched-path-template mcast-selective-template
+set routing-instances C2-spoke provider-tunnel selective group 239.0.0.1/32 source 172.31.64.0/21 threshold-rate 100000
+set routing-instances C2-spoke provider-tunnel selective group 239.0.0.2/32 source 172.31.64.0/21 rsvp-te label-switched-path-template mcast-selective-template
+set routing-instances C2-spoke provider-tunnel selective group 239.0.0.2/32 source 172.31.64.0/21 threshold-rate 100000
+set routing-instances C2-spoke vrf-import C2-spoke-import
+set routing-instances C2-spoke vrf-export C2-spoke-export
+set routing-instances C2-spoke vrf-table-label
+set routing-instances C2-spoke protocols bgp group ce export C2-direct-routes
+set routing-instances C2-spoke protocols bgp group ce peer-as 64600
+set routing-instances C2-spoke protocols bgp group ce as-override
+set routing-instances C2-spoke protocols bgp group ce neighbor 192.168.0.46
+set routing-instances C2-spoke protocols pim rp local address 172.30.5.253
+set routing-instances C2-spoke protocols pim rp local group-ranges 239.0.0.0/24
+set routing-instances C2-spoke protocols pim interface all
+set routing-instances C2-spoke protocols mvpn sender-site
+set routing-instances C2-spoke protocols mvpn mvpn-mode spt-only
+set routing-instances C2-spoke protocols mvpn route-target import-target target target:54591:202
+set routing-instances C2-spoke protocols mvpn route-target export-target target target:54591:202
+set routing-instances C6-vpls instance-type vpls
+set routing-instances C6-vpls vlan-id all
+set routing-instances C6-vpls interface ge-0/0/3.700
+set routing-instances C6-vpls interface ge-0/0/3.701
+set routing-instances C6-vpls protocols vpls encapsulation-type ethernet-vlan
+set routing-instances C6-vpls protocols vpls mac-table-size 100
+set routing-instances C6-vpls protocols vpls mac-table-size packet-action drop
+set routing-instances C6-vpls protocols vpls interface-mac-limit 100
+set routing-instances C6-vpls protocols vpls no-tunnel-services
+set routing-instances C6-vpls protocols vpls vpls-id 600
+set routing-instances C6-vpls protocols vpls neighbor 172.30.5.6
+set routing-instances C6-vpls protocols vpls neighbor 172.30.5.7 revert-time 60
+set routing-instances C6-vpls protocols vpls neighbor 172.30.5.7 backup-neighbor 172.30.5.8
+set routing-instances evpn1 instance-type evpn
+set routing-instances evpn1 vlan-id 800
+set routing-instances evpn1 interface ae1.800
+set routing-instances evpn1 routing-interface irb.1
+set routing-instances evpn1 route-distinguisher 172.30.5.1:1000
+set routing-instances evpn1 vrf-target target:54591:1000
+set routing-instances evpn1 protocols evpn interface ae1.800
