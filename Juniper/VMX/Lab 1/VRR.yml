@@ -1,23 +1,96 @@
 set system login user lab uid 2000
 set system login user lab class super-user
 set system login user lab authentication encrypted-password "$1$8ib./Y8c$SnCPbb2Hu0eZwEaEpytgl1"
-set system root-authentication encrypted-password "$6$/ylsvU14$iEHtVbzd1W1QozzWzy9lhWC9Ts96.y3TkiGD4WddrQUupY8wtmg87Kudus3X.dubOV729BAW6NQ5baY9Y9NDf0"
+set system root-authentication encrypted-password "$1$BQtuYPYE$ifj.GQntHmhwL.Bbadh/o/"
 set system host-name route-reflector
 set system services ftp
 set system services ssh
 set system services telnet
+set system syslog user * any emergency
 set system syslog user * match "!(.*Scheduler Oinker*.|.*Frame 0*.|.*ms without yielding*.)"
 set system syslog file messages any any
 set system syslog file messages authorization info
 set system syslog file interactive-commands interactive-commands any
+set system syslog console pfe none
 set system ntp boot-server 10.10.1.100
 set system ntp server 10.10.1.100
 set chassis fpc 0 lite-mode
 set interfaces ge-0/0/1 vlan-tagging
 set interfaces ge-0/0/1 unit 206 vlan-id 206
 set interfaces ge-0/0/1 unit 206 family inet address 172.30.0.66/30
+set interfaces ge-0/0/1 unit 206 family iso
 set interfaces ge-0/0/1 unit 207 vlan-id 207
 set interfaces ge-0/0/1 unit 207 family inet address 172.30.0.70/30
+set interfaces ge-0/0/1 unit 207 family iso
 set interfaces fxp0 unit 0 description "OoB management connection"
 set interfaces fxp0 unit 0 family inet address 10.10.1.19/24
 set interfaces lo0 unit 0 family inet address 172.30.5.41/32
+set interfaces lo0 unit 0 family iso address 49.0001.1720.3000.5041.00
+set routing-options rib inet6.3 static route 0:0:0:0:0:ffff::/96 receive
+set routing-options rib inet.3 static route 172.30.5.0/24 receive
+set routing-options autonomous-system 54591
+set routing-options autonomous-system loops 3
+set protocols bgp disable-4byte-as
+set protocols bgp group cluster-1 type internal
+set protocols bgp group cluster-1 local-address 172.30.5.41
+set protocols bgp group cluster-1 family inet unicast
+set protocols bgp group cluster-1 family inet labeled-unicast rib inet.3
+set protocols bgp group cluster-1 family inet-vpn unicast
+set protocols bgp group cluster-1 family inet6 labeled-unicast explicit-null
+set protocols bgp group cluster-1 family inet6-vpn unicast
+set protocols bgp group cluster-1 family l2vpn signaling
+set protocols bgp group cluster-1 family evpn signaling
+set protocols bgp group cluster-1 family inet-mvpn signaling
+set protocols bgp group cluster-1 family route-target
+set protocols bgp group cluster-1 authentication-key "$9$JmUi.AtOREyQFCu"
+set protocols bgp group cluster-1 cluster 0.0.0.1
+set protocols bgp group cluster-1 bfd-liveness-detection minimum-interval 3000
+set protocols bgp group cluster-1 neighbor 172.30.5.1
+set protocols bgp group cluster-1 bfd-liveness-detection minimum-interval 3000
+set protocols bgp group cluster-1 neighbor 172.30.5.1
+set protocols bgp group cluster-1 neighbor 172.30.5.6
+set protocols bgp group cluster-1 neighbor 172.30.5.7
+set protocols bgp group cluster-1 neighbor 172.30.5.8
+set protocols bgp group cluster-2 type internal
+set protocols bgp group cluster-2 local-address 172.30.5.41
+set protocols bgp group cluster-2 family inet unicast
+set protocols bgp group cluster-2 family inet labeled-unicast rib inet.3
+set protocols bgp group cluster-2 family inet-vpn unicast
+set protocols bgp group cluster-2 family inet6 labeled-unicast explicit-null
+set protocols bgp group cluster-2 family inet6-vpn unicast
+set protocols bgp group cluster-2 family l2vpn signaling
+set protocols bgp group cluster-2 family evpn signaling
+set protocols bgp group cluster-2 family inet-mvpn signaling
+set protocols bgp group cluster-2 family route-target
+set protocols bgp group cluster-2 authentication-key "$9$ZLDHmtpBEhrz3A0"
+set protocols bgp group cluster-2 cluster 0.0.0.2
+set protocols bgp group cluster-2 bfd-liveness-detection minimum-interval 3000
+set protocols bgp group cluster-2 neighbor 172.30.5.2
+set protocols bgp group cluster-2 neighbor 172.30.5.3
+set protocols bgp group cluster-2 neighbor 172.30.5.4
+set protocols bgp group cluster-2 neighbor 172.30.5.5
+set protocols bgp group P3-remote-pe multihop no-nexthop-change
+set protocols bgp group P3-remote-pe local-address 172.30.5.41
+set protocols bgp group P3-remote-pe import C5-vpn-target-import
+set protocols bgp group P3-remote-pe family l2vpn signaling
+set protocols bgp group P3-remote-pe export C5-vpn-target-export
+set protocols bgp group P3-remote-pe peer-as 23456
+set protocols bgp group P3-remote-pe neighbor 172.17.47.3
+set protocols isis level 2 disable
+set protocols isis level 1 authentication-key "$9$km5FIRSeK8Ct1h"
+set protocols isis level 1 authentication-type md5
+set protocols isis interface all point-to-point
+set protocols isis interface all family inet bfd-liveness-detection minimum-interval 2000
+set protocols isis interface all family inet bfd-liveness-detection multiplier 3
+set policy-options policy-statement C5-vpn-target-export term 1 from protocol bgp
+set policy-options policy-statement C5-vpn-target-export term 1 from community CE5
+set policy-options policy-statement C5-vpn-target-export term 1 then community delete CE5
+set policy-options policy-statement C5-vpn-target-export term 1 then community add CE5-remote
+set policy-options policy-statement C5-vpn-target-export term 1 then accept
+set policy-options policy-statement C5-vpn-target-import term 1 from protocol bgp
+set policy-options policy-statement C5-vpn-target-import term 1 from community CE5-remote
+set policy-options policy-statement C5-vpn-target-import term 1 then community delete CE5-remote
+set policy-options policy-statement C5-vpn-target-import term 1 then community add CE5
+set policy-options policy-statement C5-vpn-target-import term 1 then accept
+set policy-options community CE5 members target:54591:501
+set policy-options community CE5-remote members target:43208:500
