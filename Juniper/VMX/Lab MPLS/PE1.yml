@@ -1,0 +1,61 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 172.16.1.1/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 172.16.6.2/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family inet6
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/2 flexible-vlan-tagging
+set interfaces ge-0/0/2 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/2 unit 23 encapsulation vlan-bridge
+set interfaces ge-0/0/2 unit 23 vlan-id 23
+set interfaces ge-0/0/2 unit 23 family bridge
+set interfaces ge-0/0/3 unit 0 family inet address 172.16.2.9/30
+set interfaces ge-0/0/3 unit 0 family iso
+set interfaces ge-0/0/3 unit 0 family inet6
+set interfaces ge-0/0/3 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+set interfaces lo0 unit 0 family iso address 49.0000.1111.1111.1111.00
+set interfaces lo0 unit 0 family inet6
+set interfaces lo0 unit 0 family mpls
+set policy-options policy-statement NHS term 1 from protocol bgp
+set policy-options policy-statement NHS term 1 then next-hop self
+set routing-instances COMPANY-A instance-type evpn
+set routing-instances COMPANY-A vlan-id 23
+set routing-instances COMPANY-A interface ge-0/0/2.23
+set routing-instances COMPANY-A route-distinguisher 1.1.1.1:1
+set routing-instances COMPANY-A vrf-target target:65400:1
+set routing-instances COMPANY-A protocols evpn interface ge-0/0/2.23
+set routing-instances COMPANY-A protocols evpn label-allocation per-instance
+set routing-options router-id 1.1.1.1
+set routing-options autonomous-system 65400
+set protocols ldp track-igp-metric
+set protocols ldp interface ge-0/0/0.0
+set protocols ldp interface ge-0/0/1.0
+set protocols ldp interface lo0.0
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 1.1.1.1
+set protocols bgp group INTERNAL family inet unicast
+set protocols bgp group INTERNAL family inet-vpn unicast
+set protocols bgp group INTERNAL family inet6 labeled-unicast explicit-null
+set protocols bgp group INTERNAL family inet6-vpn unicast
+set protocols bgp group INTERNAL family l2vpn signaling
+set protocols bgp group INTERNAL family evpn signaling
+set protocols bgp group INTERNAL export NHS
+set protocols bgp group INTERNAL export send-v6
+set protocols bgp group INTERNAL neighbor 2.2.2.2
+set protocols bgp group INTERNAL neighbor 6.6.6.6
+set protocols bgp group INTERNAL neighbor 7.7.7.7
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface ge-0/0/3.0
+set protocols isis interface lo0.0
+set protocols mpls ipv6-tunneling
+set protocols mpls icmp-tunneling
+set protocols mpls interface lo0.0
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface ge-0/0/1.0

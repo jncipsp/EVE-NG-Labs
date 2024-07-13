@@ -1,0 +1,36 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 172.28.1.1/31
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 172.28.1.2/31
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 9.9.9.9/32
+set interfaces lo0 unit 0 family iso address 49.0001.9999.9999.9999.00
+set interfaces lo0 unit 0 family mpls
+set policy-options policy-statement EXP_LOOPBACK from route-filter 11.11.11.11/32 exact
+set policy-options policy-statement EXP_LOOPBACK then accept
+set policy-options policy-statement NHS term 1 from protocol bgp
+set policy-options policy-statement NHS term 1 then next-hop self
+set routing-options router-id 172.28.1.1
+set routing-options autonomous-system 65100
+set protocols bgp group EXTERNAL family inet labeled-unicast
+set protocols bgp group EXTERNAL export EXP_LOOPBACK
+set protocols bgp group EXTERNAL neighbor 172.28.1.0 peer-as 65400
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 9.9.9.9
+set protocols bgp group INTERNAL family inet labeled-unicast
+set protocols bgp group INTERNAL export NHS
+set protocols bgp group INTERNAL neighbor 10.10.10.10
+set protocols bgp group INTERNAL neighbor 11.11.11.11 family inet labeled-unicast
+set protocols isis source-packet-routing srgb start-label 1000
+set protocols isis source-packet-routing srgb index-range 5000
+set protocols isis source-packet-routing node-segment ipv4-index 25
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface lo0.0
+set protocols mpls traffic-engineering mpls-forwarding
+set protocols mpls icmp-tunneling
+set protocols mpls interface ge-0/0/1.0
+set protocols mpls interface lo0.0
+set protocols mpls interface ge-0/0/0.0

@@ -1,0 +1,70 @@
+set interfaces ge-0/0/0 unit 0 family inet address 172.16.3.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 172.16.4.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/2 flexible-vlan-tagging
+set interfaces ge-0/0/2 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/2 unit 23 encapsulation vlan-bridge
+set interfaces ge-0/0/2 unit 23 vlan-id 23
+set interfaces ge-0/0/2 unit 23 family bridge
+set interfaces ge-0/0/4 unit 0 family inet address 172.16.5.9/30
+set interfaces ge-0/0/4 unit 0 family iso
+set interfaces ge-0/0/4 unit 0 family mpls
+set interfaces ge-0/0/5 vlan-tagging
+set interfaces ge-0/0/5 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/5 unit 3333 encapsulation vlan-vpls
+set interfaces ge-0/0/5 unit 3333 vlan-id 3333
+set interfaces ge-0/0/5 unit 3333 family vpls
+set interfaces lo0 unit 0 family inet address 4.4.4.4/32
+set interfaces lo0 unit 0 family iso address 49.0000.4444.4444.4444.00
+set interfaces lo0 unit 0 family mpls
+set policy-options policy-statement NHS term 1 from protocol bgp
+set policy-options policy-statement NHS term 1 then next-hop self
+set routing-instances COMPANY-A instance-type evpn
+set routing-instances COMPANY-A vlan-id 23
+set routing-instances COMPANY-A interface ge-0/0/2.23
+set routing-instances COMPANY-A route-distinguisher 4.4.4.4:1
+set routing-instances COMPANY-A vrf-target target:65400:1
+set routing-instances COMPANY-A protocols evpn interface ge-0/0/2.23
+set routing-instances COMPANY-B instance-type vpls
+set routing-instances COMPANY-B interface ge-0/0/5.3333
+set routing-instances COMPANY-B route-distinguisher 4.4.4.4:2
+set routing-instances COMPANY-B vrf-target target:65400:2
+set routing-instances COMPANY-B protocols vpls site-range 10
+set routing-instances COMPANY-B protocols vpls no-tunnel-services
+set routing-instances COMPANY-B protocols vpls site COMPANY-B1 site-identifier 2
+set routing-instances COMPANY-B protocols vpls site COMPANY-B1 interface ge-0/0/5.3333
+set routing-options router-id 4.4.4.4
+set routing-options autonomous-system 65400
+set protocols ldp track-igp-metric
+set protocols ldp interface ge-0/0/0.0
+set protocols ldp interface ge-0/0/1.0
+set protocols ldp interface lo0.0
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 4.4.4.4
+set protocols bgp group INTERNAL family inet unicast
+set protocols bgp group INTERNAL family inet-vpn unicast
+set protocols bgp group INTERNAL family inet6 unicast
+set protocols bgp group INTERNAL family inet6-vpn unicast
+set protocols bgp group INTERNAL family l2vpn signaling
+set protocols bgp group INTERNAL family evpn signaling
+set protocols bgp group INTERNAL export NHS
+set protocols bgp group INTERNAL neighbor 3.3.3.3
+set protocols bgp group INTERNAL neighbor 5.5.5.5
+set protocols bgp group INTERNAL neighbor 8.8.8.8
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface ge-0/0/4.0
+set protocols isis interface lo0.0
+set protocols rsvp interface lo0.0
+set protocols rsvp interface ge-0/0/0.0
+set protocols rsvp interface ge-0/0/1.0
+set protocols mpls ipv6-tunneling
+set protocols mpls label-switched-path TO_PE2 to 6.6.6.6
+set protocols mpls interface lo0.0
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface ge-0/0/1.0

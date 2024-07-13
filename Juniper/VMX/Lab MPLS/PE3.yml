@@ -1,0 +1,70 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 172.16.2.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 172.16.3.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family inet6
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/4 unit 0 family inet address 172.16.2.13/30
+set interfaces ge-0/0/4 unit 0 family iso
+set interfaces ge-0/0/4 unit 0 family mpls
+set interfaces ge-0/0/5 unit 0 family inet address 22.22.22.1/30
+set interfaces ge-0/0/9 unit 0 family inet address 172.28.1.0/31
+set interfaces ge-0/0/9 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 3.3.3.3/32
+set interfaces lo0 unit 0 family iso address 49.0000.3333.3333.3333.00
+set interfaces lo0 unit 0 family mpls
+set policy-options policy-statement EXP_LOOPBACK term 1 from interface lo0.0
+set policy-options policy-statement EXP_LOOPBACK term 1 then accept
+set policy-options policy-statement NHS term 1 from protocol bgp
+set policy-options policy-statement NHS term 1 then next-hop self
+set routing-instances COMPANY-C instance-type vrf
+set routing-instances COMPANY-C interface ge-0/0/5.0
+set routing-instances COMPANY-C route-distinguisher 3.3.3.3:3
+set routing-instances COMPANY-C vrf-target target:65400:3
+set routing-instances COMPANY-C vrf-table-label
+set routing-instances COMPANY-C protocols bgp group COMPANY-C type external
+set routing-instances COMPANY-C protocols bgp group COMPANY-C as-override
+set routing-instances COMPANY-C protocols bgp group COMPANY-C neighbor 22.22.22.2
+set routing-instances COMPANY-C protocols bgp peer-as 65222
+set routing-options router-id 3.3.3.3
+set routing-options autonomous-system 65400
+set protocols router-advertisement interface ge-0/0/2.0
+set protocols ldp track-igp-metric
+set protocols ldp interface ge-0/0/0.0
+set protocols ldp interface ge-0/0/1.0
+set protocols ldp interface lo0.0
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 3.3.3.3
+set protocols bgp group INTERNAL family inet unicast
+set protocols bgp group INTERNAL family inet-vpn unicast
+set protocols bgp group INTERNAL family inet6 labeled-unicast explicit-null
+set protocols bgp group INTERNAL family inet6-vpn unicast
+set protocols bgp group INTERNAL family l2vpn signaling
+set protocols bgp group INTERNAL family evpn signaling
+set protocols bgp group INTERNAL export NHS
+set protocols bgp group INTERNAL export send-v6
+set protocols bgp group INTERNAL neighbor 2.2.2.2
+set protocols bgp group INTERNAL neighbor 4.4.4.4
+set protocols bgp group INTERNAL neighbor 8.8.8.8
+set protocols bgp group EXTERNAL family inet labeled-unicast resolve-vpn
+set protocols bgp group EXTERNAL family inet-vpn unicast
+set protocols bgp group EXTERNAL export EXP_LOOPBACK
+set protocols bgp group EXTERNAL neighbor 172.28.1.1 peer-as 65100
+set protocols bgp group EXTERNAL neighbor 11.11.11.11 multihop
+set protocols bgp group EXTERNAL neighbor 11.11.11.11 peer-as 65100
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface ge-0/0/4.0
+set protocols isis interface lo0.0
+set protocols mpls traffic-engineering mpls-forwarding
+set protocols mpls ipv6-tunneling
+set protocols mpls icmp-tunneling
+set protocols mpls interface lo0.0
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface ge-0/0/1.0
+set protocols mpls interface ge-0/0/9.0
