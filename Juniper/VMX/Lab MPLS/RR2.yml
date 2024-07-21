@@ -1,0 +1,42 @@
+set interfaces ge-0/0/0 unit 0 family inet address 172.16.2.14/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6
+set interfaces ge-0/0/1 unit 0 family inet address 172.16.5.10/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family inet6
+set interfaces ge-0/0/2 unit 0 family inet address 172.16.7.2/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.8888.8888.00
+set routing-options rib inet6.0 static route 0::0/0 discard
+set routing-options resolution rib bgp.evpn.0 resolution-ribs inet.0
+set routing-options resolution rib bgp.l2vpn.0 resolution-ribs inet.0
+set routing-options router-id 8.8.8.8
+set routing-options autonomous-system 65400
+set protocols bgp group RR type internal
+set protocols bgp group RR local-address 8.8.8.8
+set protocols bgp group RR family inet unicast
+set protocols bgp group RR family inet-vpn unicast
+set protocols bgp group RR family inet6 labeled-unicast explicit-null
+set protocols bgp group RR family inet6-vpn unicast
+set protocols bgp group RR family l2vpn signaling
+set protocols bgp group RR family evpn signaling
+set protocols bgp group RR cluster 8.8.8.8
+set protocols bgp group RR neighbor 7.7.7.7
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 8.8.8.8
+set protocols bgp group INTERNAL family inet unicast
+set protocols bgp group INTERNAL family inet-vpn unicast
+set protocols bgp group INTERNAL family inet6 labeled-unicast explicit-null
+set protocols bgp group INTERNAL family inet6-vpn unicast
+set protocols bgp group INTERNAL family l2vpn signaling
+set protocols bgp group INTERNAL family evpn signaling
+set protocols bgp group INTERNAL cluster 8.8.8.8
+set protocols bgp group INTERNAL neighbor 3.3.3.3
+set protocols bgp group INTERNAL neighbor 4.4.4.4
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface ge-0/0/2.0
+set protocols isis interface lo0.0
