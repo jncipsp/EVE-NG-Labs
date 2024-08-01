@@ -1,0 +1,31 @@
+set interfaces et-0/0/0 unit 0 family inet address 3.3.3.2/30
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/1 flexible-vlan-tagging
+set interfaces et-0/0/1 encapsulation flexible-ethernet-services
+set interfaces et-0/0/1 unit 22 encapsulation vlan-bridge
+set interfaces et-0/0/1 unit 22 vlan-id 22
+set interfaces et-0/0/1 unit 22 family ethernet-switching
+set interfaces lo0 unit 0 family inet address 2.2.2.2/32
+set interfaces lo0 unit 0 family iso address 49.0000.2222.0000.0000.00
+set policy-options policy-statement nhs term 1 from protocol bgp
+set policy-options policy-statement nhs term 1 then next-hop self
+set routing-instances VXLAN instance-type mac-vrf
+set routing-instances VXLAN protocols evpn encapsulation vxlan
+set routing-instances VXLAN protocols evpn extended-vni-list all
+set routing-instances VXLAN protocols evpn multicast-mode ingress-replication
+set routing-instances VXLAN vtep-source-interface lo0.0
+set routing-instances VXLAN service-type vlan-aware
+set routing-instances VXLAN interface et-0/0/1.22
+set routing-instances VXLAN route-distinguisher 2.2.2.2:1
+set routing-instances VXLAN vrf-target target:65400:1
+set routing-instances VXLAN vlans test vlan-id 22
+set routing-instances VXLAN vlans test interface et-0/0/1.22
+set routing-instances VXLAN vlans test vxlan vni 22000
+set routing-options router-id 2.2.2.2
+set routing-options autonomous-system 65400
+set protocols bgp group VXLAN type internal
+set protocols bgp group VXLAN local-address 2.2.2.2
+set protocols bgp group VXLAN family evpn signaling
+set protocols bgp group VXLAN export nhs
+set protocols bgp group VXLAN neighbor 1.1.1.1
+set protocols isis interface all
