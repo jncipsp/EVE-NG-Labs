@@ -5,28 +5,27 @@ set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family inet address 4.4.4.1/30
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM67169E9B2A
 set interfaces lo0 unit 0 family inet address 6.6.6.6/32
 set interfaces lo0 unit 0 family iso address 49.0000.6666.0000.0000.00
 set interfaces lo0 unit 0 family mpls
-set policy-options policy-statement NHS term 1 from protocol bgp
-set policy-options policy-statement NHS term 1 then next-hop self
 set routing-options router-id 6.6.6.6
 set routing-options autonomous-system 65400
+set routing-options resolution rib bgp.evpn.0 resolution-ribs inet.0
+set protocols mpls interface all
 set protocols bgp group VPWS type internal
 set protocols bgp group VPWS local-address 6.6.6.6
 set protocols bgp group VPWS family evpn signaling
-set protocols bgp group VPWS export NHS
 set protocols bgp group VPWS cluster 6.6.6.6
 set protocols bgp group VPWS neighbor 5.5.5.5
 set protocols bgp group VPWS neighbor 8.8.8.8
-set protocols isis interface ge-0/0/0.0
-set protocols isis interface ge-0/0/1.0
-set protocols isis interface lo0.0 passive
 set protocols isis source-packet-routing srgb start-label 16000
 set protocols isis source-packet-routing srgb index-range 9000
 set protocols isis source-packet-routing node-segment ipv4-index 600
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
-set protocols mpls interface ge-0/0/0.0
-set protocols mpls interface ge-0/0/1.0
-set protocols mpls interface lo0.0
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface lo0.0 passive
+set policy-options policy-statement NHS term 1 from protocol bgp
+set policy-options policy-statement NHS term 1 then next-hop self
