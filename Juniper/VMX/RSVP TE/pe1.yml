@@ -15,11 +15,16 @@ set interfaces ge-0/0/3 unit 0 family iso
 set interfaces lo0 unit 0 family inet address 5.5.5.5/32
 set interfaces lo0 unit 0 family iso address 49.0000.5555.0000.0000.00
 set interfaces lo0 unit 0 family mpls
+set routing-instances VPLS instance-type vpls
+set routing-instances VPLS interface ge-0/0/2.777
+set routing-instances VPLS route-distinguisher 5.5.5.5:1
+set routing-instances VPLS vrf-target target:65400:1
+set routing-instances VPLS protocols vpls site-range 1000
+set routing-instances VPLS protocols vpls no-tunnel-services
+set routing-instances VPLS protocols vpls site VPLS-1 site-identifier 1
+set routing-instances VPLS protocols vpls site VPLS-1 interface ge-0/0/2.777
 set routing-options router-id 5.5.5.5
 set routing-options autonomous-system 65400
-set protocols mpls interface lo0.0
-set protocols mpls interface ge-0/0/0.0
-set protocols mpls interface ge-0/0/1.0
 set protocols bgp group VPLS type internal
 set protocols bgp group VPLS local-address 5.5.5.5
 set protocols bgp group VPLS family l2vpn signaling
@@ -30,11 +35,10 @@ set protocols isis interface ge-0/0/0.0
 set protocols isis interface ge-0/0/1.0
 set protocols isis interface ge-0/0/3.0
 set protocols isis interface lo0.0
-set routing-instances VPLS instance-type vpls
-set routing-instances VPLS interface ge-0/0/2.777
-set routing-instances VPLS route-distinguisher 5.5.5.5:1
-set routing-instances VPLS vrf-target target:65400:1
-set routing-instances VPLS protocols vpls site-range 1000
-set routing-instances VPLS protocols vpls no-tunnel-services
-set routing-instances VPLS protocols vpls site VPLS-1 site-identifier 1
-set routing-instances VPLS protocols vpls site VPLS-1 interface ge-0/0/2.777
+set protocols rsvp interface lo0.0
+set protocols rsvp interface ge-0/0/0.0
+set protocols rsvp interface ge-0/0/1.0
+set protocols mpls label-switched-path TOPE3 to 8.8.8.8
+set protocols mpls interface lo0.0
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface ge-0/0/1.0
