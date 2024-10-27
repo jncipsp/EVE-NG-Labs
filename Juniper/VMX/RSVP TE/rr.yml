@@ -13,12 +13,16 @@ set interfaces lo0 unit 0 family iso address 49.0000.1010.0000.0000.00
 set routing-options rib inet.3 static route 0.0.0.0/0 discard
 set routing-options router-id 10.10.10.10
 set routing-options autonomous-system 65400
-set protocols bgp group VPLS type internal
-set protocols bgp group VPLS local-address 10.10.10.10
-set protocols bgp group VPLS family l2vpn signaling
-set protocols bgp group VPLS cluster 10.10.10.10
-set protocols bgp group VPLS neighbor 5.5.5.5
-set protocols bgp group VPLS neighbor 8.8.8.8
+set protocols bgp group VPN type internal
+set protocols bgp group VPN local-address 10.10.10.10
+set protocols bgp group VPN family inet-vpn unicast
+set protocols bgp group VPN family l2vpn signaling
+set protocols bgp group VPN cluster 10.10.10.10
+set protocols bgp group VPN neighbor 5.5.5.5
+set protocols bgp group VPN neighbor 8.8.8.8
+set protocols bgp group VPN neighbor 9.9.9.9
+set protocols bgp group VPN neighbor 6.6.6.6
+set protocols bgp group VPN neighbor 7.7.7.7
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
 set protocols isis interface ge-0/0/0.0

@@ -7,9 +7,23 @@ set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family mpls
 set interfaces ge-0/0/2 unit 0 family inet address 1.5.5.1/30
 set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/3 unit 0 family inet address 11.11.11.1/24
 set interfaces lo0 unit 0 family inet address 7.7.7.7/32
 set interfaces lo0 unit 0 family iso address 49.0000.7777.0000.0000.00
 set interfaces lo0 unit 0 family mpls
+set routing-instances L3VPN instance-type vrf
+set routing-instances L3VPN interface ge-0/0/3.0
+set routing-instances L3VPN route-distinguisher 7.7.7.7:1
+set routing-instances L3VPN vrf-target target:65400:1
+set routing-instances L3VPN vrf-table-label
+set routing-instances L3VPN protocols bgp group L3VPN type external
+set routing-instances L3VPN protocols bgp group L3VPN as-override
+set routing-instances L3VPN protocols bgp group L3VPN neighbor 11.11.11.254 peer-as 65444
+set routing-options router-id 7.7.7.7
+set routing-options autonomous-system 65400
+set protocols bgp group L3VPN type internal
+set protocols bgp group L3VPN family inet-vpn unicast
+set protocols bgp group L3VPN neighbor 10.10.10.10
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
 set protocols isis interface ge-0/0/0.0
@@ -19,6 +33,7 @@ set protocols isis interface lo0.0
 set protocols rsvp interface lo0.0
 set protocols rsvp interface ge-0/0/0.0
 set protocols rsvp interface ge-0/0/1.0
+set protocols mpls label-switched-path TOPE4 to 9.9.9.9
 set protocols mpls interface ge-0/0/0.0
 set protocols mpls interface ge-0/0/1.0
 set protocols mpls interface lo0.0
