@@ -5,11 +5,28 @@ set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family inet address 4.4.4.1/30
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/2 unit 0 family inet address 1.5.5.1/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/3 vlan-tagging
+set interfaces ge-0/0/3 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/3 unit 2121 encapsulation vlan-ccc
+set interfaces ge-0/0/3 unit 2121 vlan-id 2121
 set interfaces lo0 unit 0 family inet address 8.8.8.8/32
 set interfaces lo0 unit 0 family iso address 49.0000.8888.0000.0000.00
 set interfaces lo0 unit 0 family mpls
+set routing-instances L2VPN instance-type l2vpn
+set routing-instances L2VPN protocols l2vpn site L2VPN interface ge-0/0/3.2121
+set routing-instances L2VPN protocols l2vpn site L2VPN site-identifier 2
+set routing-instances L2VPN protocols l2vpn encapsulation-type ethernet-vlan
+set routing-instances L2VPN interface ge-0/0/3.2121
+set routing-instances L2VPN route-distinguisher 8.8.8.8:2121
+set routing-instances L2VPN vrf-target target:65400:2121
 set routing-options router-id 8.8.8.8
 set routing-options autonomous-system 65400
+set protocols bgp group L2VPN type internal
+set protocols bgp group L2VPN local-address 8.8.8.8
+set protocols bgp group L2VPN family l2vpn signaling
+set protocols bgp group L2VPN neighbor 9.9.9.9
 set protocols isis interface ge-0/0/0.0
 set protocols isis interface ge-0/0/1.0
 set protocols isis interface ge-0/0/2.0

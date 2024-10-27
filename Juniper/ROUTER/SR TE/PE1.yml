@@ -5,11 +5,27 @@ set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family inet address 4.4.4.2/30
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/2 unit 0 family inet address 1.2.2.1/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/3 vlan-tagging
+set interfaces ge-0/0/3 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/3 unit 545 encapsulation vlan-ccc
+set interfaces ge-0/0/3 unit 545 vlan-id 545
 set interfaces lo0 unit 0 family inet address 5.5.5.5/32
 set interfaces lo0 unit 0 family iso address 49.0000.5555.0000.0000.00
 set interfaces lo0 unit 0 family mpls
+set routing-instances VPWS instance-type evpn-vpws
+set routing-instances VPWS protocols evpn interface ge-0/0/3.545 vpws-service-id local 545
+set routing-instances VPWS protocols evpn interface ge-0/0/3.545 vpws-service-id remote 546
+set routing-instances VPWS interface ge-0/0/3.545
+set routing-instances VPWS route-distinguisher 5.5.5.5:545
+set routing-instances VPWS vrf-target target:65400:545
 set routing-options router-id 5.5.5.5
 set routing-options autonomous-system 65400
+set protocols bgp group VPWS type internal
+set protocols bgp group VPWS local-address 5.5.5.5
+set protocols bgp group VPWS family evpn signaling
+set protocols bgp group VPWS neighbor 9.9.9.9
 set protocols isis interface ge-0/0/0.0
 set protocols isis interface ge-0/0/1.0
 set protocols isis interface ge-0/0/2.0
@@ -19,6 +35,13 @@ set protocols isis source-packet-routing srgb index-range 1000
 set protocols isis source-packet-routing node-segment ipv4-index 50
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
+set protocols isis traffic-engineering l3-unicast-topology
 set protocols mpls interface ge-0/0/0.0
 set protocols mpls interface ge-0/0/1.0
 set protocols mpls interface lo0.0
+set protocols source-packet-routing segment-list RED compute
+set protocols source-packet-routing segment-list RED TOPE3 ip-address 8.8.8.8
+set protocols source-packet-routing segment-list RED TOPE3 strict
+set protocols source-packet-routing segment-list STATIC hop1 label 80000
+set protocols source-packet-routing compute-profile RED maximum-segment-list-depth 4
+set protocols source-packet-routing compute-profile RED compute-segment-list RED
