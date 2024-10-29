@@ -1,0 +1,44 @@
+set interfaces ge-0/0/0 description To_R1
+set interfaces ge-0/0/0 mtu 4000
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6 address 2001:db8:15::2/64
+set interfaces ge-0/0/1 description To_R2
+set interfaces ge-0/0/1 mtu 4000
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family inet6 address 2001:db8:25::2/64
+set interfaces ge-0/0/2 description To_R3
+set interfaces ge-0/0/2 mtu 4000
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family inet6 address 2001:db8:35::2/64
+set interfaces ge-0/0/4 description To_R4
+set interfaces ge-0/0/4 mtu 4000
+set interfaces ge-0/0/4 unit 0 family iso
+set interfaces ge-0/0/4 unit 0 family inet6 address 2001:db8:45::2/64
+set interfaces ge-0/0/3 description To_R6
+set interfaces ge-0/0/3 mtu 4000
+set interfaces ge-0/0/3 unit 0 family iso
+set interfaces ge-0/0/3 unit 0 family inet6 address 2001:db8:56::1/64
+set interfaces lo0 unit 0 family iso address 49.0001.0005.0505.0500
+set interfaces lo0 unit 0 family inet6 address 2001:db8:5:255::5/128
+set policy-options policy-statement pplb then load-balance per-packet
+set routing-options source-packet-routing srv6 locator myloc 2001:db8:0:a5::/64
+set routing-options forwarding-table export pplb
+set routing-options router-id 192.168.255.5
+set protocols isis interface ge-0/0/0.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a5:1a51:: flavor psp
+set protocols isis interface ge-0/0/0.0 node-link-protection
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a5:1a52:: flavor psp
+set protocols isis interface ge-0/0/1.0 node-link-protection
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/2.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a5:1a53:: flavor psp
+set protocols isis interface ge-0/0/2.0 node-link-protection
+set protocols isis interface ge-0/0/2.0 point-to-point
+set protocols isis interface ge-0/0/4.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a5:1a54:: flavor psp
+set protocols isis interface ge-0/0/4.0 node-link-protection
+set protocols isis interface ge-0/0/4.0 point-to-point
+set protocols isis interface ge-0/0/3.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a5:1a56:: flavor psp
+set protocols isis interface ge-0/0/3.0 node-link-protection
+set protocols isis interface ge-0/0/3.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing srv6 locator myloc end-sid 2001:db8:0:a5:d51:: flavor usd
+set protocols isis level 1 disable

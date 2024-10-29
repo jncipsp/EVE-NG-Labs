@@ -1,0 +1,50 @@
+set interfaces ge-0/0/0 description To_R1
+set interfaces ge-0/0/0 mtu 4000
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6 address 2001:db8:12::2/64
+set interfaces ge-0/0/1 description To_R3
+set interfaces ge-0/0/1 mtu 4000
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family inet6 address 2001:db8:23::1/64
+set interfaces ge-0/0/2 description To_R4
+set interfaces ge-0/0/2 mtu 4000
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family inet6 address 2011:db8:24::1/64
+set interfaces ge-0/0/3 description To_R5
+set interfaces ge-0/0/3 mtu 4000
+set interfaces ge-0/0/3 unit 0 family iso
+set interfaces ge-0/0/3 unit 0 family inet6 address 2001:db8:25::1/64
+set interfaces ge-0/0/4 description To_R6
+set interfaces ge-0/0/4 mtu 4000
+set interfaces ge-0/0/4 unit 0 family iso
+set interfaces ge-0/0/4 unit 0 family inet6 address 2001:db8:26::1/64
+set interfaces lo0 unit 0 family iso address 49.0001.0002.0202.0200
+set interfaces lo0 unit 0 family inet6 address 2001:db8:2:255::2/128
+set policy-options policy-statement pplb then load-balance per-packet
+set routing-options source-packet-routing srv6 locator myloc 2001:db8:0:a2::/64
+set routing-options forwarding-table export pplb
+set routing-options router-id 192.168.255.2
+set routing-options autonomous-system 65550
+set protocols bgp group RRv6 type internal
+set protocols bgp group RRv6 local-address 2001:db8:2:255::2
+set protocols bgp group RRv6 neighbor 2001:db8:10:255::10 family inet unicast extended-nexthop
+set protocols bgp group RRv6 neighbor 2001:db8:20:255::20 family inet unicast extended-nexthop
+set protocols bgp group RRv6 cluster 192.168.255.2
+set protocols isis interface ge-0/0/0.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a2:1a21:: flavor psp
+set protocols isis interface ge-0/0/0.0 node-link-protection
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a2:1a23:: flavor psp
+set protocols isis interface ge-0/0/1.0 node-link-protection
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/2.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a2:1a24:: flavor psp
+set protocols isis interface ge-0/0/2.0 node-link-protection
+set protocols isis interface ge-0/0/2.0 point-to-point
+set protocols isis interface ge-0/0/3.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a2:1a25:: flavor psp
+set protocols isis interface ge-0/0/3.0 node-link-protection
+set protocols isis interface ge-0/0/3.0 point-to-point
+set protocols isis interface ge-0/0/4.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a2:1a26:: flavor psp
+set protocols isis interface ge-0/0/4.0 node-link-protection
+set protocols isis interface ge-0/0/4.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing srv6 locator myloc end-sid 2001:db8:0:a2:d21:: flavor usd
+set protocols isis level 1 disable
