@@ -23,7 +23,7 @@ set routing-instances EVPN-VPWS1 instance-type evpn-vpws
 set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id local 201
 set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id remote 102
 set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id source-packet-routing srv6 locator myloc
-set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id source-packet-routing srv6 locator end-dx2-sid 2001:db8:0:a7:1a73::
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id source-packet-routing srv6 locator end-dx2-sid 2001:db8:0:a7:101::
 set routing-instances EVPN-VPWS1 protocols evpn encapsulation srv6
 set routing-instances EVPN-VPWS1 interface ge-0/0/2.0
 set routing-instances EVPN-VPWS1 route-distinguisher 2.2.2.2:1

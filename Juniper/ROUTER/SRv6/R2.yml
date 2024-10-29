@@ -1,3 +1,4 @@
+set chassis network-services enhanced-ip
 set interfaces ge-0/0/0 description To_R1
 set interfaces ge-0/0/0 mtu 4000
 set interfaces ge-0/0/0 unit 0 family iso
