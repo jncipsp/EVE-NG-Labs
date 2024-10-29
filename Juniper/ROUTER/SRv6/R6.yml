@@ -1,3 +1,4 @@
+set chassis network-services enhanced-ip
 set interfaces ge-0/0/0 description To_R2
 set interfaces ge-0/0/0 mtu 4000
 set interfaces ge-0/0/0 unit 0 family iso
@@ -5,15 +6,15 @@ set interfaces ge-0/0/0 unit 0 family inet6 address 2001:db8:26::2/64
 set interfaces ge-0/0/1 description To_R3
 set interfaces ge-0/0/1 mtu 4000
 set interfaces ge-0/0/1 unit 0 family iso
-set interfaces ge-0/0/1 unit 0 family inet6 address 2001:db8:36::2/128
+set interfaces ge-0/0/1 unit 0 family inet6 address 2001:db8:36::2/64
 set interfaces ge-0/0/2 description To_R5
 set interfaces ge-0/0/2 mtu 4000
 set interfaces ge-0/0/2 unit 0 family iso
-set interfaces ge-0/0/2 unit 0 family inet6 address 2001:db8:56::2/128
+set interfaces ge-0/0/2 unit 0 family inet6 address 2001:db8:56::2/64
 set interfaces ge-0/0/3 description To_R7
 set interfaces ge-0/0/3 mtu 4000
 set interfaces ge-0/0/3 unit 0 family iso
-set interfaces ge-0/0/3 unit 0 family inet6 address 2001:db8:67::1/128
+set interfaces ge-0/0/3 unit 0 family inet6 address 2001:db8:67::1/64
 set interfaces lo0 unit 0 family iso address 49.0001.0006.0606.0600
 set interfaces lo0 unit 0 family inet6 address 2001:db8:6:255::6/128
 set policy-options policy-statement pplb then load-balance per-packet

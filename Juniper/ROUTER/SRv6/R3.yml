@@ -1,3 +1,4 @@
+set chassis network-services enhanced-ip
 set interfaces ge-0/0/0 description To_R2
 set interfaces ge-0/0/0 mtu 4000
 set interfaces ge-0/0/0 unit 0 family iso
@@ -9,7 +10,7 @@ set interfaces ge-0/0/1 unit 0 family inet6 address 2001:db8:35::1/64
 set interfaces ge-0/0/2 description To_R6
 set interfaces ge-0/0/2 mtu 4000
 set interfaces ge-0/0/2 unit 0 family iso
-set interfaces ge-0/0/2 unit 0 family inet6 address 36::1/64
+set interfaces ge-0/0/2 unit 0 family inet6 address 2001:db8:36::1/64
 set interfaces ge-0/0/3 description To_R7
 set interfaces ge-0/0/3 mtu 4000
 set interfaces ge-0/0/3 unit 0 family iso

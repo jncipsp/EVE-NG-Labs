@@ -1,29 +1,51 @@
+set chassis network-services enhanced-ip
 set interfaces ge-0/0/0 description To_R1
 set interfaces ge-0/0/0 mtu 4000
 set interfaces ge-0/0/0 unit 0 family iso
 set interfaces ge-0/0/0 unit 0 family inet6 address 2001:db8:1::1/64
+set interfaces ge-0/0/1 description To_CE1
+set interfaces ge-0/0/1 flexible-vlan-tagging
+set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/1 unit 333 encapsulation vlan-ccc
+set interfaces ge-0/0/1 unit 333 vlan-id 333
 set interfaces ge-0/0/2 description To_R4
 set interfaces ge-0/0/2 mtu 4000
 set interfaces ge-0/0/2 unit 0 family iso
 set interfaces ge-0/0/2 unit 0 family inet6 address 2001:db8:4::1/64
-set interfaces ge-0/0/1 description To_CE1
-set interfaces ge-0/0/1 unit 0 family inet address 172.16.10.2/24
-set interfaces ge-0/0/1 unit 0 family iso
 set interfaces lo0 unit 0 family iso address 49.0001.000a.0a0a.0a00
 set interfaces lo0 unit 0 family inet6 address 2001:db8:10:255::10/128
-set policy-options policy-statement pplb then load-balance per-packet
-set routing-options source-packet-routing srv6 locator myloc 2001:db8:0:a0::/64
-set routing-options forwarding-table export pplb
-set routing-options router-id 172.16.255.10
 set policy-options policy-statement CE1_v4 term 1 from protocol direct
 set policy-options policy-statement CE1_v4 term 1 from route-filter 172.16.10.0/24 exact
 set policy-options policy-statement CE1_v4 term 1 then next-hop 2001:db8:0:a0:d01::
 set policy-options policy-statement CE1_v4 term 1 then accept
+set policy-options policy-statement pplb then load-balance per-packet
+set policy-options policy-statement vpws-nh-change term a from protocol evpn
+set policy-options policy-statement vpws-nh-change term a then next-hop 2001:db8:a1:1::
+set policy-options policy-statement vpws-nh-change term a then accept
+set routing-instances EVPN-VPWS1 instance-type evpn-vpws
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/1.0 vpws-service-id local 102
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/1.0 vpws-service-id remote 201
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/1.0 vpws-service-id source-packet-routing srv6 locator LOC1
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/1.0 vpws-service-id source-packet-routing srv6 locator end-dx2-sid 2001:db8:0:a0:1a01::
+set routing-instances EVPN-VPWS1 protocols evpn encapsulation srv6
+set routing-instances EVPN-VPWS1 interface ge-0/0/1.0
+set routing-instances EVPN-VPWS1 route-distinguisher 1.1.1.1:1
+set routing-instances EVPN-VPWS1 vrf-target target:65400:1
+set routing-options source-packet-routing srv6 locator myloc 2001:db8:0:a0::/64
+set routing-options source-packet-routing srv6 locator LOC1 2001:db8:0:a0::/64
+set routing-options resolution preserve-nexthop-hierarchy
+set routing-options router-id 172.16.255.10
 set routing-options autonomous-system 65550
+set routing-options forwarding-table export pplb
+set protocols router-advertisement interface fxp0.0 managed-configuration
 set protocols bgp group to-R2RRv6 type internal
-set protocols bgp group to-R2RRv6 export CE1_v4
 set protocols bgp group to-R2RRv6 local-address 2001:db8:10:255::10
+set protocols bgp group to-R2RRv6 export CE1_v4
 set protocols bgp group to-R2RRv6 neighbor 2001:db8:2:255::2 family inet unicast extended-nexthop
+set protocols bgp group IBGPv6 family evpn signaling advertise-srv6-service
+set protocols bgp group IBGPv6 family evpn signaling accept-srv6-service
+set protocols bgp group ibgpv6 export vpws-nh-change
+set protocols bgp group ibgpv6 vpn-apply-export
 set protocols isis interface ge-0/0/0.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a0:1a01:: flavor psp
 set protocols isis interface ge-0/0/0.0 node-link-protection
 set protocols isis interface ge-0/0/0.0 point-to-point

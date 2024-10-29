@@ -5,7 +5,7 @@ set interfaces ge-0/0/0 unit 0 family inet6 address 2001:db8:37::2/64
 set interfaces ge-0/0/1 description To_R6
 set interfaces ge-0/0/1 mtu 4000
 set interfaces ge-0/0/1 unit 0 family iso
-set interfaces ge-0/0/1 unit 0 family inet6 address 2001:db8:67::2/128
+set interfaces ge-0/0/1 unit 0 family inet6 address 2001:db8:67::2/64
 set interfaces ge-0/0/2 description To_CE2
 set interfaces ge-0/0/2 unit 0 family inet address 172.16.20.2/24
 set interfaces ge-0/0/2 unit 0 family iso
@@ -27,9 +27,9 @@ set protocols bgp group to-R2RRv6 export CE2_v4
 set protocols isis interface ge-0/0/0.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a7:1a73:: flavor psp
 set protocols isis interface ge-0/0/0.0 node-link-protection
 set protocols isis interface ge-0/0/0.0 point-to-point
-set protocols isis interface ge-0/0/0.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a7:1a76:: flavor psp
-set protocols isis interface ge-0/0/0.0 node-link-protection
-set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a7:1a76:: flavor psp
+set protocols isis interface ge-0/0/1.0 node-link-protection
+set protocols isis interface ge-0/0/1.0 point-to-point
 set protocols isis interface lo0.0 passive
 set protocols isis source-packet-routing srv6 locator myloc end-sid 2001:db8:0:a7:d71:: flavor usd
 set protocols isis level 1 disable
