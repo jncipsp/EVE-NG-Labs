@@ -24,7 +24,7 @@ set policy-options policy-statement pplb then load-balance per-packet
 set routing-options source-packet-routing srv6 locator myloc 2001:db8:0:a2::/64
 set routing-options forwarding-table export pplb
 set routing-options router-id 192.168.255.2
-set routing-options autonomous-system 65550
+set routing-options autonomous-system 65400
 set protocols bgp group RRv6 type internal
 set protocols bgp group RRv6 local-address 2001:db8:2:255::2
 set protocols bgp group RRv6 neighbor 2001:db8:10:255::10 family inet unicast extended-nexthop

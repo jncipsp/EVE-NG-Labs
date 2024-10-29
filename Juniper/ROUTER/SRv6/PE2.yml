@@ -1,3 +1,4 @@
+set chassis network-services enhanced-ip
 set interfaces ge-0/0/0 description To_R3
 set interfaces ge-0/0/0 mtu 4000
 set interfaces ge-0/0/0 unit 0 family iso
@@ -7,23 +8,34 @@ set interfaces ge-0/0/1 mtu 4000
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family inet6 address 2001:db8:67::2/64
 set interfaces ge-0/0/2 description To_CE2
-set interfaces ge-0/0/2 unit 0 family inet address 172.16.20.2/24
-set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 flexible-vlan-tagging
+set interfaces ge-0/0/2 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/2 unit 333 encapsulation vlan-ccc
+set interfaces ge-0/0/2 unit 333 vlan-id 333
 set interfaces lo0 unit 0 family iso address 49.0001.0007.0707.0700
 set interfaces lo0 unit 0 family inet6 address 2001:db8:20:255::20/32
-set policy-options policy-statement pplb then load-balance per-packet
 set policy-options policy-statement CE2_v4 term 1 from protocol direct
 set policy-options policy-statement CE2_v4 term 1 from route-filter 172.16.20.0/24 exact
 set policy-options policy-statement CE2_v4 term 1 then next-hop 2001:db8:0:a7:d71::
 set policy-options policy-statement CE2_v4 term 1 then accept
+set policy-options policy-statement pplb then load-balance per-packet
+set routing-instances EVPN-VPWS1 instance-type evpn-vpws
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id local 201
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id remote 102
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id source-packet-routing srv6 locator myloc
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/2.0 vpws-service-id source-packet-routing srv6 locator end-dx2-sid 2001:db8:0:a7:1a73::
+set routing-instances EVPN-VPWS1 protocols evpn encapsulation srv6
+set routing-instances EVPN-VPWS1 interface ge-0/0/2.0
+set routing-instances EVPN-VPWS1 route-distinguisher 2.2.2.2:1
+set routing-instances EVPN-VPWS1 vrf-target target:65400:1
 set routing-options source-packet-routing srv6 locator myloc 2001:db8:0:a7::/64
-set routing-options forwarding-table export pplb
 set routing-options router-id 172.16.255.20
-set routing-options autonomous-system 65550
+set routing-options autonomous-system 65400
+set routing-options forwarding-table export pplb
 set protocols bgp group to-R2RRv6 type internal
 set protocols bgp group to-R2RRv6 local-address 2001:db8:20:255::20
-set protocols bgp group to-R2RRv6 neighbor 2001:db8:2:255::2 family inet unicast extended-nexthop
 set protocols bgp group to-R2RRv6 export CE2_v4
+set protocols bgp group to-R2RRv6 neighbor 2001:db8:2:255::2 family inet unicast extended-nexthop
 set protocols isis interface ge-0/0/0.0 level 2 srv6-adjacency-segment protected locator myloc end-x-sid 2001:db8:0:a7:1a73:: flavor psp
 set protocols isis interface ge-0/0/0.0 node-link-protection
 set protocols isis interface ge-0/0/0.0 point-to-point
