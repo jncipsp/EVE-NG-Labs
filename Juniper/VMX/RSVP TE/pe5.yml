@@ -11,7 +11,6 @@ set interfaces ge-0/0/4 flexible-vlan-tagging
 set interfaces ge-0/0/4 encapsulation flexible-ethernet-services
 set interfaces ge-0/0/4 unit 444 encapsulation vlan-ccc
 set interfaces ge-0/0/4 unit 444 vlan-id 444
-set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM671F53AD61
 set interfaces lo0 unit 0 family inet address 11.11.11.11/32
 set interfaces lo0 unit 0 family iso address 49.0000.1111.1111.0000.00
 set interfaces lo0 unit 0 family mpls
