@@ -10,7 +10,6 @@ set interfaces ge-0/0/5 unit 0 family inet address 1.7.7.2/30
 set interfaces ge-0/0/5 unit 0 family iso
 set interfaces ge-0/0/6 unit 0 family inet address 1.8.8.2/30
 set interfaces ge-0/0/6 unit 0 family iso
-set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM6722055BF5
 set interfaces lo0 unit 0 family inet address 10.10.10.10/32
 set interfaces lo0 unit 0 family iso address 49.0000.1010.0000.0000.00
 set routing-options rib inet.3 static route 0.0.0.0/0 discard
