@@ -28,6 +28,7 @@ set protocols bgp group VPN local-address 9.9.9.9
 set protocols bgp group VPN neighbor 10.10.10.10
 set protocols isis backup-spf-options use-post-convergence-lfa
 set protocols isis backup-spf-options use-source-packet-routing
+set protocols isis traffic-engineering igp-topology
 set protocols isis traffic-engineering credibility-protocol-preference
 set protocols isis traffic-engineering tunnel-source-protocol spring-te
 set protocols isis source-packet-routing srgb start-label 30000
@@ -36,6 +37,9 @@ set protocols isis source-packet-routing node-segment ipv4-index 500
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
 set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/0.0 level 2 post-convergence-lfa
+set protocols isis interface ge-0/0/0.0 level 2 ipv4-adjacency-segment protected index 504
+set protocols isis interface ge-0/0/0.0 level 2 ipv4-adjacency-segment unprotected index 506
 set protocols isis interface ge-0/0/1.0 point-to-point
 set protocols isis interface ge-0/0/2.0 point-to-point
 set protocols isis interface ge-0/0/4.0 point-to-point
@@ -45,3 +49,10 @@ set protocols mpls interface ge-0/0/1.0
 set protocols mpls interface lo0.0
 set protocols mpls interface ge-0/0/4.0
 set protocols l2circuit neighbor 8.8.8.8 interface ge-0/0/3.654 virtual-circuit-id 654
+set protocols source-packet-routing segment-list LDP hop1 ip-address 8.8.8.8
+set protocols source-packet-routing segment-list LDP inherit-label-nexthops
+set protocols source-packet-routing segment-list LDP auto-translate
+set protocols source-packet-routing source-routing-path SR ldp-tunneling
+set protocols source-packet-routing source-routing-path SR to 8.8.8.8
+set protocols source-packet-routing source-routing-path SR binding-sid 1004002
+set protocols source-packet-routing source-routing-path SR primary LDP
