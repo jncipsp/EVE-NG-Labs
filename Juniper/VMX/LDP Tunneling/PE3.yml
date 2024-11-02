@@ -5,6 +5,10 @@ set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family inet address 3.3.3.2/30
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/2 vlan-tagging
+set interfaces ge-0/0/2 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/2 unit 654 encapsulation vlan-ccc
+set interfaces ge-0/0/2 unit 654 vlan-id 654
 set interfaces ge-0/0/3 unit 0 family inet address 1.6.6.1/30
 set interfaces ge-0/0/3 unit 0 family iso
 set interfaces ge-0/0/4 unit 0 family inet address 2.5.5.2/30
@@ -15,6 +19,14 @@ set interfaces lo0 unit 0 family iso address 49.0000.8888.0000.0000.00
 set interfaces lo0 unit 0 family mpls
 set routing-options router-id 8.8.8.8
 set routing-options autonomous-system 65400
+set protocols ldp auto-targeted-session
+set protocols ldp preference 1
+set protocols ldp interface ge-0/0/0.0
+set protocols ldp interface lo0.0
+set protocols isis backup-spf-options use-post-convergence-lfa
+set protocols isis backup-spf-options use-source-packet-routing
+set protocols isis traffic-engineering credibility-protocol-preference
+set protocols isis traffic-engineering tunnel-source-protocol spring-te
 set protocols isis source-packet-routing srgb start-label 30000
 set protocols isis source-packet-routing srgb index-range 1000
 set protocols isis source-packet-routing node-segment ipv4-index 400
@@ -29,3 +41,4 @@ set protocols mpls interface lo0.0
 set protocols mpls interface ge-0/0/0.0
 set protocols mpls interface ge-0/0/1.0
 set protocols mpls interface ge-0/0/4.0
+set protocols l2circuit neighbor 9.9.9.9 interface ge-0/0/2.654 virtual-circuit-id 654
