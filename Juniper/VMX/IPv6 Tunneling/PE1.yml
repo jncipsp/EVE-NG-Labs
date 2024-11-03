@@ -1,0 +1,40 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 1.1.1.1/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet6 address 2a45:0425:2ca1::0567:5673:23b4/127
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+set interfaces lo0 unit 0 family iso address 49.0000.5555.0000.0000.00
+set interfaces lo0 unit 0 family mpls
+set policy-options policy-statement BGPv6 from family inet6
+set policy-options policy-statement BGPv6 from protocol bgp
+set policy-options policy-statement BGPv6 then accept
+set policy-options policy-statement V6 from family inet6
+set policy-options policy-statement V6 from protocol bgp
+set policy-options policy-statement V6 from protocol direct
+set policy-options policy-statement V6 then accept
+set policy-options policy-statement next-hop-self then next-hop self
+set routing-options router-id 5.5.5.5
+set routing-options autonomous-system 65400
+set protocols bgp group CE1 type external
+set protocols bgp group CE1 local-address 2a45:0425:2ca1::0567:5673:23b4
+set protocols bgp group CE1 family inet6 unicast
+set protocols bgp group CE1 export BGPv6
+set protocols bgp group CE1 peer-as 65001
+set protocols bgp group CE1 neighbor 2a45:0425:2ca1::0567:5673:23b5
+set protocols bgp group V6TUNNEL type internal
+set protocols bgp group V6TUNNEL local-address 5.5.5.5
+set protocols bgp group V6TUNNEL family inet6 labeled-unicast explicit-null
+set protocols bgp group V6TUNNEL export next-hop-self
+set protocols bgp group V6TUNNEL export V6
+set protocols bgp group V6TUNNEL neighbor 7.7.7.7
+set protocols isis source-packet-routing srgb start-label 30000
+set protocols isis source-packet-routing srgb index-range 1000
+set protocols isis source-packet-routing node-segment ipv4-index 100
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols mpls ipv6-tunneling
+set protocols mpls interface ge-0/0/0.0
