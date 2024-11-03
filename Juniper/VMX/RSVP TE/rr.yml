@@ -29,11 +29,11 @@ set protocols bgp group VPN neighbor 7.7.7.7
 set protocols bgp group VPN neighbor 11.11.11.11
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
-set protocols isis interface ge-0/0/0.0
-set protocols isis interface ge-0/0/1.0
-set protocols isis interface ge-0/0/2.0
-set protocols isis interface ge-0/0/3.0
-set protocols isis interface ge-0/0/4.0
-set protocols isis interface ge-0/0/5.0
-set protocols isis interface ge-0/0/6.0
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/2.0 point-to-point
+set protocols isis interface ge-0/0/3.0 point-to-point
+set protocols isis interface ge-0/0/4.0 point-to-point
+set protocols isis interface ge-0/0/5.0 point-to-point
+set protocols isis interface ge-0/0/6.0 point-to-point
 set protocols isis interface lo0.0
