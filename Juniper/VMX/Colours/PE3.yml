@@ -1,0 +1,48 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 4.4.4.1/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 3.3.3.2/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/2 vlan-tagging
+set interfaces ge-0/0/2 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/2 unit 4053 encapsulation vlan-ccc
+set interfaces ge-0/0/2 unit 4053 vlan-id 4053
+set interfaces ge-0/0/3 unit 0 family inet address 1.6.6.1/30
+set interfaces ge-0/0/3 unit 0 family iso
+set interfaces ge-0/0/4 unit 0 family inet address 2.5.5.2/30
+set interfaces ge-0/0/4 unit 0 family iso
+set interfaces ge-0/0/4 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.0000.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-instances VPWS instance-type evpn-vpws
+set routing-instances VPWS interface ge-0/0/2.4053
+set routing-instances VPWS route-distinguisher 8.8.8.8:4053
+set routing-instances VPWS vrf-target target:65400:4053
+set routing-instances VPWS protocols evpn interface ge-0/0/2.4053 vpws-service-id local 4054
+set routing-instances VPWS protocols evpn interface ge-0/0/2.4053 vpws-service-id remote 4053
+set routing-options router-id 8.8.8.8
+set routing-options autonomous-system 65400
+set protocols bgp group VPN type internal
+set protocols bgp group VPN local-address 8.8.8.8
+set protocols bgp group VPN family evpn signaling
+set protocols bgp group VPN neighbor 10.10.10.10
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/3.0 point-to-point
+set protocols isis interface ge-0/0/4.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols rsvp interface ge-0/0/0.0
+set protocols rsvp interface ge-0/0/1.0
+set protocols rsvp interface lo0.0
+set protocols mpls admin-groups GOLD 0
+set protocols mpls label-switched-path VPWS to 5.5.5.5
+set protocols mpls label-switched-path VPWS primary GOLD admin-group include-all GOLD
+set protocols mpls path GOLD 12.12.12.12 strict
+set protocols mpls interface lo0.0 admin-group GOLD
+set protocols mpls interface ge-0/0/0.0 admin-group GOLD
+set protocols mpls interface ge-0/0/1.0 admin-group GOLD
