@@ -1,0 +1,32 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 5.5.5.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 6.6.6.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 10.10.10.10/32
+set interfaces lo0 unit 0 family iso address 49.0000.1010.1010.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 10.10.10.10
+set routing-options autonomous-system 65600
+set protocols mpls interface ge-0/0/1.0
+set protocols mpls interface lo0.0
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 10.10.10.10
+set protocols bgp group INTERNAL family inet labeled-unicast
+set protocols bgp group INTERNAL neighbor 11.11.11.11
+set protocols bgp group AS65400 type external
+set protocols bgp group AS65400 family inet labeled-unicast
+set protocols bgp group AS65400 export PE2_LOOPBACK
+set protocols bgp group AS65400 peer-as 65400
+set protocols bgp group AS65400 neighbor 5.5.5.1
+set protocols isis source-packet-routing srgb start-label 55000
+set protocols isis source-packet-routing srgb index-range 10000
+set protocols isis source-packet-routing node-segment ipv4-index 1000
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface lo0.0 passive
+set policy-options policy-statement PE2_LOOPBACK from route-filter 11.11.11.11/32 exact
+set policy-options policy-statement PE2_LOOPBACK then accept
