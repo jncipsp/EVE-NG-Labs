@@ -1,8 +1,5 @@
-set interfaces ge-0/0/0 flexible-vlan-tagging
-set interfaces ge-0/0/0 encapsulation flexible-ethernet-services
-set interfaces ge-0/0/0 unit 674 encapsulation vlan-bridge
-set interfaces ge-0/0/0 unit 674 vlan-id 674
-set interfaces ge-0/0/0 unit 674 family bridge
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 10.33.33.2/30
 set interfaces ge-0/0/1 unit 0 family inet address 4.4.4.1/30
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family mpls
@@ -15,18 +12,20 @@ set protocols mpls interface ge-0/0/1.0
 set protocols mpls interface lo0.0
 set protocols bgp group INTERNAL type internal
 set protocols bgp group INTERNAL local-address 7.7.7.7
-set protocols bgp group INTERNAL family evpn signaling
-set protocols bgp group INTERNAL neighbor 8.8.8.8
+set protocols bgp group INTERNAL family inet-vpn unicast
 set protocols bgp group INTERNAL export NHS
-set protocols isis interface ge-0/0/1.0 point-to-point
-set protocols isis interface lo0.0 passive
+set protocols bgp group INTERNAL neighbor 9.9.9.9
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols ldp interface ge-0/0/1.0
+set protocols ldp interface lo0.0
 set policy-options policy-statement NHS term 1 from protocol bgp
 set policy-options policy-statement NHS term 1 then next-hop self
-set routing-instances VPWS instance-type evpn
-set routing-instances VPWS vlan-id 674
-set routing-instances VPWS interface ge-0/0/0.674
-set routing-instances VPWS route-distinguisher 5.5.5.5:674
-set routing-instances VPWS vrf-target target:65200:674
-set routing-instances VPWS protocols evpn interface ge-0/0/0.674
+set routing-instances L3VPN instance-type vrf
+set routing-instances L3VPN interface ge-0/0/0.0
+set routing-instances L3VPN route-distinguisher 7.7.7.7:1
+set routing-instances L3VPN vrf-target target:65200:1
+set routing-instances L3VPN protocols bgp group AS65200 type external
+set routing-instances L3VPN protocols bgp group AS65200 neighbor 10.33.33.1 peer-as 65200
