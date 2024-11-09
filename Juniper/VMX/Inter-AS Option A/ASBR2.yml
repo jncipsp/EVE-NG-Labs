@@ -1,0 +1,32 @@
+set interfaces ge-0/0/0 flexible-vlan-tagging
+set interfaces ge-0/0/0 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/0 unit 674 encapsulation vlan-bridge
+set interfaces ge-0/0/0 unit 674 vlan-id 674
+set interfaces ge-0/0/0 unit 674 family bridge
+set interfaces ge-0/0/1 unit 0 family inet address 4.4.4.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 7.7.7.7/32
+set interfaces lo0 unit 0 family iso address 49.0000.7777.7777.7777.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 7.7.7.7
+set routing-options autonomous-system 65400
+set protocols mpls interface ge-0/0/1.0
+set protocols mpls interface lo0.0
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 7.7.7.7
+set protocols bgp group INTERNAL family evpn signaling
+set protocols bgp group INTERNAL neighbor 8.8.8.8
+set protocols bgp group INTERNAL export NHS
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set policy-options policy-statement NHS term 1 from protocol bgp
+set policy-options policy-statement NHS term 1 then next-hop self
+set routing-instances VPWS instance-type evpn
+set routing-instances VPWS vlan-id 674
+set routing-instances VPWS interface ge-0/0/0.674
+set routing-instances VPWS route-distinguisher 5.5.5.5:674
+set routing-instances VPWS vrf-target target:65200:674
+set routing-instances VPWS protocols evpn interface ge-0/0/0.674
