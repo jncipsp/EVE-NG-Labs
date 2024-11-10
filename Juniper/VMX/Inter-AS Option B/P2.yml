@@ -5,18 +5,22 @@ set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family inet address 5.5.5.1/30
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM67309BAAF3
 set interfaces lo0 unit 0 family inet address 9.9.9.9/32
 set interfaces lo0 unit 0 family iso address 49.0000.9999.9999.0000.00
 set interfaces lo0 unit 0 family mpls
 set routing-options router-id 9.9.9.9
 set routing-options autonomous-system 65400
+set routing-options resolution rib bgp.l2vpn.0 resolution-ribs inet.0
+set protocols rsvp interface ge-0/0/0.0
+set protocols rsvp interface ge-0/0/1.0
+set protocols rsvp interface lo0.0
 set protocols mpls interface ge-0/0/0.0
 set protocols mpls interface ge-0/0/1.0
 set protocols mpls interface lo0.0
 set protocols bgp group INTERNAL type internal
 set protocols bgp group INTERNAL local-address 9.9.9.9
-set protocols bgp group INTERNAL family inet-vpn unicast
-set protocols bgp group INTERNAL export NHS
+set protocols bgp group INTERNAL family l2vpn signaling
 set protocols bgp group INTERNAL cluster 9.9.9.9
 set protocols bgp group INTERNAL neighbor 7.7.7.7
 set protocols bgp group INTERNAL neighbor 8.8.8.8
@@ -25,8 +29,3 @@ set protocols isis level 2 wide-metrics-only
 set protocols isis interface ge-0/0/0.0 point-to-point
 set protocols isis interface ge-0/0/1.0 point-to-point
 set protocols isis interface lo0.0 passive
-set protocols ldp interface ge-0/0/0.0
-set protocols ldp interface ge-0/0/1.0
-set protocols ldp interface lo0.0
-set policy-options policy-statement NHS term 1 from protocol bgp
-set policy-options policy-statement NHS term 1 then next-hop self

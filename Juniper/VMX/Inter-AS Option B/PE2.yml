@@ -1,0 +1,36 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 5.5.5.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 vlan-tagging
+set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/1 unit 123 encapsulation vlan-ccc
+set interfaces ge-0/0/1 unit 123 vlan-id 123
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.8888.8888.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 8.8.8.8
+set routing-options autonomous-system 65400
+set protocols rsvp interface ge-0/0/0.0
+set protocols rsvp interface lo0.0
+set protocols mpls label-switched-path ASBR2 to 7.7.7.7
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface lo0.0
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 8.8.8.8
+set protocols bgp group INTERNAL family l2vpn signaling
+set protocols bgp group INTERNAL export NHS
+set protocols bgp group INTERNAL neighbor 9.9.9.9
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface lo0.0 passive
+set policy-options policy-statement NHS term 1 from protocol bgp
+set policy-options policy-statement NHS term 1 then next-hop self
+set routing-instances L2VPN instance-type l2vpn
+set routing-instances L2VPN interface ge-0/0/1.123
+set routing-instances L2VPN route-distinguisher 8.8.8.8:123
+set routing-instances L2VPN vrf-target target:65200:123
+set routing-instances L2VPN protocols l2vpn encapsulation-type ethernet-vlan
+set routing-instances L2VPN protocols l2vpn site L2VPN site-identifier 2
+set routing-instances L2VPN protocols l2vpn site L2VPN interface ge-0/0/1.123

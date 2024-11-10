@@ -1,0 +1,30 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 2.2.2.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 10.33.33.1/30
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 33.33.33.33/32
+set interfaces lo0 unit 0 family iso address 49.0000.3333.3333.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-options router-id 33.33.33.33
+set routing-options autonomous-system 65200
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface lo0.0
+set protocols mpls interface ge-0/0/1.0
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 33.33.33.33
+set protocols bgp group INTERNAL family l2vpn signaling
+set protocols bgp group INTERNAL export NHS
+set protocols bgp group INTERNAL neighbor 6.6.6.6
+set protocols bgp group AS65400 type external
+set protocols bgp group AS65400 family l2vpn signaling
+set protocols bgp group AS65400 peer-as 65400
+set protocols bgp group AS65400 neighbor 10.33.33.2
+set protocols isis source-packet-routing srgb start-label 33000
+set protocols isis source-packet-routing srgb index-range 1000
+set protocols isis source-packet-routing node-segment ipv4-index 30
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface lo0.0 passive
+set policy-options policy-statement NHS term 1 from protocol bgp
+set policy-options policy-statement NHS term 1 then next-hop self
