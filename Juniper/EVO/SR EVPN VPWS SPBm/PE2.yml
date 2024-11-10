@@ -1,26 +1,26 @@
-set interfaces et-0/0/0 vlan-tagging
-set interfaces et-0/0/0 encapsulation flexible-ethernet-services
-set interfaces et-0/0/0 unit 4053 encapsulation vlan-ccc
-set interfaces et-0/0/0 unit 4053 vlan-id 4053
-set interfaces et-0/0/2 unit 0 family inet address 4.4.4.2/30
-set interfaces et-0/0/2 unit 0 family mpls
-set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces et-0/0/1 vlan-tagging
+set interfaces et-0/0/1 encapsulation flexible-ethernet-services
+set interfaces et-0/0/1 unit 4053 encapsulation vlan-ccc
+set interfaces et-0/0/1 unit 4053 vlan-id 4053
+set interfaces et-0/0/0 unit 0 family inet address 2.2.2.2/30
+set interfaces et-0/0/0 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 7.7.7.7/32
 set interfaces lo0 unit 0 family mpls
-set routing-instances spbm instance-type evpn-vpws
-set routing-instances spbm interface et-0/0/0.4053
-set routing-instances spbm route-distinguisher 8.8.8.8:1
-set routing-instances spbm vrf-target target:65400:1
-set routing-instances spbm protocols evpn interface et-0/0/0.4053 vpws-service-id local 44
-set routing-instances spbm protocols evpn interface et-0/0/0.4053 vpws-service-id remote 22
-set routing-options router-id 8.8.8.8
+set routing-instances SPBM instance-type evpn-vpws
+set routing-instances SPBM interface et-0/0/1.4053
+set routing-instances SPBM route-distinguisher 7.7.7.7:4053
+set routing-instances SPBM vrf-target target:65400:4053
+set routing-instances SPBM protocols evpn interface et-0/0/1.4053 vpws-service-id local 44
+set routing-instances SPBM protocols evpn interface et-0/0/1.4053 vpws-service-id remote 22
+set routing-options router-id 7.7.7.7
 set routing-options autonomous-system 65400
-set protocols bgp group internal type internal
-set protocols bgp group internal local-address 8.8.8.8
-set protocols bgp group internal family evpn signaling
-set protocols bgp group internal neighbor 5.5.5.5
-set protocols mpls interface all
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address 7.7.7.7
+set protocols bgp group INTERNAL family evpn signaling
+set protocols bgp group INTERNAL neighbor 6.6.6.6
+set protocols mpls interface et-0/0/0.0
 set protocols ospf source-packet-routing node-segment ipv4-index 604
 set protocols ospf source-packet-routing srgb start-label 70000
 set protocols ospf source-packet-routing srgb index-range 1000
-set protocols ospf area 0.0.0.0 interface et-0/0/2.0
+set protocols ospf area 0.0.0.0 interface et-0/0/0.0
 set protocols ospf area 0.0.0.0 interface lo0.0 passive
