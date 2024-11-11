@@ -4,7 +4,6 @@ set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family inet address 3.3.3.1/30
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family mpls
-set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM672355A0C2
 set interfaces lo0 unit 0 family inet address 7.7.7.7/32
 set interfaces lo0 unit 0 family iso address 49.0000.7777.7777.0000.00
 set interfaces lo0 unit 0 family mpls
