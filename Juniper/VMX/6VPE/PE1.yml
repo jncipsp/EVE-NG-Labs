@@ -15,14 +15,19 @@ set policy-options policy-statement V6 from protocol bgp
 set policy-options policy-statement V6 from protocol direct
 set policy-options policy-statement V6 then accept
 set policy-options policy-statement next-hop-self then next-hop self
+set routing-instances CE1 instance-type vrf
+set routing-instances CE1 interface ge-0/0/1.0
+set routing-instances CE1 route-distinguisher 5.5.5.5:1
+set routing-instances CE1 vrf-target target:65400:1
+set routing-instances CE1 protocols bgp group CE1 type external
+set routing-instances CE1 protocols bgp group CE1 local-address 2a45:0425:2ca1::0567:5673:23b4
+set routing-instances CE1 protocols bgp group CE1 family inet6 unicast
+set routing-instances CE1 protocols bgp group CE1 export BGPv6
+set routing-instances CE1 protocols bgp group CE1 peer-as 65001
+set routing-instances CE1 protocols bgp group CE1 local-as 65400
+set routing-instances CE1 protocols bgp group CE1 neighbor 2a45:0425:2ca1::0567:5673:23b5
 set routing-options router-id 5.5.5.5
 set routing-options autonomous-system 65400
-set protocols bgp group CE1 type external
-set protocols bgp group CE1 local-address 2a45:0425:2ca1::0567:5673:23b4
-set protocols bgp group CE1 family inet6 unicast
-set protocols bgp group CE1 export BGPv6
-set protocols bgp group CE1 peer-as 65001
-set protocols bgp group CE1 neighbor 2a45:0425:2ca1::0567:5673:23b5
 set protocols bgp group V6TUNNEL type internal
 set protocols bgp group V6TUNNEL local-address 5.5.5.5
 set protocols bgp group V6TUNNEL family inet6-vpn unicast
