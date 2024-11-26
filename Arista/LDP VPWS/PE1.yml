@@ -1,0 +1,74 @@
+  service routing protocols model multi-agent
+    !
+    hostname pe1
+    !
+    spanning-tree mode mstp
+    !
+    system l1
+    unsupported speed action error
+    unsupported error-correction action error
+    !
+    interface Ethernet1
+    no switchport
+    ip address 1.1.1.1/30
+    isis enable 1
+    !
+    interface Ethernet2
+    no switchport
+    !
+    interface Ethernet2.909
+    encapsulation dot1q vlan 909
+    !
+    interface Ethernet3
+    !
+    interface Ethernet4
+    !
+    interface Ethernet5
+    !
+    interface Ethernet6
+    !
+    interface Ethernet7
+    !
+    interface Ethernet8
+    !
+    interface Loopback0
+    ip address 5.5.5.5/32
+    isis enable 1
+    !
+    interface Management1
+    !
+    ip routing
+    !
+    mpls ip
+    !
+    mpls ldp
+    no shutdown
+    !
+    patch panel
+    patch VPWS
+    connector 1 interface Ethernet2.909
+    connector 2 pseudowire bgp vpws PE2 pseudowire VPWS
+    !
+    router bgp 65400
+    router-id 5.5.5.5
+    neighbor 6.6.6.6 remote-as 65400
+    neighbor 6.6.6.6 update-source Loopback0
+    neighbor 6.6.6.6 send-community
+    !
+    vpws PE2
+    rd 5.5.5.5:909
+    route-target import export evpn 65400:909
+    mpls control-word
+    !
+    pseudowire VPWS
+    evpn vpws id local 909 remote 910
+    !
+    address-family evpn
+    neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+    neighbor 6.6.6.6 activate
+    !
+    router isis 1
+    net 49.0000.5555.5555.5555.00
+    is-type level-2
+    !
+    address-family ipv4 unicast
