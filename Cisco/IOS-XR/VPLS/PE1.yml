@@ -1,0 +1,50 @@
+hostname pe1
+
+interface Loopback0
+ipv4 address 5.5.5.5 255.255.255.255
+ 
+interface GigabitEthernet0/0/0/0
+ipv4 address 1.1.1.1 255.255.255.252
+
+interface GigabitEthernet0/0/0/1.123 l2transport
+encapsulation dot1q 123
+
+route-policy ALL
+pass
+end-policy
+
+router isis 1
+is-type level-2-only
+net 49.0000.5555.5555.5555.00
+address-family ipv4 unicast
+metric-style wide
+segment-routing mpls
+
+interface Loopback0
+address-family ipv4 unicast
+prefix-sid absolute 22000
+
+interface GigabitEthernet0/0/0/0
+address-family ipv4 unicast
+
+router bgp 65400
+address-family l2vpn vpls-vpws
+
+neighbor 6.6.6.6
+remote-as 65400
+update-source Loopback0
+address-family l2vpn vpls-vpws
+route-policy ALL in
+route-policy ALL out
+
+l2vpn
+bridge group VPLS
+bridge-domain VPLS
+interface GigabitEthernet0/0/0/1.123
+
+vfi VPLS
+vpn-id 123
+autodiscovery bgp
+rd 5.5.5.5:123
+route-target 65400:123
+signaling-protocol bgp
