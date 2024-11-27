@@ -1,0 +1,64 @@
+hostname pe2
+
+l2 vfi VPLS autodiscovery
+vpn id 444
+bridge-domain 1
+rd 7.7.7.7:444
+route-target export 65200:444
+route-target import 65200:444
+  
+interface Loopback0
+ip address 7.7.7.7 255.255.255.255
+ip router isis 1
+
+interface GigabitEthernet1
+ip address 2.2.2.2 255.255.255.252
+ip router isis 1
+negotiation auto
+no mpls ldp igp autoconfig
+no mop enabled
+no mop sysid
+isis circuit-type level-2-only
+isis network point-to-point
+
+interface GigabitEthernet2
+no ip address
+negotiation auto
+no mop enabled
+no mop sysid
+service instance 1 ethernet
+encapsulation dot1q 444
+bridge-domain 1
+  
+segment-routing mpls
+set-attributes
+address-family ipv4
+sr-label-preferred
+exit-address-family
+
+global-block 40000 45000
+
+connected-prefix-sid-map
+address-family ipv4
+7.7.7.7/32 index 300 range 1
+exit-address-family
+
+router isis 1
+net 49.0000.7777.7777.7777.00
+is-type level-2-only
+metric-style wide
+segment-routing mpls
+
+router bgp 65200
+bgp log-neighbor-changes
+neighbor 6.6.6.6 remote-as 65200
+neighbor 6.6.6.6 update-source Loopback0
+  
+address-family ipv4
+neighbor 6.6.6.6 activate
+exit-address-family
+
+address-family l2vpn vpls
+neighbor 6.6.6.6 activate
+neighbor 6.6.6.6 send-community extended
+neighbor 6.6.6.6 next-hop-self

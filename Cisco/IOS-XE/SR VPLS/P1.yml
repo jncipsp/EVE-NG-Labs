@@ -1,0 +1,65 @@
+hostname p1
+  
+interface Loopback0
+ip address 6.6.6.6 255.255.255.255
+ip router isis 1
+
+interface GigabitEthernet1
+ip address 1.1.1.2 255.255.255.252
+ip router isis 1
+negotiation auto
+no mpls ldp igp autoconfig
+no mop enabled
+no mop sysid
+isis circuit-type level-2-only
+isis network point-to-point
+
+interface GigabitEthernet2
+ip address 2.2.2.1 255.255.255.252
+ip router isis 1
+negotiation auto
+no mpls ldp igp autoconfig
+no mop enabled
+no mop sysid
+isis circuit-type level-2-only
+isis network point-to-point
+  
+segment-routing mpls
+set-attributes
+address-family ipv4
+sr-label-preferred
+exit-address-family
+
+global-block 40000 45000
+
+connected-prefix-sid-map
+address-family ipv4
+6.6.6.6/32 index 200 range 1
+exit-address-family
+
+
+router isis 1
+net 49.0000.6666.6666.6666.00
+is-type level-2-only
+metric-style wide
+segment-routing mpls
+
+router bgp 65200
+bgp log-neighbor-changes
+neighbor 5.5.5.5 remote-as 65200
+neighbor 5.5.5.5 update-source Loopback0
+neighbor 7.7.7.7 remote-as 65200
+neighbor 7.7.7.7 update-source Loopback0
+
+address-family ipv4
+neighbor 5.5.5.5 activate
+neighbor 7.7.7.7 activate
+exit-address-family
+
+address-family l2vpn vpls
+neighbor 5.5.5.5 activate
+neighbor 5.5.5.5 send-community extended
+neighbor 5.5.5.5 route-reflector-client
+neighbor 7.7.7.7 activate
+neighbor 7.7.7.7 send-community extended
+neighbor 7.7.7.7 route-reflector-client
