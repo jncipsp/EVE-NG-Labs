@@ -22,7 +22,7 @@ segment-routing mpls
 
 interface Loopback0
 address-family ipv4 unicast
-prefix-sid absolute 22000
+prefix-sid index 100
 
 interface GigabitEthernet0/0/0/0
 address-family ipv4 unicast
@@ -48,3 +48,5 @@ autodiscovery bgp
 rd 5.5.5.5:123
 route-target 65400:123
 signaling-protocol bgp
+
+mpls oam

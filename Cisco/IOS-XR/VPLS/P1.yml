@@ -1,0 +1,55 @@
+hostname p1
+
+interface Loopback0
+ipv4 address 6.6.6.6 255.255.255.255
+
+interface GigabitEthernet0/0/0/0
+ipv4 address 1.1.1.2 255.255.255.252
+
+interface GigabitEthernet0/0/0/1
+ipv4 address 2.2.2.1 255.255.255.252
+
+route-policy ALL
+pass
+end-policy
+
+router isis 1
+is-type level-2-only
+net 49.0000.6666.6666.6666.00
+address-family ipv4 unicast
+metric-style wide
+mpls traffic-eng level-2-only
+mpls traffic-eng router-id Loopback0
+segment-routing mpls
+
+interface Loopback0
+address-family ipv4 unicast
+prefix-sid index 200
+
+interface GigabitEthernet0/0/0/0
+address-family ipv4 unicast
+
+interface GigabitEthernet0/0/0/1
+address-family ipv4 unicast
+
+router bgp 65400
+bgp router-id 6.6.6.6
+address-family l2vpn vpls-vpws
+
+neighbor 5.5.5.5
+remote-as 65400
+update-source Loopback0
+address-family l2vpn vpls-vpws
+route-policy ALL in
+route-reflector-client
+route-policy ALL out
+ 
+neighbor 7.7.7.7
+remote-as 65400
+update-source Loopback0
+address-family l2vpn vpls-vpws
+route-policy ALL in
+route-reflector-client
+route-policy ALL out
+
+mpls oam
