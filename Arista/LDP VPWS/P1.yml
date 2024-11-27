@@ -1,66 +1,45 @@
-  service routing protocols model multi-agent
-    !
-    hostname p1
-    !
-    spanning-tree mode mstp
-    !
-    system l1
-    unsupported speed action error
-    unsupported error-correction action error
-    !
-    interface Ethernet1
-    no switchport
-    ip address 1.1.1.2/30
-    isis enable 1
-    !
-    interface Ethernet2
-    no switchport
-    ip address 2.2.2.1/30
-    isis enable 1
-    !
-    interface Ethernet3
-    !
-    interface Ethernet4
-    !
-    interface Ethernet5
-    !
-    interface Ethernet6
-    !
-    interface Ethernet7
-    !
-    interface Ethernet8
-    !
-    interface Loopback0
-    ip address 6.6.6.6/32
-    isis enable 1
-    !
-    interface Management1
-    !
-    ip routing
-    !
-    mpls ip
-    !
-    mpls ldp
-    no shutdown
-    !
-    router bgp 65400
-    router-id 6.6.6.6
-    neighbor 5.5.5.5 remote-as 65400
-    neighbor 5.5.5.5 update-source Loopback0
-    neighbor 5.5.5.5 route-reflector-client
-    neighbor 5.5.5.5 send-community
-    neighbor 7.7.7.7 remote-as 65400
-    neighbor 7.7.7.7 update-source Loopback0
-    neighbor 7.7.7.7 route-reflector-client
-    neighbor 7.7.7.7 send-community
-    !
-    address-family evpn
-    neighbor default encapsulation mpls next-hop-self source-interface Loopback0
-    neighbor 5.5.5.5 activate
-    neighbor 7.7.7.7 activate
-    !
-    router isis 1
-    net 49.0000.6666.6666.6666.00
-    is-type level-2
-    !
-    address-family ipv4 unicast
+service routing protocols model multi-agent
+
+hostname p1
+
+interface Ethernet1
+no switchport
+ip address 1.1.1.2/30
+isis enable 1
+
+interface Ethernet2
+no switchport
+ip address 2.2.2.1/30
+isis enable 1
+
+interface Loopback0
+ip address 6.6.6.6/32
+isis enable 1
+
+ip routing
+
+mpls ip
+
+mpls ldp
+no shutdown
+
+router bgp 65400
+router-id 6.6.6.6
+neighbor 5.5.5.5 remote-as 65400
+neighbor 5.5.5.5 update-source Loopback0
+neighbor 5.5.5.5 route-reflector-client
+neighbor 5.5.5.5 send-community
+neighbor 7.7.7.7 remote-as 65400
+neighbor 7.7.7.7 update-source Loopback0
+neighbor 7.7.7.7 route-reflector-client
+neighbor 7.7.7.7 send-community
+
+address-family evpn
+neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+neighbor 5.5.5.5 activate
+neighbor 7.7.7.7 activate
+
+router isis 1
+net 49.0000.6666.6666.6666.00
+is-type level-2
+address-family ipv4 unicast
