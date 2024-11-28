@@ -10,15 +10,15 @@ set interfaces ge-0/0/3 unit 788 encapsulation vlan-vpls
 set interfaces ge-0/0/3 unit 788 vlan-id 788
 set interfaces ge-0/0/3 unit 788 family vpls
 set interfaces lo0 unit 0 family inet address 5.5.5.5/32
-set routing-instances vpls instance-type evpn
-set routing-instances vpls protocols evpn interface ge-0/0/3.788
-set routing-instances vpls protocols vpls site vpls-1 interface ge-0/0/3.788
-set routing-instances vpls protocols vpls site vpls-1 site-identifier 1
-set routing-instances vpls protocols vpls site-range 1000
-set routing-instances vpls protocols vpls no-tunnel-services
-set routing-instances vpls interface ge-0/0/3.788
-set routing-instances vpls route-distinguisher 5.5.5.5:788
-set routing-instances vpls vrf-target target:65400:788
+set routing-instances VPLS instance-type evpn
+set routing-instances VPLS protocols evpn interface ge-0/0/3.788
+set routing-instances VPLS protocols vpls site newyork interface ge-0/0/3.788
+set routing-instances VPLS protocols vpls site newyork site-identifier 1
+set routing-instances VPLS protocols vpls site-range 1000
+set routing-instances VPLS protocols vpls no-tunnel-services
+set routing-instances VPLS interface ge-0/0/3.788
+set routing-instances VPLS route-distinguisher 5.5.5.5:788
+set routing-instances VPLS vrf-target target:65400:788
 set routing-options router-id 5.5.5.5
 set routing-options autonomous-system 65400
 set protocols bgp group VPLS type internal

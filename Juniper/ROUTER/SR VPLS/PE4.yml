@@ -4,10 +4,28 @@ set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family inet address 4.4.4.1/30
 set interfaces ge-0/0/1 unit 0 family mpls
 set interfaces ge-0/0/2 unit 0 family inet address 1.5.5.1/30
+set interfaces ge-0/0/3 vlan-tagging
+set interfaces ge-0/0/3 encapsulation vlan-vpls
+set interfaces ge-0/0/3 unit 788 encapsulation vlan-vpls
+set interfaces ge-0/0/3 unit 788 vlan-id 788
+set interfaces ge-0/0/3 unit 788 family vpls
 set interfaces lo0 unit 0 family inet address 8.8.8.8/32
 set interfaces lo0 unit 0 family mpls
+set routing-instances VPLS instance-type evpn
+set routing-instances VPLS protocols evpn interface ge-0/0/3.788
+set routing-instances VPLS protocols vpls site baltimore interface ge-0/0/3.788
+set routing-instances VPLS protocols vpls site baltimore site-identifier 4
+set routing-instances VPLS protocols vpls site-range 1000
+set routing-instances VPLS protocols vpls no-tunnel-services
+set routing-instances VPLS interface ge-0/0/3.788
+set routing-instances VPLS route-distinguisher 6.6.6.6:788
+set routing-instances VPLS vrf-target target:65400:788
 set routing-options router-id 8.8.8.8
 set routing-options autonomous-system 65400
+set protocols bgp group VPLS type internal
+set protocols bgp group VPLS local-address 8.8.8.8
+set protocols bgp group VPLS family evpn signaling
+set protocols bgp group VPLS neighbor 9.9.9.9
 set protocols mpls interface ge-0/0/0.0
 set protocols mpls interface ge-0/0/1.0
 set protocols mpls interface lo0.0
