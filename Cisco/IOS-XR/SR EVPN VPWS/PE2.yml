@@ -6,8 +6,8 @@ ipv4 address 7.7.7.7 255.255.255.255
 interface GigabitEthernet0/0/0/0
 ipv4 address 2.2.2.2 255.255.255.252
 
-interface GigabitEthernet0/0/0/1.123 l2transport
-encapsulation dot1q 123
+interface GigabitEthernet0/0/0/1.234 l2transport
+encapsulation dot1q 234
 
 route-policy ALL
 pass
@@ -28,25 +28,17 @@ interface GigabitEthernet0/0/0/0
 address-family ipv4 unicast
 
 router bgp 65400
-address-family l2vpn vpls-vpws
+address-family l2vpn evpn
 
 neighbor 6.6.6.6
 remote-as 65400
 update-source Loopback0
-address-family l2vpn vpls-vpws
+address-family l2vpn evpn
 route-policy ALL in
 route-policy ALL out
- 
+
 l2vpn
-bridge group VPLS
-bridge-domain VPLS
-interface GigabitEthernet0/0/0/1.123
-
-vfi VPLS
-vpn-id 123
-autodiscovery bgp
-rd 7.7.7.7:123
-route-target 65400:123
-signaling-protocol bgp
-
-mpls oam
+xconnect group VPWS
+p2p VPWS
+interface GigabitEthernet0/0/0/1.234
+neighbor evpn evi 1 target 234 source 235

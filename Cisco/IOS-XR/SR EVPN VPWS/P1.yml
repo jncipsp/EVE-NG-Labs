@@ -18,8 +18,6 @@ is-type level-2-only
 net 49.0000.6666.6666.6666.00
 address-family ipv4 unicast
 metric-style wide
-mpls traffic-eng level-2-only
-mpls traffic-eng router-id Loopback0
 segment-routing mpls
 
 interface Loopback0
@@ -34,12 +32,12 @@ address-family ipv4 unicast
 
 router bgp 65400
 bgp router-id 6.6.6.6
-address-family l2vpn vpls-vpws
+address-family l2vpn evpn
 
 neighbor 5.5.5.5
 remote-as 65400
 update-source Loopback0
-address-family l2vpn vpls-vpws
+address-family l2vpn evpn
 route-policy ALL in
 route-reflector-client
 route-policy ALL out
@@ -47,9 +45,8 @@ route-policy ALL out
 neighbor 7.7.7.7
 remote-as 65400
 update-source Loopback0
-address-family l2vpn vpls-vpws
+address-family l2vpn evpn
 route-policy ALL in
 route-reflector-client
 route-policy ALL out
 
-mpls oam
