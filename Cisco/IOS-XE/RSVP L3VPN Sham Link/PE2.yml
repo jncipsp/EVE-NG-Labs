@@ -1,0 +1,66 @@
+hostname pe2
+
+ip vrf CE2
+rd 7.7.7.7:100
+route-target export 65200:100
+route-target import 65200:100
+
+mpls traffic-eng tunnels
+  
+interface Loopback0
+ip address 7.7.7.7 255.255.255.255
+ip router isis 1
+isis circuit-type level-2-only
+  
+interface Loopback1
+ip vrf forwarding CE2
+ip address 33.33.33.33 255.255.255.255
+
+interface Tunnel1
+ip unnumbered Loopback0
+tunnel mode mpls traffic-eng
+tunnel destination 5.5.5.5
+tunnel mpls traffic-eng autoroute announce
+tunnel mpls traffic-eng path-option 1 dynamic
+
+interface GigabitEthernet1
+ip address 2.2.2.2 255.255.255.252
+ip router isis 1
+mpls ip
+mpls traffic-eng tunnels
+isis circuit-type level-2-only
+isis network point-to-point
+ip rsvp bandwidth percent 50
+ip rsvp signalling hello
+
+interface GigabitEthernet2
+ip vrf forwarding CE2
+ip address 10.2.2.1 255.255.255.0
+ip ospf 1 area 0
+  
+router ospf 1 vrf CE2
+router-id 10.2.2.1
+area 0 sham-link 33.33.33.33 22.22.22.22
+redistribute bgp 65200
+
+router isis 1
+net 49.0000.7777.7777.7777.00
+is-type level-2-only
+metric-style wide
+mpls traffic-eng router-id Loopback0
+mpls traffic-eng level-2
+
+router bgp 65200
+bgp log-neighbor-changes
+neighbor 6.6.6.6 remote-as 65200
+neighbor 6.6.6.6 update-source Loopback0
+
+address-family vpnv4
+neighbor 6.6.6.6 activate
+neighbor 6.6.6.6 send-community extended
+exit-address-family
+
+address-family ipv4 vrf CE2
+network 33.33.33.33 mask 255.255.255.255
+redistribute ospf 1
+exit-address-family
