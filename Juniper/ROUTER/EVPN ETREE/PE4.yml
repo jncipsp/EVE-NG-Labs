@@ -1,0 +1,42 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family inet address 3.3.3.2/30
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 unit 0 family inet address 4.4.4.1/30
+set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces ge-0/0/2 unit 0 family inet address 1.5.5.1/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/3 flexible-vlan-tagging
+set interfaces ge-0/0/3 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/3 unit 545 encapsulation vlan-bridge
+set interfaces ge-0/0/3 unit 545 vlan-id 545
+set interfaces ge-0/0/3 unit 545 etree-ac-role leaf
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.0000.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-instances ETREE instance-type evpn
+set routing-instances ETREE protocols evpn interface ge-0/0/3.545
+set routing-instances ETREE protocols evpn evpn-etree
+set routing-instances ETREE vlan-id 545
+set routing-instances ETREE interface ge-0/0/3.545
+set routing-instances ETREE route-distinguisher 8.8.8.8:545
+set routing-instances ETREE vrf-target target:65400:545
+set routing-options router-id 8.8.8.8
+set routing-options autonomous-system 65400
+set protocols bgp group ETREE type internal
+set protocols bgp group ETREE local-address 8.8.8.8
+set protocols bgp group ETREE family evpn signaling
+set protocols bgp group ETREE neighbor 9.9.9.9
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface ge-0/0/2.0
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing srgb start-label 80000
+set protocols isis source-packet-routing srgb index-range 1000
+set protocols isis source-packet-routing node-segment ipv4-index 80
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface ge-0/0/1.0
+set protocols mpls interface lo0.0
