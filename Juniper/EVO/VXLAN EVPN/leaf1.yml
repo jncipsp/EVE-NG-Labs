@@ -1,19 +1,23 @@
 set interfaces et-0/0/0 mtu 9216
 set interfaces et-0/0/0 unit 0 family inet address 6.6.6.1/31
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/0 unit 0 family inet6
 set interfaces et-0/0/1 mtu 9216
 set interfaces et-0/0/1 unit 0 family inet address 9.9.9.1/31
+set interfaces et-0/0/1 unit 0 family iso
+set interfaces et-0/0/1 unit 0 family inet6
 set interfaces et-0/0/2 flexible-vlan-tagging
 set interfaces et-0/0/2 mtu 9216
 set interfaces et-0/0/2 encapsulation flexible-ethernet-services
 set interfaces et-0/0/2 unit 22 vlan-id 22
 set interfaces et-0/0/2 unit 22 family ethernet-switching
 set interfaces lo0 unit 0 family inet address 3.3.3.3/32
+set interfaces lo0 unit 0 family iso address 49.0000.3333.0000.0000.00
 set forwarding-options tunnel-termination
+set policy-options policy-statement DIRECT term 1 from protocol direct
+set policy-options policy-statement DIRECT then accept
 set policy-options policy-statement lb term 1 then load-balance per-packet
 set policy-options policy-statement lb term 1 then accept
-set policy-options policy-statement loop term 1 from protocol direct
-set policy-options policy-statement loop term 1 from interface lo0.0
-set policy-options policy-statement loop term 1 then accept
 set policy-options policy-statement nhs term 1 from protocol bgp
 set policy-options policy-statement nhs term 1 then next-hop self
 set routing-instances DATA1 instance-type mac-vrf
@@ -32,16 +36,14 @@ set routing-options router-id 3.3.3.3
 set routing-options autonomous-system 65530
 set routing-options forwarding-table export lb
 set routing-options forwarding-table chained-composite-next-hop ingress evpn
-set protocols bgp group underlay type external
-set protocols bgp group underlay export loop
-set protocols bgp group underlay local-as 64514
-set protocols bgp group underlay multipath multiple-as
-set protocols bgp group underlay neighbor 6.6.6.0 peer-as 64512
-set protocols bgp group underlay neighbor 9.9.9.0 peer-as 64513
-set protocols bgp group overlay type internal
-set protocols bgp group overlay local-address 3.3.3.3
-set protocols bgp group overlay family evpn signaling
-set protocols bgp group overlay export nhs
-set protocols bgp group overlay local-as 65530
-set protocols bgp group overlay neighbor 2.2.2.2
-set protocols bgp group overlay neighbor 1.1.1.1
+set protocols bgp group OVERLAY type internal
+set protocols bgp group OVERLAY local-address 3.3.3.3
+set protocols bgp group OVERLAY family evpn signaling
+set protocols bgp group OVERLAY export nhs
+set protocols bgp group OVERLAY export DIRECT
+set protocols bgp group OVERLAY neighbor 2.2.2.2
+set protocols bgp group OVERLAY neighbor 1.1.1.1
+set protocols isis interface et-0/0/0.0 point-to-point
+set protocols isis interface et-0/0/1.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
