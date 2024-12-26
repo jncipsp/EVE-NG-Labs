@@ -1,0 +1,29 @@
+hostname p2
+
+interface Loopback0
+ipv4 address 6.6.6.6 255.255.255.255
+
+interface GigabitEthernet0/0/0/0
+ipv4 address 1.1.1.2 255.255.255.252
+
+interface GigabitEthernet0/0/0/1
+ipv4 address 2.2.2.1 255.255.255.252
+
+interface GigabitEthernet0/0/0/2
+ipv4 address 1.4.4.2 255.255.255.252
+
+router isis 1
+is-type level-2-only
+net 49.0000.6666.6666.6666.00
+interface Loopback0
+address-family ipv4 unicast
+interface GigabitEthernet0/0/0/0
+address-family ipv4 unicast
+interface GigabitEthernet0/0/0/1
+address-family ipv4 unicast
+interface GigabitEthernet0/0/0/2
+address-family ipv4 unicast
+ 
+mpls traffic-eng
+interface GigabitEthernet0/0/0/0
+interface GigabitEthernet0/0/0/1
