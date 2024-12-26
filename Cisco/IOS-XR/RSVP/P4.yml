@@ -5,12 +5,15 @@ ipv4 address 8.8.8.8 255.255.255.255
 
 interface GigabitEthernet0/0/0/0
 ipv4 address 3.3.3.2 255.255.255.252
+no shut
 
 interface GigabitEthernet0/0/0/1
 ipv4 address 4.4.4.1 255.255.255.252
+no shut
 
 interface GigabitEthernet0/0/0/2
 ipv4 address 1.6.6.1 255.255.255.252
+no shut
 
 router isis 1
 is-type level-2-only
