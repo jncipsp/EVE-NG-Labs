@@ -1,7 +1,19 @@
 hostname p2
+  
+explicit-path name PE4
+index 10 next-address strict ipv4 unicast 7.7.7.7
+
+ipv4 unnumbered mpls traffic-eng Loopback0
 
 interface Loopback0
 ipv4 address 6.6.6.6 255.255.255.255
+
+interface tunnel-te1
+ipv4 unnumbered Loopback0
+signalled-name PE4
+autoroute announce
+destination 8.8.8.8
+path-option 1 explicit name PE4
 
 interface GigabitEthernet0/0/0/0
 ipv4 address 1.1.1.2 255.255.255.252
