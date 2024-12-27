@@ -1,4 +1,4 @@
-hostname p4
+hostname pe4
   
 explicit-path name PE2
 index 10 next-address strict ipv4 unicast 5.5.5.5
