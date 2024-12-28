@@ -39,9 +39,7 @@ set protocols isis traffic-engineering l3-unicast-topology
 set protocols mpls interface ge-0/0/0.0
 set protocols mpls interface ge-0/0/1.0
 set protocols mpls interface lo0.0
-set protocols source-packet-routing segment-list RED compute
-set protocols source-packet-routing segment-list RED TOPE3 ip-address 8.8.8.8
-set protocols source-packet-routing segment-list RED TOPE3 strict
-set protocols source-packet-routing segment-list STATIC hop1 label 80000
-set protocols source-packet-routing compute-profile RED maximum-segment-list-depth 4
-set protocols source-packet-routing compute-profile RED compute-segment-list RED
+set protocols source-packet-routing segment-list PE3 hop1 label 80080
+set protocols source-packet-routing source-routing-path PE3 to 7.7.7.7
+set protocols source-packet-routing source-routing-path PE3 color 100
+set protocols source-packet-routing source-routing-path PE3 primary PE3
