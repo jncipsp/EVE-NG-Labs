@@ -1,0 +1,42 @@
+set interfaces et-0/0/0 unit 0 family inet address 1.1.1.1/30
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/0 unit 0 family mpls
+set interfaces et-0/0/1 unit 0 family inet address 4.4.4.2/30
+set interfaces et-0/0/1 unit 0 family iso
+set interfaces et-0/0/1 unit 0 family mpls
+set interfaces et-0/0/2 unit 0 family inet address 1.2.2.1/30
+set interfaces et-0/0/2 unit 0 family iso
+set interfaces et-0/0/3 vlan-tagging
+set interfaces et-0/0/3 encapsulation flexible-ethernet-services
+set interfaces et-0/0/3 unit 3232 encapsulation vlan-ccc
+set interfaces et-0/0/3 unit 3232 vlan-id 3232
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+set interfaces lo0 unit 0 family iso address 49.0000.5555.0000.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-instances EVPN instance-type evpn-vpws
+set routing-instances EVPN protocols evpn interface et-0/0/3.3232 vpws-service-id local 32
+set routing-instances EVPN protocols evpn interface et-0/0/3.3232 vpws-service-id remote 33
+set routing-instances EVPN interface et-0/0/3.3232
+set routing-instances EVPN route-distinguisher 5.5.5.5:3232
+set routing-instances EVPN vrf-target target:65400:3232
+set routing-options router-id 5.5.5.5
+set routing-options autonomous-system 65400
+set protocols bgp group EVPN type internal
+set protocols bgp group EVPN local-address 5.5.5.5
+set protocols bgp group EVPN family evpn signaling
+set protocols bgp group EVPN neighbor 9.9.9.9
+set protocols isis interface et-0/0/0.0 point-to-point
+set protocols isis interface et-0/0/1.0 point-to-point
+set protocols isis interface et-0/0/2.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols mpls label-switched-path PE3 to 7.7.7.7
+set protocols mpls label-switched-path PE3 primary PE3
+set protocols mpls path PE3 8.8.8.8 strict
+set protocols mpls interface et-0/0/0.0
+set protocols mpls interface et-0/0/1.0
+set protocols mpls interface lo0.0
+set protocols rsvp interface et-0/0/0.0
+set protocols rsvp interface et-0/0/1.0
+set protocols rsvp interface lo0.0
