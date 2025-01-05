@@ -26,9 +26,9 @@ set protocols bgp group VPWS type internal
 set protocols bgp group VPWS local-address 5.5.5.5
 set protocols bgp group VPWS family evpn signaling
 set protocols bgp group VPWS neighbor 9.9.9.9
-set protocols isis interface ge-0/0/0.0
-set protocols isis interface ge-0/0/1.0
-set protocols isis interface ge-0/0/2.0
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/2.0 point-to-point
 set protocols isis interface lo0.0 passive
 set protocols isis source-packet-routing srgb start-label 80000
 set protocols isis source-packet-routing srgb index-range 1000

@@ -27,9 +27,9 @@ set protocols bgp group L2VPN type internal
 set protocols bgp group L2VPN local-address 6.6.6.6
 set protocols bgp group L2VPN family l2vpn signaling
 set protocols bgp group L2VPN neighbor 9.9.9.9
-set protocols isis interface ge-0/0/0.0
-set protocols isis interface ge-0/0/1.0
-set protocols isis interface ge-0/0/2.0
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface ge-0/0/2.0 point-to-point
 set protocols isis interface lo0.0 passive
 set protocols isis source-packet-routing srgb start-label 80000
 set protocols isis source-packet-routing srgb index-range 1000
