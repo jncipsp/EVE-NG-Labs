@@ -8,7 +8,6 @@ set interfaces ge-0/0/4 unit 0 family inet address 1.5.5.2/30
 set interfaces ge-0/0/4 unit 0 family iso
 set interfaces lo0 unit 0 family inet address 9.9.9.9/32
 set interfaces lo0 unit 0 family iso address 49.0000.9999.0000.0000.00
-set routing-options rib inet.3
 set routing-options resolution rib bgp.evpn.0 resolution-ribs inet.0
 set routing-options resolution rib bgp.l2vpn.0 resolution-ribs inet.0
 set routing-options router-id 9.9.9.9
