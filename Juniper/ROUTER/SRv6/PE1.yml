@@ -1,13 +1,8 @@
-set chassis aggregated-devices ethernet device-count 10
 set chassis network-services enhanced-ip
-set services rpm twamp server authentication-mode none
-set services rpm twamp server light
-set interfaces et-0/0/0 gigether-options 802.3ad ae0
-set interfaces et-0/0/1 gigether-options 802.3ad ae2
-set interfaces ae0 unit 0 family iso
-set interfaces ae0 unit 0 family inet6 address fc00:1:2::2/64
-set interfaces ae2 unit 0 family iso
-set interfaces ae2 unit 0 family inet6 address fc00:2:4::2/64
+set interfaces ge-0/0/3 unit 0 family iso
+set interfaces ge-0/0/3 unit 0 family inet6 address fd00:1:2::2/64
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family inet6 address fd00:2:4::2/64
 set interfaces lo0 unit 0 family iso address 49.0001.0000.0000.0002.00
 set interfaces lo0 unit 0 family inet6 address fd00::2/128
 set policy-options policy-statement LB then load-balance per-flow
@@ -23,9 +18,9 @@ set routing-options source-packet-routing srv6 locator LOCATOR_129 algorithm 129
 set routing-options source-packet-routing srv6 locator LOCATOR_129 5f00:129:2::/48
 set routing-options source-packet-routing srv6 locator LOCATOR_129 micro-sid
 set routing-options resolution preserve-nexthop-hierarchy
-set routing-options router-id 192.168.0.2
+set routing-options router-id 10.1.1.1
 set routing-options route-distinguisher-id-use-router-id
-set routing-options autonomous-system 65000
+set routing-options autonomous-system 65550
 set routing-options ipv6-router-id fd00::2
 set routing-options transport-class auto-create
 set routing-options forwarding-table srv6-chain-merge
