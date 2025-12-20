@@ -8,11 +8,25 @@ set interfaces ge-0/0/1 unit 0 family mpls
 set interfaces ge-0/0/2 unit 0 family inet unnumbered-address lo0.0
 set interfaces ge-0/0/2 unit 0 family iso
 set interfaces ge-0/0/2 unit 0 family mpls
+set interfaces ge-0/0/3 vlan-tagging
+set interfaces ge-0/0/3 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/3 unit 67 encapsulation vlan-ccc
+set interfaces ge-0/0/3 unit 67 vlan-id 67
 set interfaces lo0 unit 0 family inet address 7.7.7.7/32
 set interfaces lo0 unit 0 family iso address 49.0000.7777.0000.0000.00
 set interfaces lo0 unit 0 family mpls
+set routing-instances EVPN instance-type evpn-vpws
+set routing-instances EVPN protocols evpn interface ge-0/0/3.67 vpws-service-id local 76
+set routing-instances EVPN protocols evpn interface ge-0/0/3.67 vpws-service-id remote 67
+set routing-instances EVPN interface ge-0/0/3.67
+set routing-instances EVPN route-distinguisher 7.7.7.7:67
+set routing-instances EVPN vrf-target target:65400:67
 set routing-options router-id 7.7.7.7
 set routing-options autonomous-system 65400
+set protocols bgp group EVPN type internal
+set protocols bgp group EVPN local-address 7.7.7.7
+set protocols bgp group EVPN family evpn signaling
+set protocols bgp group EVPN neighbor 9.9.9.9
 set protocols isis interface ge-0/0/0.0 point-to-point
 set protocols isis interface ge-0/0/1.0 point-to-point
 set protocols isis interface ge-0/0/2.0 point-to-point

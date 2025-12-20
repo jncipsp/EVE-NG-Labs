@@ -1,3 +1,4 @@
+set chassis network-services enhanced-ip
 set interfaces ge-0/0/1 unit 0 family inet unnumbered-address lo0.0
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/2 unit 0 family inet unnumbered-address lo0.0
@@ -8,6 +9,15 @@ set interfaces ge-0/0/4 unit 0 family inet unnumbered-address lo0.0
 set interfaces ge-0/0/4 unit 0 family iso
 set interfaces lo0 unit 0 family inet address 9.9.9.9/32
 set interfaces lo0 unit 0 family iso address 49.0000.9999.0000.0000.00
+set routing-options resolution rib bgp.evpn.0 resolution-ribs inet.0
+set routing-options router-id 9.9.9.9
+set routing-options autonomous-system 65400
+set protocols bgp group EVPN type internal
+set protocols bgp group EVPN local-address 9.9.9.9
+set protocols bgp group EVPN family evpn signaling
+set protocols bgp group EVPN cluster 9.9.9.9
+set protocols bgp group EVPN neighbor 5.5.5.5
+set protocols bgp group EVPN neighbor 7.7.7.7
 set protocols isis interface ge-0/0/1.0 point-to-point
 set protocols isis interface ge-0/0/2.0 point-to-point
 set protocols isis interface ge-0/0/3.0 point-to-point
