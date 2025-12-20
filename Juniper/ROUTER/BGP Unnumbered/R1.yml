@@ -1,0 +1,15 @@
+set interfaces ge-0/0/0 unit 0 family inet
+set interfaces ge-0/0/0 unit 0 family inet6
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+set policy-options policy-statement DIRECT term 1 from protocol direct
+set policy-options policy-statement DIRECT term 1 then accept
+set policy-options as-list UNNUM members 65000-65001
+set routing-options router-id 5.5.5.5
+set routing-options autonomous-system 65000
+set protocols router-advertisement interface ge-0/0/0.0
+set protocols bgp group UNNUM family inet unicast extended-nexthop
+set protocols bgp group UNNUM family inet6 unicast
+set protocols bgp group UNNUM export DIRECT
+set protocols bgp group UNNUM dynamic-neighbor UNNUM peer-auto-discovery family inet6 ipv6-nd
+set protocols bgp group UNNUM dynamic-neighbor UNNUM peer-auto-discovery interface ge-0/0/0.0
+set protocols bgp group UNNUM peer-as-list UNNUM
