@@ -1,0 +1,37 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6 address fd2c:8b41:3e9a:1c4d::1/64
+set interfaces ge-0/0/0 unit 0 family mpls
+set interfaces ge-0/0/1 flexible-vlan-tagging
+set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/1 unit 2111 encapsulation vlan-bridge
+set interfaces ge-0/0/1 unit 2111 vlan-id 2111
+set interfaces ge-0/0/1 unit 2111 etree-ac-role root
+set interfaces lo0 unit 0 family iso address 49.0000.5555.0000.0000.00
+set interfaces lo0 unit 0 family inet6 address fd7e:9c21:ab04:77d1:8a2f:3c91:5e44:1baf/128
+set interfaces lo0 unit 0 family mpls
+set routing-instances ETREE instance-type evpn
+set routing-instances ETREE protocols evpn interface ge-0/0/1.2111
+set routing-instances ETREE protocols evpn evpn-etree
+set routing-instances ETREE vlan-id 2111
+set routing-instances ETREE interface ge-0/0/1.2111
+set routing-instances ETREE route-distinguisher 5.5.5.5:2111
+set routing-instances ETREE vrf-target target:65400:2111
+set routing-options router-id 10.1.1.1
+set routing-options autonomous-system 65400
+set protocols bgp group INTERNAL type internal
+set protocols bgp group INTERNAL local-address fd7e:9c21:ab04:77d1:8a2f:3c91:5e44:1baf
+set protocols bgp group INTERNAL family inet6 unicast
+set protocols bgp group INTERNAL family evpn signaling
+set protocols bgp group INTERNAL neighbor fd34:f0a9:6dbe:2c18:0000:0000:0000:0001
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface ge-0/0/1.0 point-to-point
+set protocols isis interface lo0.0
+set protocols isis source-packet-routing srgb start-label 80000
+set protocols isis source-packet-routing srgb index-range 1000
+set protocols isis source-packet-routing node-segment ipv4-index 50
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols mpls interface ge-0/0/0.0
+set protocols mpls interface ge-0/0/1.0
+set protocols mpls interface lo0.0
