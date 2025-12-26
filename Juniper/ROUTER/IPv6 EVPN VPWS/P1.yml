@@ -5,9 +5,15 @@ set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family inet6 address fd91:6a0f:b7e2:9a33::1/64
 set interfaces ge-0/0/1 unit 0 family mpls
+set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM694865B392
+set interfaces fxp0 unit 0 family inet6 dhcpv6-client client-type stateful
+set interfaces fxp0 unit 0 family inet6 dhcpv6-client client-ia-type ia-na
+set interfaces fxp0 unit 0 family inet6 dhcpv6-client client-identifier duid-type duid-ll
+set interfaces fxp0 unit 0 family inet6 dhcpv6-client vendor-id Juniper:vmx:VM694865B392
 set interfaces lo0 unit 0 family iso address 49.0000.6666.0000.0000.00
 set interfaces lo0 unit 0 family inet6 address fd34:f0a9:6dbe:2c18:0000:0000:0000:0001/128
 set interfaces lo0 unit 0 family mpls
+set routing-options resolution
 set routing-options router-id 10.1.1.2
 set routing-options autonomous-system 65400
 set protocols bgp group INTERNAL type internal
@@ -22,7 +28,7 @@ set protocols isis interface ge-0/0/1.0 point-to-point
 set protocols isis interface lo0.0
 set protocols isis source-packet-routing srgb start-label 80000
 set protocols isis source-packet-routing srgb index-range 1000
-set protocols isis source-packet-routing node-segment ipv4-index 60
+set protocols isis source-packet-routing node-segment ipv6-index 60
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
 set protocols mpls interface ge-0/0/0.0
