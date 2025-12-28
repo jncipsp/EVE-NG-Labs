@@ -1,46 +1,54 @@
+hostname leaf2
+
 vlan 1234,2468
 
 interface Ethernet1
 no switchport
-ip address 2.2.2.2/30
-ip ospf area 0.0.0.0
-    
+ipv6 enable
+
 interface Ethernet2
 no switchport
-ip address 12.12.12.2/30
-ip ospf area 0.0.0.0
-    
+ipv6 enable
+
 interface Ethernet3
 switchport access vlan 1234
-   
+
 interface Ethernet4
 switchport access vlan 2468
-    
+
 interface Loopback0
 ip address 8.8.8.8/32
-ip ospf area 0.0.0.0
-
+ 
 interface Vxlan1
 vxlan source-interface Loopback0
 vxlan udp-port 4789
 vxlan vlan 1234 vni 1234
 vxlan vlan 2468 vni 2468
- 
+
 ip routing
 
+ipv6 unicast-routing
+
 router bgp 65400
+router-id 8.8.8.8
+no bgp default ipv4-unicast
+neighbor SPINE peer group
+neighbor SPINE local-as 65404 no-prepend replace-as
 neighbor 5.5.5.5 remote-as 65400
 neighbor 5.5.5.5 update-source Loopback0
 neighbor 5.5.5.5 send-community extended
 neighbor 6.6.6.6 remote-as 65400
 neighbor 6.6.6.6 update-source Loopback0
 neighbor 6.6.6.6 send-community extended
-  
+redistribute connected
+neighbor interface Et1 peer-group SPINE remote-as 65401
+neighbor interface Et2 peer-group SPINE remote-as 65402
+    
 vlan 1234
 rd 8.8.8.8:1234
 route-target both 65400:1234
 redistribute learned
-    
+
 vlan 2468
 rd 8.8.8.8:2468
 route-target both 65400:2468
@@ -51,8 +59,7 @@ neighbor 5.5.5.5 activate
 neighbor 6.6.6.6 activate
 
 address-family ipv4
+neighbor SPINE activate
+neighbor SPINE next-hop address-family ipv6 originate
 no neighbor 5.5.5.5 activate
 no neighbor 6.6.6.6 activate
-
-router ospf 1
-router-id 8.8.8.8

@@ -1,0 +1,45 @@
+hostname spine1
+    
+interface Ethernet1
+no switchport
+ipv6 enable
+    
+interface Ethernet2
+no switchport
+ipv6 enable
+
+interface Ethernet3
+no switchport
+ipv6 enable
+
+interface Loopback0
+ip address 5.5.5.5/32
+
+ip routing
+
+ipv6 unicast-routing
+
+router bgp 65400
+router-id 5.5.5.5
+no bgp default ipv4-unicast
+neighbor LEAF peer group
+neighbor LEAF local-as 65401 no-prepend replace-as
+neighbor LEAF_OL peer group
+neighbor LEAF_OL remote-as 65400
+neighbor LEAF_OL update-source Loopback0
+neighbor LEAF_OL route-reflector-client
+neighbor LEAF_OL send-community extended
+neighbor 7.7.7.7 peer group LEAF_OL
+neighbor 8.8.8.8 peer group LEAF_OL
+neighbor 9.9.9.9 peer group LEAF_OL
+redistribute connected
+neighbor interface Et1 peer-group LEAF remote-as 65403
+neighbor interface Et2 peer-group LEAF remote-as 65404
+neighbor interface Et3 peer-group LEAF remote-as 65405
+
+address-family evpn
+neighbor LEAF_OL activate
+
+address-family ipv4
+neighbor LEAF activate
+neighbor LEAF next-hop address-family ipv6 originate
