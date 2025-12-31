@@ -1,27 +1,19 @@
+set system host-name leaf2
 set interfaces ge-0/0/0 unit 0 family inet address 7.7.7.1/31
+set interfaces ge-0/0/0 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family inet address 10.10.10.1/31
+set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/2 unit 0 family ethernet-switching interface-mode access
 set interfaces ge-0/0/2 unit 0 family ethernet-switching vlan members data2
 set interfaces ge-0/0/3 unit 0 family ethernet-switching interface-mode access
 set interfaces ge-0/0/3 unit 0 family ethernet-switching vlan members data1
 set interfaces lo0 unit 0 family inet address 4.4.4.4/32
-set policy-options policy-statement lb term 1 then load-balance per-packet
-set policy-options policy-statement lb term 1 then accept
-set policy-options policy-statement loop term 1 from protocol direct
-set policy-options policy-statement loop term 1 from interface lo0.0
-set policy-options policy-statement loop term 1 then accept
+set interfaces lo0 unit 0 family iso address 49.0000.4444.0000.0000.00
 set policy-options policy-statement NHS term 1 from protocol bgp
 set policy-options policy-statement NHS term 1 then next-hop self
 set routing-options router-id 4.4.4.4
 set routing-options autonomous-system 65530
-set routing-options forwarding-table export lb
 set routing-options forwarding-table chained-composite-next-hop ingress evpn
-set protocols bgp group UNDERLAY type external
-set protocols bgp group UNDERLAY export loop
-set protocols bgp group UNDERLAY local-as 64515
-set protocols bgp group UNDERLAY multipath multiple-as
-set protocols bgp group UNDERLAY neighbor 7.7.7.0 peer-as 64512
-set protocols bgp group UNDERLAY neighbor 10.10.10.0 peer-as 64513
 set protocols bgp group OVERLAY type internal
 set protocols bgp group OVERLAY local-address 4.4.4.4
 set protocols bgp group OVERLAY family evpn signaling
@@ -31,15 +23,16 @@ set protocols bgp group OVERLAY neighbor 1.1.1.1
 set protocols bgp group OVERLAY neighbor 2.2.2.2
 set protocols evpn encapsulation vxlan
 set protocols evpn multicast-mode ingress-replication
-set protocols evpn extended-vni-list all
+set protocols evpn vni-options vni 20033 vrf-target target:65530:33
+set protocols evpn extended-vni-list 20033
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
 set switch-options vtep-source-interface lo0.0
 set switch-options route-distinguisher 4.4.4.4:500
 set switch-options vrf-target target:65530:500
 set vlans data1 vlan-id 33
-set vlans data1 l3-interface irb.33
 set vlans data1 vxlan vni 20033
-set vlans data1 vxlan ingress-node-replication
 set vlans data2 vlan-id 133
-set vlans data2 l3-interface irb.133
-set vlans data2 vxlan vni 20133
-set vlans data2 vxlan ingress-node-replication

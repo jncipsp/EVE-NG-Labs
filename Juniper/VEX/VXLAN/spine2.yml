@@ -1,25 +1,17 @@
+set system host-name spine2
 set interfaces ge-0/0/0 unit 0 family inet address 9.9.9.0/31
+set interfaces ge-0/0/0 unit 0 family iso
 set interfaces ge-0/0/1 unit 0 family inet address 10.10.10.0/31
+set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/2 unit 0 family inet address 11.11.11.0/31
+set interfaces ge-0/0/2 unit 0 family iso
 set interfaces lo0 unit 0 family inet address 2.2.2.2/32
-set policy-options policy-statement lb term 1 then load-balance per-packet
-set policy-options policy-statement lb term 1 then accept
-set policy-options policy-statement loop term 1 from protocol direct
-set policy-options policy-statement loop term 1 from interface lo0.0
-set policy-options policy-statement loop term 1 then accept
+set interfaces lo0 unit 0 family iso address 49.0000.2222.0000.0000.00
 set policy-options policy-statement NHS term 1 from protocol bgp
 set policy-options policy-statement NHS term 1 then next-hop self
 set routing-options router-id 2.2.2.2
 set routing-options autonomous-system 65530
-set routing-options forwarding-table export lb
 set routing-options forwarding-table chained-composite-next-hop ingress evpn
-set protocols bgp group UNDERLAY type external
-set protocols bgp group UNDERLAY export loop
-set protocols bgp group UNDERLAY local-as 64513
-set protocols bgp group UNDERLAY multipath multiple-as
-set protocols bgp group UNDERLAY neighbor 9.9.9.1 peer-as 64514
-set protocols bgp group UNDERLAY neighbor 10.10.10.1 peer-as 64515
-set protocols bgp group UNDERLAY neighbor 11.11.11.1 peer-as 64516
 set protocols bgp group OVERLAY type internal
 set protocols bgp group OVERLAY local-address 2.2.2.2
 set protocols bgp group OVERLAY family evpn signaling
@@ -30,3 +22,9 @@ set protocols bgp group OVERLAY multipath
 set protocols bgp group OVERLAY neighbor 3.3.3.3
 set protocols bgp group OVERLAY neighbor 4.4.4.4
 set protocols bgp group OVERLAY neighbor 5.5.5.5
+set protocols isis interface ge-0/0/0.0
+set protocols isis interface ge-0/0/1.0
+set protocols isis interface ge-0/0/2.0
+set protocols isis interface lo0.0 passive
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
