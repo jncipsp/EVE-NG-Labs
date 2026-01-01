@@ -1,0 +1,42 @@
+set system host-name pe2
+set interfaces et-0/0/0 unit 0 family inet unnumbered-address lo0.0
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/0 unit 0 family mpls
+set interfaces et-0/0/1 unit 0 family inet unnumbered-address lo0.0
+set interfaces et-0/0/1 unit 0 family iso
+set interfaces et-0/0/1 unit 0 family mpls
+set interfaces et-0/0/2 unit 0 family inet unnumbered-address lo0.0
+set interfaces et-0/0/2 unit 0 family iso
+set interfaces et-0/0/2 unit 0 family mpls
+set interfaces et-0/0/3 flexible-vlan-tagging
+set interfaces et-0/0/3 encapsulation flexible-ethernet-services
+set interfaces et-0/0/3 unit 202 encapsulation vlan-bridge
+set interfaces et-0/0/3 unit 202 vlan-id 202
+set interfaces et-0/0/3 unit 202 etree-ac-role leaf
+set interfaces lo0 unit 0 family inet address 6.6.6.6/32
+set interfaces lo0 unit 0 family iso address 49.0000.6666.0000.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-instances NEWYORK instance-type mac-vrf
+set routing-instances NEWYORK protocols evpn evpn-etree
+set routing-instances NEWYORK service-type vlan-aware
+set routing-instances NEWYORK interface et-0/0/3.202
+set routing-instances NEWYORK route-distinguisher 6.6.6.6:202
+set routing-instances NEWYORK vrf-target target:65400:202
+set routing-instances NEWYORK vlans NY202 vlan-id 202
+set routing-instances NEWYORK vlans NY202 interface et-0/0/3.202
+set routing-options router-id 6.6.6.6
+set routing-options autonomous-system 65400
+set protocols bgp group EVPN type internal
+set protocols bgp group EVPN local-address 6.6.6.6
+set protocols bgp group EVPN family evpn signaling
+set protocols bgp group EVPN neighbor 9.9.9.9
+set protocols mpls interface et-0/0/0.0
+set protocols mpls interface et-0/0/1.0
+set protocols mpls interface lo0.0
+set protocols ospf source-packet-routing node-segment ipv4-index 601
+set protocols ospf source-packet-routing srgb start-label 70000
+set protocols ospf source-packet-routing srgb index-range 1000
+set protocols ospf area 0.0.0.0 interface et-0/0/1.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface et-0/0/0.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface et-0/0/2.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface lo0.0 passive

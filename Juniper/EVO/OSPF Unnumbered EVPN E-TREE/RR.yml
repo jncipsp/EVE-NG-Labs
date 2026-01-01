@@ -1,0 +1,36 @@
+set system host-name rr
+set interfaces et-0/0/0 unit 0 family inet
+set interfaces et-0/0/1 unit 0 family inet unnumbered-address lo0.0
+set interfaces et-0/0/1 unit 0 family iso
+set interfaces et-0/0/1 unit 0 family mpls
+set interfaces et-0/0/2 unit 0 family inet unnumbered-address lo0.0
+set interfaces et-0/0/2 unit 0 family iso
+set interfaces et-0/0/2 unit 0 family mpls
+set interfaces et-0/0/3 unit 0 family inet unnumbered-address lo0.0
+set interfaces et-0/0/3 unit 0 family iso
+set interfaces et-0/0/3 unit 0 family mpls
+set interfaces et-0/0/4 unit 0 family inet unnumbered-address lo0.0
+set interfaces et-0/0/4 unit 0 family iso
+set interfaces et-0/0/4 unit 0 family mpls
+set interfaces et-0/0/6 unit 0 family inet
+set interfaces et-0/0/8 unit 0 family inet
+set interfaces et-0/0/9 unit 0 family inet
+set interfaces et-0/0/10 unit 0 family inet
+set interfaces et-0/0/11 unit 0 family inet
+set interfaces lo0 unit 0 family inet address 9.9.9.9/32
+set interfaces lo0 unit 0 family iso address 49.0000.9999.0000.0000.00
+set routing-options resolution rib bgp.evpn.0 resolution-ribs inet.0
+set routing-options router-id 9.9.9.9
+set routing-options autonomous-system 65400
+set protocols bgp group EVPN type internal
+set protocols bgp group EVPN local-address 9.9.9.9
+set protocols bgp group EVPN family evpn signaling
+set protocols bgp group EVPN cluster 9.9.9.9
+set protocols bgp group EVPN neighbor 5.5.5.5
+set protocols bgp group EVPN neighbor 7.7.7.7
+set protocols bgp group EVPN neighbor 6.6.6.6
+set protocols bgp group EVPN neighbor 8.8.8.8
+set protocols ospf area 0.0.0.0 interface et-0/0/1.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface et-0/0/2.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface et-0/0/3.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface et-0/0/4.0 interface-type p2p
