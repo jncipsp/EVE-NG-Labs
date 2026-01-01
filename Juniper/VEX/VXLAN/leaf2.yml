@@ -1,9 +1,11 @@
 set system host-name leaf2
+set interfaces ge-0/0/0 mtu 9192
 set interfaces ge-0/0/0 unit 0 family inet address 7.7.7.1/31
 set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/1 mtu 9192
 set interfaces ge-0/0/1 unit 0 family inet address 10.10.10.1/31
 set interfaces ge-0/0/1 unit 0 family iso
-set interfaces ge-0/0/2 unit 0 family ethernet-switching interface-mode access
+set interfaces ge-0/0/2 unit 0 family ethernet-switching interface-mode acces
 set interfaces ge-0/0/2 unit 0 family ethernet-switching vlan members data2
 set interfaces ge-0/0/3 unit 0 family ethernet-switching interface-mode access
 set interfaces ge-0/0/3 unit 0 family ethernet-switching vlan members data1
@@ -13,7 +15,6 @@ set policy-options policy-statement NHS term 1 from protocol bgp
 set policy-options policy-statement NHS term 1 then next-hop self
 set routing-options router-id 4.4.4.4
 set routing-options autonomous-system 65530
-set routing-options forwarding-table chained-composite-next-hop ingress evpn
 set protocols bgp group OVERLAY type internal
 set protocols bgp group OVERLAY local-address 4.4.4.4
 set protocols bgp group OVERLAY family evpn signaling
@@ -25,6 +26,7 @@ set protocols evpn encapsulation vxlan
 set protocols evpn multicast-mode ingress-replication
 set protocols evpn vni-options vni 20033 vrf-target target:65530:33
 set protocols evpn extended-vni-list 20033
+set protocols evpn extended-vni-list all
 set protocols isis interface ge-0/0/0.0
 set protocols isis interface ge-0/0/1.0
 set protocols isis interface lo0.0 passive

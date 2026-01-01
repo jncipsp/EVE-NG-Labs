@@ -1,6 +1,8 @@
 set system host-name leaf3
+set interfaces ge-0/0/0 mtu 9192
 set interfaces ge-0/0/0 unit 0 family inet address 8.8.8.1/31
 set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/1 mtu 9192
 set interfaces ge-0/0/1 unit 0 family inet address 11.11.11.1/31
 set interfaces ge-0/0/1 unit 0 family iso
 set interfaces ge-0/0/2 unit 0 family ethernet-switching interface-mode access
@@ -11,7 +13,6 @@ set policy-options policy-statement NHS term 1 from protocol bgp
 set policy-options policy-statement NHS term 1 then next-hop self
 set routing-options router-id 5.5.5.5
 set routing-options autonomous-system 65530
-set routing-options forwarding-table chained-composite-next-hop ingress evpn
 set protocols bgp group OVERLAY type internal
 set protocols bgp group OVERLAY local-address 5.5.5.5
 set protocols bgp group OVERLAY family evpn signaling

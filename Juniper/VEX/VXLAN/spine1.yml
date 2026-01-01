@@ -1,17 +1,22 @@
 set system host-name spine1
+set interfaces ge-0/0/0 mtu 9192
 set interfaces ge-0/0/0 unit 0 family inet address 6.6.6.0/31
 set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/1 mtu 9192
 set interfaces ge-0/0/1 unit 0 family inet address 7.7.7.0/31
 set interfaces ge-0/0/1 unit 0 family iso
+set interfaces ge-0/0/2 mtu 9192
 set interfaces ge-0/0/2 unit 0 family inet address 8.8.8.0/31
 set interfaces ge-0/0/2 unit 0 family iso
 set interfaces lo0 unit 0 family inet address 1.1.1.1/32
 set interfaces lo0 unit 0 family iso address 49.0000.1111.0000.0000.00
+set policy-options policy-statement LOAD_BALANCE term LOADBAL then load-balance per-packet
+set policy-options policy-statement LOAD_BALANCE term LOADBAL then accept
 set policy-options policy-statement NHS term 1 from protocol bgp
 set policy-options policy-statement NHS term 1 then next-hop self
 set routing-options router-id 1.1.1.1
 set routing-options autonomous-system 65530
-set routing-options forwarding-table chained-composite-next-hop ingress evpn
+set routing-options forwarding-table export LOAD_BALANCE
 set protocols bgp group OVERLAY type internal
 set protocols bgp group OVERLAY local-address 1.1.1.1
 set protocols bgp group OVERLAY family evpn signaling
