@@ -27,7 +27,6 @@ set protocols bgp group OVERLAY multipath
 set protocols bgp group OVERLAY neighbor 3.3.3.3
 set protocols bgp group OVERLAY neighbor 4.4.4.4
 set protocols bgp group OVERLAY neighbor 5.5.5.5
-set protocols bgp group underlay type external
 set protocols isis interface et-0/0/0.0 point-to-point
 set protocols isis interface et-0/0/1.0 point-to-point
 set protocols isis interface et-0/0/2.0 point-to-point

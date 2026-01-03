@@ -1,11 +1,9 @@
 set interfaces et-0/0/0 mtu 9216
 set interfaces et-0/0/0 unit 0 family inet address 6.6.6.1/31
 set interfaces et-0/0/0 unit 0 family iso
-set interfaces et-0/0/0 unit 0 family inet6
 set interfaces et-0/0/1 mtu 9216
 set interfaces et-0/0/1 unit 0 family inet address 9.9.9.1/31
 set interfaces et-0/0/1 unit 0 family iso
-set interfaces et-0/0/1 unit 0 family inet6
 set interfaces et-0/0/2 flexible-vlan-tagging
 set interfaces et-0/0/2 mtu 9216
 set interfaces et-0/0/2 encapsulation flexible-ethernet-services
