@@ -1,10 +1,4 @@
 set system host-name pe4
-set system root-authentication encrypted-password "$6$WGqyT25p$aGr9qA2aNTPQl9rZleRqkfXmp/T8Y5EDFQDF.8XkgnjPIcPInqC4/XJhjuYr2rImXTjuejguLXSkSETSdd47C/"
-set system syslog file interactive-commands interactive-commands any
-set system syslog file messages any notice
-set system syslog file messages authorization info
-set system processes nlsd enable
-set chassis auto-image-upgrade
 set interfaces et-0/0/0 unit 0 family inet unnumbered-address lo0.0
 set interfaces et-0/0/0 unit 0 family iso
 set interfaces et-0/0/0 unit 0 family mpls
