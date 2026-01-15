@@ -1,0 +1,23 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 vlan-tagging
+set interfaces ge-0/0/0 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/0 unit 512 encapsulation vlan-ccc
+set interfaces ge-0/0/0 unit 512 vlan-id 512
+set interfaces ge-0/0/2 unit 0 family inet address 4.4.4.2/30
+set interfaces ge-0/0/2 unit 0 family iso
+set interfaces ge-0/0/2 unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 8.8.8.8/32
+set interfaces lo0 unit 0 family iso address 49.0000.8888.8888.8888.00
+set interfaces lo0 unit 0 family mpls
+set protocols isis interface ge-0/0/2.0 point-to-point
+set protocols isis interface lo0.0 point-to-point
+set protocols isis source-packet-routing srgb start-label 800000
+set protocols isis source-packet-routing srgb index-range 9000
+set protocols isis source-packet-routing node-segment ipv4-index 504
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols l2circuit neighbor 5.5.5.5 interface ge-0/0/0.512 virtual-circuit-id 3
+set protocols ldp interface lo0.0
+set protocols ldp neighbor 5.5.5.5
+set protocols mpls interface ge-0/0/2.0
+set protocols mpls interface lo0.0
