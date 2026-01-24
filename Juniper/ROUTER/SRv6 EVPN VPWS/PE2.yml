@@ -1,0 +1,35 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 unit 0 family iso
+set interfaces ge-0/0/0 unit 0 family inet6 address fd2c:8b41:3e9a:1c4d::10/64
+set interfaces ge-0/0/1 vlan-tagging
+set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/1 unit 12 encapsulation vlan-ccc
+set interfaces ge-0/0/1 unit 12 vlan-id 12
+set interfaces lo0 unit 0 family iso address 49.0000.6666.0000.0000.00
+set interfaces lo0 unit 0 family inet6 address fdc1:55aa:9e02:4b90:dead:beef:cafe:1234/128
+set policy-options policy-statement NHS then next-hop self
+set routing-instances EVPN-VPWS1 instance-type evpn-vpws
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/1.12 vpws-service-id local 21
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/1.12 vpws-service-id remote 12
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/1.12 vpws-service-id source-packet-routing srv6 locator LOC1
+set routing-instances EVPN-VPWS1 protocols evpn interface ge-0/0/1.12 vpws-service-id source-packet-routing srv6 locator end-dx2-sid 4002:ac8:a1:3:101::
+set routing-instances EVPN-VPWS1 protocols evpn encapsulation srv6
+set routing-instances EVPN-VPWS1 interface ge-0/0/1.12
+set routing-instances EVPN-VPWS1 route-distinguisher 6.6.6.6:12
+set routing-instances EVPN-VPWS1 vrf-target target:65400:12
+set routing-options source-packet-routing srv6 locator LOC1 4002:ac8:a1:3::/64
+set routing-options resolution preserve-nexthop-hierarchy
+set routing-options router-id 6.6.6.6
+set routing-options autonomous-system 65400
+set routing-options ipv6-router-id fd00::2
+set protocols bgp group IBGPv6 type internal
+set protocols bgp group IBGPv6 local-address fdc1:55aa:9e02:4b90:dead:beef:cafe:1234
+set protocols bgp group IBGPv6 family evpn signaling advertise-srv6-service
+set protocols bgp group IBGPv6 family evpn signaling accept-srv6-service
+set protocols bgp group IBGPv6 export NHS
+set protocols bgp group IBGPv6 neighbor fd7e:9c21:ab04:77d1:8a2f:3c91:5e44:1baf
+set protocols isis interface ge-0/0/0.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing srv6 locator LOC1
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
