@@ -6,26 +6,23 @@ set interfaces ge-0/0/1 vlan-tagging
 set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
 set interfaces ge-0/0/1 unit 2111 encapsulation vlan-ccc
 set interfaces ge-0/0/1 unit 2111 vlan-id 2111
-set interfaces fxp0 unit 0 family inet dhcp vendor-id Juniper-vmx-VM694841AEC5
-set interfaces fxp0 unit 0 family inet6 dhcpv6-client client-type stateful
-set interfaces fxp0 unit 0 family inet6 dhcpv6-client client-ia-type ia-na
-set interfaces fxp0 unit 0 family inet6 dhcpv6-client client-identifier duid-type duid-ll
-set interfaces fxp0 unit 0 family inet6 dhcpv6-client vendor-id Juniper:vmx:VM694841AEC5
 set interfaces lo0 unit 0 family iso address 49.0000.7777.0000.0000.00
 set interfaces lo0 unit 0 family inet6 address fdc1:55aa:9e02:4b90:dead:beef:cafe:1234/128
 set interfaces lo0 unit 0 family mpls
+set policy-options policy-statement NHS then next-hop self
 set routing-instances EVPN instance-type evpn-vpws
 set routing-instances EVPN protocols evpn interface ge-0/0/1.2111 vpws-service-id local 2112
 set routing-instances EVPN protocols evpn interface ge-0/0/1.2111 vpws-service-id remote 2111
 set routing-instances EVPN interface ge-0/0/1.2111
 set routing-instances EVPN route-distinguisher 7.7.7.7:2111
 set routing-instances EVPN vrf-target target:65400:2111
+set routing-options resolution preserve-nexthop-hierarchy
 set routing-options router-id 10.1.1.3
 set routing-options autonomous-system 65400
 set protocols bgp group INTERNAL type internal
 set protocols bgp group INTERNAL local-address fdc1:55aa:9e02:4b90:dead:beef:cafe:1234
-set protocols bgp group INTERNAL family inet6 unicast
 set protocols bgp group INTERNAL family evpn signaling
+set protocols bgp group INTERNAL export NHS
 set protocols bgp group INTERNAL neighbor fd34:f0a9:6dbe:2c18:0000:0000:0000:0001
 set protocols isis interface ge-0/0/0.0 point-to-point
 set protocols isis interface lo0.0 passive
