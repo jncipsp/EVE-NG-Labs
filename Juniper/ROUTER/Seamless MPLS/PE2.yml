@@ -3,6 +3,10 @@ set interfaces ge-0/0/0 unit 0 family inet address 6.6.6.2/30
 set interfaces ge-0/0/0 unit 0 family iso
 set interfaces ge-0/0/0 unit 0 family mpls
 set interfaces ge-0/0/1 unit 0 family inet address 20.10.10.1/24
+set interfaces ge-0/0/2 vlan-tagging
+set interfaces ge-0/0/2 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/2 unit 2777 encapsulation vlan-ccc
+set interfaces ge-0/0/2 unit 2777 vlan-id 2777
 set interfaces lo0 unit 0 family inet address 11.11.11.11/32
 set interfaces lo0 unit 0 family iso address 49.0002.1111.1111.0000.00
 set interfaces lo0 unit 0 family mpls
@@ -10,6 +14,13 @@ set policy-options policy-statement LOOP term 1 from interface lo0.0
 set policy-options policy-statement LOOP term 1 then accept
 set policy-options policy-statement NHS term 1 from protocol bgp
 set policy-options policy-statement NHS term 1 then next-hop self
+set routing-instances CUST_L2 instance-type l2vpn
+set routing-instances CUST_L2 protocols l2vpn site CUST_L2 interface ge-0/0/2.2777
+set routing-instances CUST_L2 protocols l2vpn site CUST_L2 site-identifier 2
+set routing-instances CUST_L2 protocols l2vpn encapsulation-type ethernet-vlan
+set routing-instances CUST_L2 interface ge-0/0/2.2777
+set routing-instances CUST_L2 route-distinguisher 11.11.11.11:2777
+set routing-instances CUST_L2 vrf-target target:65400:2777
 set routing-instances CUST_L3 instance-type vrf
 set routing-instances CUST_L3 protocols bgp group CUST_L3 type external
 set routing-instances CUST_L3 protocols bgp group CUST_L3 as-override
@@ -24,7 +35,8 @@ set protocols bgp group SR type internal
 set protocols bgp group SR local-address 11.11.11.11
 set protocols bgp group SR family inet labeled-unicast rib inet.3
 set protocols bgp group SR family inet-vpn unicast
-set protocols bgp group SR export LOOP
+set protocols bgp group SR family l2vpn signaling
+set protocols bgp group SR export NHS
 set protocols bgp group SR neighbor 10.10.10.10
 set protocols isis interface ge-0/0/0.0 level 2 disable
 set protocols isis interface ge-0/0/0.0 point-to-point
