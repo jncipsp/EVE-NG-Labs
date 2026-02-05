@@ -1,0 +1,58 @@
+set chassis network-services enhanced-ip
+set interfaces ge-0/0/0 encapsulation ethernet-bridge
+set interfaces ge-0/0/0 unit 0 family bridge
+set interfaces ge-0/0/1 flexible-vlan-tagging
+set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+set interfaces ge-0/0/1 unit 0 encapsulation vlan-bridge
+set interfaces ge-0/0/1 unit 0 vlan-id 3636
+set interfaces cbp0 unit 0 family bridge interface-mode trunk
+set interfaces cbp0 unit 0 family bridge bridge-domain-type bvlan
+set interfaces cbp0 unit 0 family bridge isid-list all
+set interfaces cbp0 unit 1 family bridge interface-mode trunk
+set interfaces cbp0 unit 1 family bridge bridge-domain-type bvlan
+set interfaces cbp0 unit 1 family bridge isid-list all
+set interfaces irb unit 0 family inet address 1.1.1.1/30
+set interfaces irb unit 0 family iso
+set interfaces irb unit 0 family mpls
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+set interfaces lo0 unit 0 family iso address 49.0000.5555.0000.0000.00
+set interfaces pip0 unit 0 family bridge interface-mode trunk
+set interfaces pip0 unit 0 family bridge bridge-domain-type svlan
+set interfaces pip0 unit 0 family bridge isid-list all-service-groups
+set routing-instances CUST1_PBB instance-type virtual-switch
+set routing-instances CUST1_PBB protocols evpn extended-isid-list 103636
+set routing-instances CUST1_PBB protocols evpn pbb-evpn-core
+set routing-instances CUST1_PBB bridge-domains CUST1 vlan-id 3636
+set routing-instances CUST1_PBB bridge-domains CUST1 isid-list 103636
+set routing-instances CUST1_PBB bridge-domains CUST1 vlan-id-scope-local
+set routing-instances CUST1_PBB interface cbp0.0
+set routing-instances CUST1_PBB route-distinguisher 5.5.5.5:100
+set routing-instances CUST1_PBB vrf-target target:65400:100
+set routing-instances PBB instance-type virtual-switch
+set routing-instances PBB bridge-domains EVPN domain-type bridge
+set routing-instances PBB bridge-domains EVPN vlan-id 3636
+set routing-instances PBB bridge-domains EVPN interface ge-0/0/1.0
+set routing-instances PBB pbb-options peer-instance CUST1_PBB
+set routing-instances PBB service-groups GROUP_A service-type elan
+set routing-instances PBB service-groups GROUP_A pbb-service-options isid 103636 vlan-id-list 3636
+set routing-instances PBB service-groups GROUP_A pbb-service-options source-bmac 00:50:50:50:50:50
+set routing-instances PBB interface pip0.0
+set routing-options router-id 5.5.5.5
+set routing-options autonomous-system 65400
+set protocols bgp group ibgp type internal
+set protocols bgp group ibgp local-address 5.5.5.5
+set protocols bgp group ibgp family evpn signaling
+set protocols bgp group ibgp neighbor 6.6.6.6
+set protocols isis interface irb.0
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing srgb start-label 800000
+set protocols isis source-packet-routing srgb index-range 9000
+set protocols isis source-packet-routing node-segment ipv4-index 500
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols mpls label-switched-path PE2 to 1.1.1.2
+set protocols mpls interface irb.0
+set protocols rsvp interface irb.0
+set bridge-domains PBB vlan-id none
+set bridge-domains PBB interface ge-0/0/0.0
+set bridge-domains PBB routing-interface irb.0
