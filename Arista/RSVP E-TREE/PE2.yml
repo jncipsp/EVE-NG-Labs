@@ -1,0 +1,58 @@
+hostname pe2
+
+vlan 358
+e-tree role leaf
+
+interface Ethernet1
+no switchport
+ip address 2.2.2.2/30
+isis enable 1
+traffic-engineering
+
+interface Ethernet2
+switchport trunk allowed vlan 358
+switchport mode trunk
+
+interface Loopback0
+ip address 7.7.7.7/32
+isis enable 1
+
+ip routing
+
+mpls ip
+
+router bgp 65400
+router-id 7.7.7.7
+neighbor 6.6.6.6 remote-as 65400
+neighbor 6.6.6.6 update-source Loopback0
+neighbor 6.6.6.6 send-community extended
+
+vlan-aware-bundle ETREE
+rd 7.7.7.7:358
+route-target both 65400:358
+redistribute learned
+vlan 358
+
+address-family evpn
+neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+neighbor 6.6.6.6 activate
+
+router traffic-engineering
+rsvp
+local-interface Loopback0
+path DYNAMIC dynamic
+tunnel 1
+destination ip 5.5.5.5
+path DYNAMIC
+no shutdown
+router-id ipv4 7.7.7.7
+
+router isis 1
+net 49.0000.7777.7777.7777.00
+is-type level-2
+address-family ipv4 unicast
+traffic-engineering
+no shutdown
+
+mpls rsvp
+no shutdown
