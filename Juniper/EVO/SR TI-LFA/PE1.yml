@@ -1,0 +1,43 @@
+set interfaces et-0/0/0 unit 0 family inet address 1.1.1.1/30
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/0 unit 0 family mpls
+set interfaces et-0/0/1 unit 0 family inet address 4.4.4.2/30
+set interfaces et-0/0/1 unit 0 family iso
+set interfaces et-0/0/1 unit 0 family mpls
+set interfaces et-0/0/2 unit 0 family inet address 1.2.2.1/30
+set interfaces et-0/0/2 unit 0 family iso
+set interfaces et-0/0/3 flexible-vlan-tagging
+set interfaces et-0/0/3 encapsulation flexible-ethernet-services
+set interfaces et-0/0/3 unit 890 encapsulation vlan-ccc
+set interfaces et-0/0/3 unit 890 vlan-id 890
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+set interfaces lo0 unit 0 family iso address 49.0000.5555.0000.0000.00
+set interfaces lo0 unit 0 family mpls
+set routing-instances VPWS instance-type evpn-vpws
+set routing-instances VPWS protocols evpn interface et-0/0/3.890 vpws-service-id local 89
+set routing-instances VPWS protocols evpn interface et-0/0/3.890 vpws-service-id remote 90
+set routing-instances VPWS interface et-0/0/3.890
+set routing-instances VPWS route-distinguisher 5.5.5.5:890
+set routing-instances VPWS vrf-target target:65400:890
+set routing-options router-id 5.5.5.5
+set routing-options autonomous-system 65400
+set protocols bgp group VPWS type internal
+set protocols bgp group VPWS local-address 5.5.5.5
+set protocols bgp group VPWS family evpn signaling
+set protocols bgp group VPWS neighbor 9.9.9.9
+set protocols isis interface et-0/0/0.0 level 2 post-convergence-lfa
+set protocols isis interface et-0/0/0.0 point-to-point
+set protocols isis interface et-0/0/1.0 level 2 post-convergence-lfa
+set protocols isis interface et-0/0/1.0 point-to-point
+set protocols isis interface et-0/0/2.0 point-to-point
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing srgb start-label 70000
+set protocols isis source-packet-routing srgb index-range 1000
+set protocols isis source-packet-routing node-segment ipv4-index 555
+set protocols isis level 1 disable
+set protocols isis level 2 wide-metrics-only
+set protocols isis backup-spf-options use-post-convergence-lfa maximum-backup-paths 2
+set protocols isis backup-spf-options use-source-packet-routing
+set protocols mpls interface et-0/0/0.0
+set protocols mpls interface et-0/0/1.0
+set protocols mpls interface lo0.0
