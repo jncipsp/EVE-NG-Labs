@@ -1,4 +1,3 @@
-set system host-name spine2
 set interfaces ge-0/0/0 mtu 9192
 set interfaces ge-0/0/0 unit 0 family inet address 9.9.9.0/31
 set interfaces ge-0/0/0 unit 0 family iso
@@ -22,7 +21,6 @@ set protocols bgp group OVERLAY local-address 2.2.2.2
 set protocols bgp group OVERLAY family evpn signaling
 set protocols bgp group OVERLAY export NHS
 set protocols bgp group OVERLAY cluster 2.2.2.2
-set protocols bgp group OVERLAY local-as 65530
 set protocols bgp group OVERLAY multipath
 set protocols bgp group OVERLAY neighbor 3.3.3.3
 set protocols bgp group OVERLAY neighbor 4.4.4.4

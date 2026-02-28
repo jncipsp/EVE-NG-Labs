@@ -1,4 +1,3 @@
-set system host-name leaf1
 set interfaces ge-0/0/0 mtu 9192
 set interfaces ge-0/0/0 unit 0 family inet address 6.6.6.1/31
 set interfaces ge-0/0/0 unit 0 family iso
@@ -20,11 +19,9 @@ set protocols bgp group OVERLAY type internal
 set protocols bgp group OVERLAY local-address 3.3.3.3
 set protocols bgp group OVERLAY family evpn signaling
 set protocols bgp group OVERLAY export NHS
-set protocols bgp group OVERLAY local-as 65530
 set protocols bgp group OVERLAY neighbor 2.2.2.2
 set protocols bgp group OVERLAY neighbor 1.1.1.1
 set protocols evpn encapsulation vxlan
-set protocols evpn multicast-mode ingress-replication
 set protocols evpn vni-options vni 20033 vrf-target target:65530:33
 set protocols evpn extended-vni-list 20033
 set protocols isis interface ge-0/0/0.0
@@ -32,6 +29,8 @@ set protocols isis interface ge-0/0/1.0
 set protocols isis interface lo0.0 passive
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
+set protocols lldp interface all
+set protocols lldp-med interface all
 set switch-options vtep-source-interface lo0.0
 set switch-options route-distinguisher 3.3.3.3:500
 set switch-options vrf-target target:65530:500
