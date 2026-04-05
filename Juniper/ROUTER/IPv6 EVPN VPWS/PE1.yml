@@ -13,6 +13,7 @@ set policy-options policy-statement NHS then next-hop self
 set routing-instances EVPN instance-type evpn-vpws
 set routing-instances EVPN protocols evpn interface ge-0/0/1.2111 vpws-service-id local 2111
 set routing-instances EVPN protocols evpn interface ge-0/0/1.2111 vpws-service-id remote 2112
+set routing-instances EVPN protocols evpn encapsulation mpls-inet6
 set routing-instances EVPN interface ge-0/0/1.2111
 set routing-instances EVPN route-distinguisher 5.5.5.5:2111
 set routing-instances EVPN vrf-target target:65400:2111
@@ -31,5 +32,9 @@ set protocols isis source-packet-routing srgb index-range 1000
 set protocols isis source-packet-routing node-segment ipv6-index 50
 set protocols isis level 1 disable
 set protocols isis level 2 wide-metrics-only
+set protocols isis traffic-engineering ipv6
+set protocols isis no-ipv4-routing
+set protocols isis topologies ipv6-unicast
+set protocols mpls ipv6-tunneling
 set protocols mpls interface ge-0/0/0.0
 set protocols mpls interface lo0.0
